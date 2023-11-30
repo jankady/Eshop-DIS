@@ -13,6 +13,12 @@
                         Products
                     </a>
                     <ul class="dropdown-menu">
+                        <?php
+                        require_once ("scripts/nav-category.php");
+                        $nav = new Nav_category();
+                        $nav->nav();
+
+                        ?>
                         <li><a class="dropdown-item" href="#">Actsion</a></li>
                         <li><a class="dropdown-item" href="#">Another action</a></li>
                         <li>
