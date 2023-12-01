@@ -16,8 +16,7 @@
 <body>
 <?php
 require_once("components/nav.php");
-
-require_once("scripts/nav-category.php");
+require_once ("components/header.php");
 
 
 ?>
