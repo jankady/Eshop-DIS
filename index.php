@@ -1,5 +1,4 @@
 <?php
-require_once("scripts/databaseConnect.php");
 ?>
 <!doctype html>
 <html lang="en">

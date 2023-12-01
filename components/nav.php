@@ -14,17 +14,15 @@
                     </a>
                     <ul class="dropdown-menu">
                         <?php
-                        require_once ("scripts/nav-category.php");
+                        require_once("scripts/nav-category.php");
                         $nav = new Nav_category();
                         $nav->nav();
 
                         ?>
-                        <li><a class="dropdown-item" href="#">Actsion</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="#">Everyting</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
