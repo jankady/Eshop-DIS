@@ -1,7 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="./index.php"><img src="./img/mobile-shopping.png" alt="eshop" width="30"
-                                                        height="24"></a>
+        <a class="navbar-brand" href="./index.php"><img src="./img/mobile-shopping.png" alt="eshop" width="30" height="24"></a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
@@ -14,6 +13,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <?php
+
                         require_once("scripts/nav-category.php");
                         $nav = new Nav_category();
                         $nav->nav();

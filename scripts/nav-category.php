@@ -13,6 +13,7 @@ class Nav_category
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
+        $conn->ping();
         $sql = "SELECT name FROM category";
         $result = mysqli_query($conn, $sql);
 

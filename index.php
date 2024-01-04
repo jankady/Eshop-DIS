@@ -16,6 +16,19 @@
 </head>
 <body>
 <?php
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$tableName = "eshop";
+$conn = new mysqli($servername, $username, $password, $tableName);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+//else{
+//    echo "ok";
+//}
+
 require_once("components/nav.php");
 require_once ("components/header.php");
 
