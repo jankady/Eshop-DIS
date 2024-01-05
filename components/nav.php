@@ -1,11 +1,3 @@
-
-<?php
-function getRelativePath($target) {
-    $currentPath = dirname($_SERVER['PHP_SELF']);
-    $relativePath = trim(str_replace($currentPath, '', $target), '/');
-    return $relativePath === '' ? '.' : $relativePath;
-}
-?>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         <a class="navbar-brand" href="../pages/index.php"><img src="../img/mobile-shopping.png" alt="eshop" width="30" height="24"></a>
