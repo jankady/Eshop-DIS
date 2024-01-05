@@ -4,16 +4,8 @@ class Product_card
 {
     public function product(): void
     {
-
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $tableName = "eshop";
-        $conn = new mysqli($servername, $username, $password, $tableName);
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-        $conn->ping();
+        require_once ("DBconnect.php");
+        $conn = DBconnect::connectDatabase();
         $sql = "SELECT ID,`title`,`picture`,REPLACE(FORMAT(`price`, '000 000'), ',', ' ') as price,`number_of_products`,`ID_category`,`description` FROM product";
         $result = mysqli_query($conn, $sql);
         ?>

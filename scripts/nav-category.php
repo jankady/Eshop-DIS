@@ -5,15 +5,8 @@ class Nav_category
     public function nav()
     {
 
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $tableName = "eshop";
-        $conn = new mysqli($servername, $username, $password, $tableName);
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-        $conn->ping();
+        require_once ("DBconnect.php");
+        $conn = DBconnect::connectDatabase();
         $sql = "SELECT name FROM category";
         $result = mysqli_query($conn, $sql);
 
