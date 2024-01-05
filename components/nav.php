@@ -22,7 +22,7 @@ function getRelativePath($target) {
 
                     <ul class="dropdown-menu">
                         <?php
-                        require_once("scripts/nav-category.php");
+                        require_once("../scripts/nav-category.php");
                         $nav = new Nav_category();
                         $nav->nav();
 
