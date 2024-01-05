@@ -14,7 +14,7 @@ class Product_card
             die("Connection failed: " . $conn->connect_error);
         }
         $conn->ping();
-        $sql = "SELECT `title`,`picture`,REPLACE(FORMAT(`price`, '000 000'), ',', ' ') as price,`number_of_products`,`ID_category`,`description` FROM product";
+        $sql = "SELECT ID,`title`,`picture`,REPLACE(FORMAT(`price`, '000 000'), ',', ' ') as price,`number_of_products`,`ID_category`,`description` FROM product";
         $result = mysqli_query($conn, $sql);
         ?>
         <div class="row">
@@ -23,9 +23,9 @@ class Product_card
                 ?>
                 <div class="col-4 mt-2 mb-2">
                     <div class="card" style="max-width: 25rem; max-height: 40rem">
-                        <h5 class="card-title"><?= $row['title'] ?></h5>
+                        <a href="../pages/product_detail.php?id=<?= $row['ID'] ?>"> <h5 class="card-title"><?= $row['title'] ?></h5></a>
                         <div class="card-body">
-                            <img src="../<?= $row['picture'] ?>" class="card-img-top" alt="<?= $row['title'] ?>" >
+                            <a href="../pages/product_detail.php?id=<?= $row['ID'] ?>"><img src="../<?= $row['picture'] ?>" class="card-img-top" alt="<?= $row['title'] ?>" ></a>
                             <p class="card-text"><?= $row['description'] ?></p>
                             <p class="card-subtitle"><?= $row['price'] ?> Kč</p>
                             <a href="#" class="btn btn-primary">Add to cart</a>
