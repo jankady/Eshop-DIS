@@ -21,11 +21,11 @@ class Product_card
             <?php
             while ($row = mysqli_fetch_assoc($result)) {
                 ?>
-                <div class="col-3 mt-2 mb-2">
-                    <div class="card" style="width: 18rem;">
+                <div class="col-4 mt-2 mb-2">
+                    <div class="card" style="max-width: 25rem; max-height: 40rem">
                         <h5 class="card-title"><?= $row['title'] ?></h5>
                         <div class="card-body">
-                            <img src="../<?= $row['picture'] ?>" class="card-img-top" alt="<?= $row['title'] ?>">
+                            <img src="../<?= $row['picture'] ?>" class="card-img-top" alt="<?= $row['title'] ?>" >
                             <p class="card-text"><?= $row['description'] ?></p>
                             <p class="card-subtitle"><?= $row['price'] ?> Kč</p>
                             <a href="#" class="btn btn-primary">Add to cart</a>
