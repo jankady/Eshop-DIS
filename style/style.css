@@ -1,0 +1,17 @@
+html,body {
+    height: 100%;
+}
+
+header{
+    height: 60vh;
+    /*border: yellow solid 1px;*/
+
+}
+.col-6, .col-md-6   {
+    max-height: 35rem ;
+    border: red solid 1px;
+}
+.col-6 .img-fluid{
+    max-height: 100%;
+}
+

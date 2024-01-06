@@ -20,15 +20,65 @@ $product = $result->fetch_assoc();
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" type="image/x-icon" href="../img/shop.ico">
-    <link rel="stylesheet" href="../style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="../style/style.css">
     <title>Eshop-<?= $product["title"] ?></title>
 </head>
 <body>
 <?php
 require_once("../components/nav.php");
 ?>
+
+<div class="container-fluid">
+    <section class="products">
+        <div class="container text-center">
+            <div class="row title">
+                <h3><?= $product["title"] ?></h3>
+            </div>
+            <div class="row">
+                <div class="col-6"><img src="../<?= $product["picture"] ?>" class="img-fluid"
+                                        alt="<?= $product["title"] ?>"></div>
+                <div class="col-6 row">
+
+                    <p> <?= $product["description"] ?></p>
+                    <div class="col-lg-12 align-self-end" style="background: darkgrey; width: 100%">
+                        <p>Skladem: <?= $product["number_of_products"] ?>ks</p>
+                        <p>
+                            <?php
+                            $storeTime = strtotime("+3 days");
+                            $dayArrive = date("d.m", $storeTime);
+                            echo " " . date("D", $dayArrive) . " " . $dayArrive . " at your place";
+                            ?>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <section class="payment">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="price">
+                                <div class="sale"></div>
+                                <div class="priceNumber"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="#" class="btn btn-primary">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
