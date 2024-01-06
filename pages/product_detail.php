@@ -2,7 +2,11 @@
 require_once("../scripts/DBconnect.php");
 $conn = DBconnect::connectDatabase();
 $productId = $_GET['id'];
-$sql = "SELECT * FROM `product` WHERE `ID` = ? ";
+//$sql = "SELECT *, FROM `product` WHERE `ID` = ? ";
+//$sql = "SELECT product.*, sale.discount_percent as discount FROM `product` INNER JOIN sale ON product.ID_sale=sale.ID WHERE product.ID = ?";
+$sql = "SELECT product.*, sale.discount_percent as discount FROM `product` INNER JOIN sale ON product.ID_sale=sale.ID WHERE product.ID = ?";
+
+
 $stmt = $conn->prepare($sql);
 $stmt->bind_param('i', $productId);
 $stmt->execute();
@@ -66,8 +70,29 @@ require_once("../components/nav.php");
                     <div class="row">
                         <div class="col-md-6">
                             <div class="price">
-                                <div class="sale"></div>
-                                <div class="priceNumber"></div>
+                                <div class="sale">
+                                    <?php
+                                    if ($product["ID_sale"] != 1) {
+                                        echo "SALE " . $product["discount"] . "%";
+                                    }
+                                    ?>
+                                </div>
+                                <div class="priceNumber">
+                                    <?php
+                                    $originalPrice = number_format($product["price"], 0, ',', ' ');
+
+                                    if ($product["ID_sale"] != 1) {
+                                        $finalNumber = $product["price"] * ($product["discount"] / 100);
+                                        $finalNumber =round($product["price"] - $finalNumber)." Kč";
+                                        $finalNumberFloat= (float)$finalNumber;
+                                        $finalNumberFloat = number_format($finalNumberFloat, 0, ',', ' ');
+                                        ?>
+                                        <p><?= $finalNumberFloat ?> Kč</p>
+                                        <p class="fs-6 text-decoration-line-through"><?= $originalPrice?> Kč</p>
+                                        <?php
+                                    } else echo $originalPrice . " Kč";
+                                    ?>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -87,5 +112,8 @@ require_once("../components/nav.php");
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
+<?php
+$stmt->close();
+?>
 </body>
 </html>
