@@ -15,3 +15,4 @@ class DBconnect
         return $conn;
     }
 }
+?>
