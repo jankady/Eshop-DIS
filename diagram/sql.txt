@@ -1,0 +1,89 @@
+CREATE TABLE category
+(
+  ID INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE sale
+(
+  ID INT NOT NULL AUTO_INCREMENT,
+  discount_percent INT NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE country
+(
+  ID INT NOT NULL AUTO_INCREMENT,
+  name INT NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE Manafacturer
+(
+  ID INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE address
+(
+  ID INT NOT NULL AUTO_INCREMENT,
+  city VARCHAR(255) NOT NULL,
+  street VARCHAR(255) NOT NULL,
+  postal_code VARCHAR(255) NOT NULL,
+  house_number INT NOT NULL,
+  ID_country INT NOT NULL,
+  PRIMARY KEY (ID),
+  FOREIGN KEY (ID_country) REFERENCES country(ID)
+);
+
+CREATE TABLE product
+(
+  ID INT NOT NULL AUTO_INCREMENT,
+  title VARCHAR(255) NOT NULL,
+  picture VARCHAR(255) NOT NULL,
+  description VARCHAR(1024) NOT NULL,
+  price INT NOT NULL,
+  number_of_products INT NOT NULL,
+  availability DATE NOT NULL,
+  ID_sale INT NOT NULL,
+  ID_category INT NOT NULL,
+  ID_manafacturer INT NOT NULL,
+  PRIMARY KEY (ID),
+  FOREIGN KEY (ID_sale) REFERENCES sale(ID),
+  FOREIGN KEY (ID_category) REFERENCES category(ID),
+  FOREIGN KEY (ID_manafacturer) REFERENCES Manafacturer(ID)
+);
+
+CREATE TABLE customer
+(
+  ID INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  surname VARCHAR(255) NOT NULL,
+  e_mail VARCHAR(255) NOT NULL,
+  password VARCHAR(4096) NOT NULL,
+  username VARCHAR(255) NOT NULL,
+  ID_address INT NOT NULL,
+  PRIMARY KEY (ID),
+  FOREIGN KEY (ID_address) REFERENCES address(ID)
+);
+
+CREATE TABLE shopping_cart
+(
+  ID INT NOT NULL AUTO_INCREMENT,
+  ID_customer INT NOT NULL,
+  PRIMARY KEY (ID),
+  FOREIGN KEY (ID_customer) REFERENCES customer(ID)
+);
+
+CREATE TABLE shopping_cart_item
+(
+  ID INT NOT NULL AUTO_INCREMENT,
+  quantity INT NOT NULL,
+  ID_cart INT NOT NULL,
+  ID_product INT NOT NULL,
+  PRIMARY KEY (ID),
+  FOREIGN KEY (ID_cart) REFERENCES shopping_cart(ID),
+  FOREIGN KEY (ID_product) REFERENCES product(ID)
+);
