@@ -23,6 +23,7 @@ require_once("../components/nav.php");
             require_once("../scripts/product-card.php");
             $card = new Product_card();
             $card->product();
+            require_once("../components/footer.php");
 
             ?>
         </div>
