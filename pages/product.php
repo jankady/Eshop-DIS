@@ -17,8 +17,13 @@
 require_once("../components/nav.php");
 ?>
 <div class="container-fluid">
-    <section class="products">
+    <section class="products" style="border: red solid 1px">
+        <div class="filter">
+
+        </div>
         <div class="container text-center">
+            <p>ahoj</p>
+
             <?php
             require_once("../scripts/product-card.php");
             $card = new Product_card();
