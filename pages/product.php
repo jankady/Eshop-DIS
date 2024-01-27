@@ -23,7 +23,6 @@ require_once("../components/nav.php");
             require_once("../scripts/product-card.php");
             $card = new Product_card();
             $card->product();
-            require_once("../components/footer.php");
 
             ?>
         </div>
@@ -31,7 +30,9 @@ require_once("../components/nav.php");
 
 
 </div>
-
+<?php
+require_once("../components/footer.php");
+?>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"></script>
