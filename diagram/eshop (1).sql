@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Sob 27. led 2024, 17:50
+-- Vytvořeno: Sob 27. led 2024, 19:26
 -- Verze serveru: 10.4.32-MariaDB
 -- Verze PHP: 8.2.12
 
@@ -99,7 +99,11 @@ CREATE TABLE `manafacturer` (
 
 INSERT INTO `manafacturer` (`ID`, `name`) VALUES
 (1, 'Apple'),
-(2, 'Asus');
+(2, 'Asus'),
+(3, 'Huawei'),
+(4, 'Lenovo'),
+(5, 'Samsung'),
+(6, 'Xiaomi');
 
 -- --------------------------------------------------------
 
@@ -126,7 +130,8 @@ CREATE TABLE `product` (
 
 INSERT INTO `product` (`ID`, `title`, `picture`, `description`, `price`, `number_of_products`, `availability`, `ID_sale`, `ID_category`, `ID_manafacturer`) VALUES
 (1, 'Iphone 12', 'img/products/Iphone12.jpg', 'super fotak pro iphone 12', 15000, 5, '2024-01-31', 1, 1, 1),
-(2, 'Asus vivo', 'img/products/ASUSVivoBook.jpg', 'super nadupaný nootebook', 17000, 1, '2024-01-31', 2, 2, 2);
+(2, 'Asus vivo', 'img/products/ASUSVivoBook.jpg', 'super nadupaný nootebook', 17000, 1, '2024-01-31', 2, 2, 2),
+(3, 'Huawei P30', 'img/products/HuaweiP30.jpg', 'modrý mobil Huawei', 8000, 0, '2024-01-31', 1, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -269,13 +274,13 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT pro tabulku `manafacturer`
 --
 ALTER TABLE `manafacturer`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pro tabulku `product`
 --
 ALTER TABLE `product`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pro tabulku `sale`

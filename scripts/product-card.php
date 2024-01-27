@@ -56,11 +56,11 @@ class Product_card
 
                                     if ($row["ID_sale"] != 1) {
                                         $finalNumber = $row["price"] * ($row["discount"] / 100);
-                                        $finalNumber = round($row["price"] - $finalNumber) . " Kč";
-                                        $finalNumberFloat = (float)$finalNumber;
-                                        $finalNumberFloat = number_format($finalNumberFloat, 0, ',', ' ');
+                                        $finalNumber = round($row["price"] - $finalNumber);
+
+                                        $finalNumber = number_format($finalNumber, 0, ',', ' ');
                                         ?>
-                                        <p><?= $finalNumberFloat ?> Kč</p>
+                                        <p><?= $finalNumber ?> Kč</p>
                                         <p class="fs-6 text-decoration-line-through"><?= $originalPrice ?> Kč</p>
                                         <?php
                                     } else echo $originalPrice . " Kč";
