@@ -6,13 +6,32 @@ class Product_card
     {
         require_once("DBconnect.php");
         $conn = DBconnect::connectDatabase();
-        $sql = "SELECT product.*, sale.discount_percent as discount FROM `product` INNER JOIN sale ON product.ID_sale=sale.ID";
-//        $sql = "SELECT ID,`title`,`picture`,REPLACE(FORMAT(`price`, '000 000'), ',', ' ') as price,`number_of_products`,`ID_category`,`description`  FROM `product`";
-        $result = mysqli_query($conn, $sql);
+        $productType = null;
+        if (isset($_GET['typ'])) {
+            $productType = $_GET['typ'];
+//            echo $productType;
+            $sql = "SELECT product.*, sale.discount_percent AS discount, category.name  FROM `product`
+                    INNER JOIN sale ON product.ID_sale=sale.ID
+                    INNER JOIN category ON product.ID_category = category.ID
+                    WHERE category.name = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("s", $productType);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+        } else {
+
+            $sql = "SELECT product.*, sale.discount_percent as discount FROM `product`
+                    INNER JOIN sale ON product.ID_sale=sale.ID";
+            $result = mysqli_query($conn, $sql);
+
+        }
+
         ?>
         <div class="row">
             <?php
             while ($row = mysqli_fetch_assoc($result)) {
+//                echo var_dump($row);
                 ?>
                 <div class="col-4 mt-2 mb-2">
                     <div class="card" style="max-width: 25rem; max-height: 40rem">
@@ -23,7 +42,7 @@ class Product_card
                                         src="../<?= $row['picture'] ?>" class="card-img-top" alt="<?= $row['title'] ?>"></a>
                             <p class="card-text"><?= $row['description'] ?></p>
                             <div class="card-subtitle">
-<!--            Výpočet slevy a zobrazení slevy                    -->
+                                <!--            Výpočet slevy a zobrazení slevy                    -->
                                 <div class="sale">
                                     <?php
                                     if ($row["ID_sale"] != 1) {
@@ -58,6 +77,7 @@ class Product_card
             ?>
         </div>
         <?php
+//        $stmt->close();
         mysqli_close($conn);
     }
 }
