@@ -5,7 +5,7 @@ class Product_card
     public function product(): void
     {
         require_once("DBconnect.php");
-        $conn = DBconnect::connectDatabase();
+        $conn = DBconnect::connectionDatabase();
         $productType = null;
         if (isset($_GET['typ'])) {
             $productType = $_GET['typ'];

@@ -1,6 +1,6 @@
 <?php
 require_once("../scripts/DBconnect.php");
-$conn = DBconnect::connectDatabase();
+$conn = DBconnect::connectionDatabase();
 $productId = $_GET['id'];
 //$sql = "SELECT *, FROM `product` WHERE `ID` = ? ";
 //$sql = "SELECT product.*, sale.discount_percent as discount FROM `product` INNER JOIN sale ON product.ID_sale=sale.ID WHERE product.ID = ?";

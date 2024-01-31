@@ -1,7 +1,7 @@
 <?php
 class DBconnect
 {
-    public static function connectDatabase()
+    public static function connectionDatabase()
     {
 
         $servername = "localhost";
@@ -15,4 +15,3 @@ class DBconnect
         return $conn;
     }
 }
-?>

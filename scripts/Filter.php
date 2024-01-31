@@ -1,30 +1,38 @@
 <?php
+
 class Filters
 {
-    public function getPrice()
+    function filter_query($price, $availability, $sale, $manafacturer,)
     {
-        if (isset($_GET['price'])) {
-            return $_GET['price'];
-        } else {
-            return null;
-        }
-    }
+        // Vytvoří SQL dotaz
+        $query = 'SELECT id FROM product WHERE';
 
-    public function getManufacturer()
-    {
-        if (isset($_GET['manufacturer'])) {
-            return $_GET['manufacturer'];
-        } else {
-            return null;
+        if ($price !== '') {
+            $query .= ' price BETWEEN min_price_query AND max_price_query';
         }
-    }
 
-    public function getOrder()
-    {
-        if (isset($_GET['order'])) {
-            return $_GET['order'];
-        } else {
-            return 'asc';
+        if ($availability !== '') {
+            if ($query !== 'SELECT id FROM product WHERE') {
+                $query .= ' AND';
+            }
+            $query .= ' number_of_products = availability_query';
         }
+
+        if ($sale !== '') {
+            if ($query !== 'SELECT id FROM product WHERE') {
+                $query .= ' AND';
+            }
+            $query .= ' ID_sale = sale_query';
+        }
+
+        if ($manafacturer !== '') {
+            if ($query !== 'SELECT id FROM product WHERE') {
+                $query .= ' AND';
+            }
+            $query .= ' ID_manafacturer = $manafacturer_query';
+        }
+
+        // Vraťte SQL dotaz
+        return $query;
     }
 }

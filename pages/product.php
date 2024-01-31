@@ -22,8 +22,11 @@ require_once("../components/nav.php");
 
         </div>
         <div class="container text-center">
-            <p>ahoj</p>
-
+            <div class="row show-products w-50 text-center">
+                <div class="col-md-4">Nejnovější</div>
+                <div class="col-md-4">Nejlevnější</div>
+                <div class="col-md-4">Nejdrahší</div>
+            </div>
             <?php
             require_once("../scripts/product-card.php");
             $card = new Product_card();

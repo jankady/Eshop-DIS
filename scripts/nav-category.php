@@ -6,7 +6,7 @@ class Nav_category
     {
 
         require_once ("DBconnect.php");
-        $conn = DBconnect::connectDatabase();
+        $conn = DBconnect::connectionDatabase();
         $sql = "SELECT name FROM category";
         $result = mysqli_query($conn, $sql);
 
