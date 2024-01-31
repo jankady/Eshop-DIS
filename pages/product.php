@@ -17,11 +17,20 @@
 require_once("../components/nav.php");
 ?>
 <div class="container-fluid">
-    <section class="products" style="border: red solid 1px">
-        <div class="filter">
+    <section class="products row text-center" style="border: red solid 1px">
+        <div class="filter col-md-1 components">
+            <div class="price-range">
+                <h4>Cena</h4>
+                <label for="min-price">Minimální cena</label>
+                <input type="text" id="min-price" name="min-price" value=""/>
 
+                <label for="max-price">Maximální cena</label>
+                <input type="text" id="max-price" name="max-price" value=""/>
+            </div>
+            <p>ahoj</p>
+            <p>ahoj2</p>
         </div>
-        <div class="container text-center">
+        <div class="container text-center col-lg-9">
             <div class="row show-products w-50 text-center">
                 <div class="col-md-4">Nejnovější</div>
                 <div class="col-md-4">Nejlevnější</div>
@@ -40,6 +49,7 @@ require_once("../components/nav.php");
 </div>
 <?php
 require_once("../components/footer.php");
+
 ?>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

@@ -2,7 +2,7 @@
 
 class Filters
 {
-    function filter_query($price, $availability, $sale, $manafacturer,)
+   public function filter_query($price, $availability, $sale, $manafacturer,)
     {
         // Vytvoří SQL dotaz
         $query = 'SELECT id FROM product WHERE';
