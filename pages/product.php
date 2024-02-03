@@ -15,6 +15,9 @@
 <!--<h1>test</h1>-->
 <?php
 require_once("../components/nav.php");
+require_once('../scripts/Filter.php');
+$conn = DBconnect::connectionDatabase();
+
 ?>
 <div class="container-fluid">
     <section class="products row text-center" style="border: red solid 1px">
@@ -22,13 +25,42 @@ require_once("../components/nav.php");
             <div class="price-range">
                 <h4>Cena</h4>
                 <label for="min-price">Minimální cena</label>
-                <input type="text" id="min-price" name="min-price" value=""/>
+                <input type="text" id="min-price" name="min-price" placeholder="0"/>
 
                 <label for="max-price">Maximální cena</label>
-                <input type="text" id="max-price" name="max-price" value=""/>
+                <input type="text" id="max-price" name="max-price" placeholder="99999"/>
             </div>
-            <p>ahoj</p>
-            <p>ahoj2</p>
+            <div class="availability">
+                <hr>
+                <h4>Dostupnost</h4>
+                <label for="availability">skladem</label>
+                <input type="checkbox" id="availability" name="availability">
+            </div>
+            <div class="sale">
+                <hr>
+                <h4>Sleva</h4>
+                <label for="sale">zlevněné</label>
+                <input type="checkbox" id="sale" name="sale">
+            </div>
+            <div class="manafacturer">
+                <hr>
+                <h4>Výrobce</h4>
+                <?php
+                $sql = "SELECT name FROM manafacturer";
+                $result = mysqli_query($conn, $sql);
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo '
+                          <label for="'.$row["name"].'">'.$row["name"].'</label>
+                          <input type="checkbox" id="'.$row["name"].'" name="M'.$row["name"].'">
+                          <br>
+                ';
+                }
+                mysqli_close($conn);
+                ?>
+            </div>
+            <hr>
+            <button type="submit" name="submit">Filtrovat</button>
+
         </div>
         <div class="container text-center col-lg-9">
             <div class="row show-products w-50 text-center">
