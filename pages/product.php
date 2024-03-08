@@ -20,46 +20,49 @@ $conn = DBconnect::connectionDatabase();
 
 ?>
 <div class="container-fluid">
-    <section class="products row text-center" style="border: red solid 1px">
-        <div class="filter col-md-1 components">
-            <div class="price-range">
-                <h4>Cena</h4>
-                <label for="min-price">Minimální cena</label>
-                <input type="text" id="min-price" name="min-price" placeholder="0"/>
+    <section class="products row text-center" style="border: #4916b4 solid 1px">
 
-                <label for="max-price">Maximální cena</label>
-                <input type="text" id="max-price" name="max-price" placeholder="99999"/>
-            </div>
-            <div class="availability">
+        <div class="filter col-md-1 components">
+            <form action="" method="get">
+                <div class="price-range">
+                    <h4>Cena</h4>
+                    <input type="text" id="min-price" name="min-price" placeholder="minimální cena"/>
+                    <br>
+                    <input type="text" id="max-price" name="max-price" placeholder="maximální cena"/>
+                </div>
+                <div class="availability">
+                    <hr>
+                    <h4>Dostupnost</h4>
+                    <input type="checkbox" id="availability" name="availability">
+                    <label for="availability">skladem</label>
+                </div>
+                <div class="sale">
+                    <hr>
+                    <h4>Sleva</h4>
+                    <input type="checkbox" id="sale" name="sale">
+                    <label for="sale">zlevněné</label>
+                </div>
+                <div class="manafacturer">
+                    <hr>
+                    <h4>Výrobce</h4>
+                    <?php
+                    $sql = "SELECT * FROM manafacturer";
+                    $result = mysqli_query($conn, $sql);
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        if (isset($_GET["name"])) {
+                            $checked = $_GET["name"];
+                        }
+                        echo '<input type="checkbox" id="' . $row["name"] . '" name="manafacturers[]" value="'.$row["ID"].'">';
+
+                        echo '<label for="' . $row['name'] . '">' . $row['name'] . '</label><br>';
+                    }
+
+                    mysqli_close($conn);
+                    ?>
+                </div>
                 <hr>
-                <h4>Dostupnost</h4>
-                <label for="availability">skladem</label>
-                <input type="checkbox" id="availability" name="availability">
-            </div>
-            <div class="sale">
-                <hr>
-                <h4>Sleva</h4>
-                <label for="sale">zlevněné</label>
-                <input type="checkbox" id="sale" name="sale">
-            </div>
-            <div class="manafacturer">
-                <hr>
-                <h4>Výrobce</h4>
-                <?php
-                $sql = "SELECT name FROM manafacturer";
-                $result = mysqli_query($conn, $sql);
-                while ($row = mysqli_fetch_assoc($result)) {
-                    echo '
-                          <label for="'.$row["name"].'">'.$row["name"].'</label>
-                          <input type="checkbox" id="'.$row["name"].'" name="M'.$row["name"].'">
-                          <br>
-                ';
-                }
-                mysqli_close($conn);
-                ?>
-            </div>
-            <hr>
-            <button type="submit" name="submit">Filtrovat</button>
+                <button type="submit" name="submit">Filtrovat</button>
+            </form>
 
         </div>
         <div class="container text-center col-lg-9">
@@ -75,9 +78,8 @@ $conn = DBconnect::connectionDatabase();
 
             ?>
         </div>
+
     </section>
-
-
 </div>
 <?php
 require_once("../components/footer.php");
