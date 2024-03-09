@@ -39,8 +39,35 @@ class Filters
     public function process()
     {
         if (isset($_GET['submit'])) {
-            // Redirect back to the page without any filter parameters
-            header('Location: product.php');
+            //bind parameters
+            if (isset($_GET["min-price"])) {
+                $min_price = $_GET["min-price"];
+                echo $min_price;
+            }
+            if (isset($_GET["max-price"])) {
+                $max_price = $_GET["max-price"];
+                echo $max_price;
+            }
+            if (isset($_GET["availability"])) {
+                $availability = $_GET["availability"];
+                echo $availability;
+            }
+            if (isset($_GET["sale"])) {
+                $sale = $_GET["sale"];
+                echo $sale;
+            }
+            if (isset($_GET["manufacturers"])) {
+                $selected_manufacturers = $_GET['manufacturers'] ?? array();
+                $manufacturers_string = implode(',', $selected_manufacturers);
+echo $manufacturers_string;
+            }
+            if (isset($_GET["categories"])) {
+                $selected_categories = $_GET['categories'] ?? array();
+                $categories_string = implode(',', $selected_categories);
+                echo $categories_string;
+            }
+            // Redirect back to the page with SQL querry
+//            header('Location: product.php');
             exit;
         }
     }
@@ -59,4 +86,4 @@ class Filters
 
 $filter = new Filters();
 $filter->clearFilter();
-//$filter->process();
+$filter->process();
