@@ -7,14 +7,12 @@ class Filters
         // Vytvoří SQL dotaz
         $query = 'SELECT id FROM product WHERE';
 
-        if ($min_price !== '' && $max_price !== '') {
-            $query .= ' price BETWEEN '.$min_price.' AND '.$min_price;
-        }
-        else if ($min_price === '' && $max_price !== '') {
-            $query .= ' price BETWEEN min_price AND (SELECT MAX(price) FROM product)';
-        }
-        else if ($min_price !== '' && $max_price === '') {
-            $query .= ' price BETWEEN 0 AND max_price';
+        if ($min_price !== 0 && $max_price !== 0) {
+            $query .= ' price BETWEEN ' . $min_price . ' AND ' . $max_price;
+        } else if ($min_price !== 0 && $max_price === 0) {
+            $query .= ' price BETWEEN ' . $min_price . ' AND (SELECT MAX(price) FROM product)';
+        } else if ($min_price === 0 && $max_price !== 0) {
+            $query .= ' price BETWEEN 0 AND ' . $max_price;
         }
 
 
@@ -36,16 +34,20 @@ class Filters
             if ($query !== 'SELECT id FROM product WHERE') {
                 $query .= ' AND';
             }
-            $query .= ' ID_manafacturer IN (manafacturer)';
+            $query .= ' ID_manafacturer IN (' . $manafacturer . ')';
         }
         if ($category !== '') {
             if ($query !== 'SELECT id FROM product WHERE') {
                 $query .= ' AND';
             }
-            $query .= ' ID_category IN (category)';
+            $query .= ' ID_category IN (' . $category . ')';
         }
 
-        // Vraťte SQL dotaz
+
+        if ($query == 'SELECT id FROM product WHERE') $query = 'SELECT id FROM product';
+
+
+        // return SQL querry
         return $query;
     }
 
@@ -55,27 +57,27 @@ class Filters
             //bind parameters
             if (isset($_GET["min-price"])) {
                 $min_price = intval($_GET["min-price"]);
-            }
+            } else $min_price = '';
             if (isset($_GET["max-price"])) {
                 $max_price = intval($_GET["max-price"]);
-            }
-
+            } else $max_price = '';
             if (isset($_GET["availability"])) {
                 $availability = $_GET["availability"];
-            }
+            } else $availability = '';
             if (isset($_GET["sale"])) {
                 $sale = $_GET["sale"];
-            }
+            } else $sale = '';
             if (isset($_GET["manufacturers"])) {
                 $selected_manufacturers = $_GET['manufacturers'] ?? array();
                 $manufacturers_string = implode(',', $selected_manufacturers);
-            }
+            } else $manufacturers_string = '';
             if (isset($_GET["categories"])) {
                 $selected_categories = $_GET['categories'] ?? array();
                 $categories_string = implode(',', $selected_categories);
-            }
+            } else $categories_string = '';
 
-            $this->filter_query($min_price,$max_price,$availability,$sale,$manufacturers_string,$categories_string);
+            echo $this->filter_query($min_price, $max_price, $availability, $sale, $manufacturers_string, $categories_string);
+
             // Redirect back to the page with SQL querry
 //            header('Location: product.php');
             exit;

@@ -128,33 +128,36 @@ require_once("../components/footer.php");
 
 <script>
     function validateForm() {
-        var minPrice = document.getElementById("min-price").value;
-        var maxPrice = document.getElementById("max-price").value;
+        var minPrice = document.getElementById("min-price").value.trim();
+        var maxPrice = document.getElementById("max-price").value.trim();
 
-        // Check if minPrice and maxPrice are non-empty and numeric
-        if (minPrice !== "" && maxPrice !== "" && !isNaN(minPrice) && !isNaN(maxPrice)) {
-            minPrice = parseFloat(minPrice);
-            maxPrice = parseFloat(maxPrice);
+        // Check if minPrice and maxPrice are non-empty
+        if (minPrice !== "" || maxPrice !== "") {
+            // Check if minPrice and maxPrice are valid numeric values
+            if ((!isNaN(minPrice) && parseFloat(minPrice) >= 0) || (!isNaN(maxPrice) && parseFloat(maxPrice) > 1)) {
+                minPrice = parseFloat(minPrice);
+                maxPrice = parseFloat(maxPrice);
 
-            // Check if minPrice is negative or maxPrice is less than or equal to 1
-            if (minPrice < 0) {
-                alert("Minimal price cannot be negative!");
+                // Check if minPrice is negative or maxPrice is less than or equal to 1
+                if (minPrice < 0) {
+                    alert("Minimal price cannot be negative!");
+                    return false; // Prevent form submission
+                }
+                if (maxPrice <= 1) {
+                    alert("Maximal price should be greater than 1!");
+                    return false; // Prevent form submission
+                }
+
+                // Check if minPrice is greater than maxPrice
+                if (minPrice > maxPrice) {
+                    alert("Minimal price cannot be greater than maximal price!");
+                    return false; // Prevent form submission
+                }
+            } else {
+                // Handle invalid input values
+                alert("Please enter valid numeric values for prices!");
                 return false; // Prevent form submission
             }
-            if (maxPrice <= 1) {
-                alert("Maximal price should be greater than 1!");
-                return false; // Prevent form submission
-            }
-
-            // Check if minPrice is greater than maxPrice
-            if (minPrice > maxPrice) {
-                alert("Minimal price cannot be greater than maximal price!");
-                return false; // Prevent form submission
-            }
-        } else {
-            // Handle non-numeric or empty input
-            alert("Please enter valid numeric values for prices!");
-            return false; // Prevent form submission
         }
 
         return true; // Allow form submission
