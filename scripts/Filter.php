@@ -2,14 +2,21 @@
 
 class Filters
 {
-    public function filter_query($price, $availability, $sale, $manafacturer,)
+    public function filter_query($min_price, $max_price, $availability, $sale, $manafacturer, $category)
     {
         // Vytvoří SQL dotaz
         $query = 'SELECT id FROM product WHERE';
 
-        if ($price !== '') {
-            $query .= ' price BETWEEN min_price AND max_price';
+        if ($min_price !== '' && $max_price !== '') {
+            $query .= ' price BETWEEN '.$min_price.' AND '.$min_price;
         }
+        else if ($min_price === '' && $max_price !== '') {
+            $query .= ' price BETWEEN min_price AND (SELECT MAX(price) FROM product)';
+        }
+        else if ($min_price !== '' && $max_price === '') {
+            $query .= ' price BETWEEN 0 AND max_price';
+        }
+
 
         if ($availability !== '') {
             if ($query !== 'SELECT id FROM product WHERE') {
@@ -22,7 +29,7 @@ class Filters
             if ($query !== 'SELECT id FROM product WHERE') {
                 $query .= ' AND';
             }
-            $query .= ' ID_sale = sale';
+            $query .= ' ID_sale > 1';
         }
 
         if ($manafacturer !== '') {
@@ -30,6 +37,12 @@ class Filters
                 $query .= ' AND';
             }
             $query .= ' ID_manafacturer IN (manafacturer)';
+        }
+        if ($category !== '') {
+            if ($query !== 'SELECT id FROM product WHERE') {
+                $query .= ' AND';
+            }
+            $query .= ' ID_category IN (category)';
         }
 
         // Vraťte SQL dotaz
@@ -41,31 +54,28 @@ class Filters
         if (isset($_GET['submit'])) {
             //bind parameters
             if (isset($_GET["min-price"])) {
-                $min_price = $_GET["min-price"];
-                echo $min_price;
+                $min_price = intval($_GET["min-price"]);
             }
             if (isset($_GET["max-price"])) {
-                $max_price = $_GET["max-price"];
-                echo $max_price;
+                $max_price = intval($_GET["max-price"]);
             }
+
             if (isset($_GET["availability"])) {
                 $availability = $_GET["availability"];
-                echo $availability;
             }
             if (isset($_GET["sale"])) {
                 $sale = $_GET["sale"];
-                echo $sale;
             }
             if (isset($_GET["manufacturers"])) {
                 $selected_manufacturers = $_GET['manufacturers'] ?? array();
                 $manufacturers_string = implode(',', $selected_manufacturers);
-echo $manufacturers_string;
             }
             if (isset($_GET["categories"])) {
                 $selected_categories = $_GET['categories'] ?? array();
                 $categories_string = implode(',', $selected_categories);
-                echo $categories_string;
             }
+
+            $this->filter_query($min_price,$max_price,$availability,$sale,$manufacturers_string,$categories_string);
             // Redirect back to the page with SQL querry
 //            header('Location: product.php');
             exit;
