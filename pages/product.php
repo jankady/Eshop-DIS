@@ -28,12 +28,12 @@ $conn = DBconnect::connectionDatabase();
                 <div class="price-range">
                     <h4>Cena</h4>
                     <label for="min-price">minimalní cena</label>
-                    <input type="text" id="min-price" name="min-price"
+                    <input type="number" id="min-price" name="min-price"
                            value="<?php echo isset($_GET['min-price']) ? htmlspecialchars($_GET['min-price']) : ''; ?>"/>
                     <!-- saves the value after refresh  -->
                     <br>
                     <label for="max-price">maximalní cena</label>
-                    <input type="text" id="max-price" name="max-price"
+                    <input type="number" id="max-price" name="max-price"
                            value="<?php echo isset($_GET['max-price']) ? htmlspecialchars($_GET['max-price']) : ''; ?>"/>
                     <!-- saves the value after refresh  -->
                 </div>
@@ -67,16 +67,34 @@ $conn = DBconnect::connectionDatabase();
                         echo '<label for="' . $row['name'] . '">' . $row['name'] . '</label><br>';
 
                     }
+                    ?>
+                </div>
+                <div class="Category">
+                    <hr>
+                    <h4>Kategorie</h4>
+                    <?php
+                    $sql = "SELECT * FROM category";
+                    $result = mysqli_query($conn, $sql);
+
+                    while ($row = mysqli_fetch_assoc($result)) {
+
+                        // checkbox stay clicked after refresh
+                        $checked = (isset($_GET['categories']) && in_array($row['ID'], $_GET['categories'])) ? 'checked' : '';
+                        echo '<input type="checkbox" id="' . $row["name"] . '" name="categories[]" value="' . $row["ID"] . '" ' . $checked . '>';
+                        echo '<label for="' . $row['name'] . '">' . $row['name'] . '</label><br>';
+
+                    }
 
                     mysqli_close($conn);
                     ?>
                 </div>
+
                 <hr>
                 <button type="submit" name="submit">Filtrovat</button>
 
                 <?php
                 // Check if any filters are applied and remove them if you want
-                $filters_applied = isset($_GET['min-price']) && $_GET['min-price'] !== '' || isset($_GET['max-price']) && $_GET['max-price'] !== '' || isset($_GET['availability']) || isset($_GET['sale']) || (isset($_GET['manufacturers']) && !empty($_GET['manufacturers']));
+                $filters_applied = isset($_GET['min-price']) && $_GET['min-price'] !== '' || isset($_GET['max-price']) && $_GET['max-price'] !== '' || isset($_GET['availability']) || isset($_GET['sale']) || (isset($_GET['manufacturers']) && !empty($_GET['manufacturers'])) || (isset($_GET['categories']) && !empty($_GET['categories']));
 
                 if ($filters_applied) {
                     echo '<button type="submit" name="clear_filters">Odstranit filtry</button>';
