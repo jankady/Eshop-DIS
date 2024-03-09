@@ -28,11 +28,11 @@ class Product_card
                         <a href="../pages/product_detail.php?id=<?= $row['ID'] ?>"><h5
                                     class="card-title"><?= $row['title'] ?></h5></a>
                         <div class="card-body">
-
-
                             <a href="../pages/product_detail.php?id=<?= $row['ID'] ?>"><img
                                         src="../<?= $row['picture'] ?>" class="card-img-top" alt="<?= $row['title'] ?>"></a>
-                            <p class="card-text"><?= $row['description'] ?></p>
+                            <div class="productInfo">
+                                <p class="card-text"><?= $row['description'] ?></p>
+                            </div>
                             <div class="card-subtitle">
                                 <!--            sale counting and showing                 -->
                                 <div class="sale">
@@ -59,8 +59,17 @@ class Product_card
                                     ?>
                                 </div>
                             </div>
-                            <p>skladem</p>
-                            <a href="#" class="btn btn-primary">Add to cart</a>
+                            <div class="row">
+                                <div class="col"><p><?php if ($row["number_of_products"] > 5) echo "skladem: 9+ kusů";
+                                        elseif ($row["number_of_products"] > 4) echo "skladem: " . $row["number_of_products"] . " kusů";
+                                        elseif ($row["number_of_products"] > 1) echo "skladem: " . $row["number_of_products"] . " kusy";
+                                        elseif ($row["number_of_products"] == 1) echo "skladem: " . $row["number_of_products"] . " kus";
+                                        else echo "není skladem";
+
+                                        ?></p></div>
+                                <div class="col"><a href="#" class="btn btn-primary">Add to cart</a></div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
