@@ -8,7 +8,9 @@
     <link rel="icon" type="image/x-icon" href="../img/shop.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../style/styleTesting.css">
+    <link rel="stylesheet" href="../style/IndividualProduct.css">
+
     <title>Products</title>
 </head>
 <body>
@@ -28,7 +30,7 @@ $filter = new Filters();
 ?>
 
 <div class="container-fluid">
-    <section class="products row text-center" style="border: #4916b4 solid 1px">
+    <section class="products row text-center">
 
         <div class="filter col-md-1 components">
             <form action="" method="get" onsubmit="return validateForm()">
@@ -37,12 +39,10 @@ $filter = new Filters();
                     <h4>Cena</h4>
                     <label for="min-price">minimalní cena</label>
                     <input type="number" id="min-price" name="min-price"
-                    <!-- saves the value after refresh  -->
                     value="<?php echo isset($_GET['min-price']) ? htmlspecialchars($_GET['min-price']) : ''; ?>"/>
                     <br>
                     <label for="max-price">maximalní cena</label>
                     <input type="number" id="max-price" name="max-price"
-                    <!-- saves the value after refresh  -->
                     value="<?php echo isset($_GET['max-price']) ? htmlspecialchars($_GET['max-price']) : ''; ?>"/>
                 </div>
 

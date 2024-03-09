@@ -1,4 +1,4 @@
-<footer class="text-center bg-body-tertiary" style="border: red solid 1px">
+<footer class="text-center bg-body-tertiary">
 <!--    <div class="container pt-4" style="border: red solid 1px">-->
 <!--        <section class="mb-4">-->
 <!--            <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"-->
@@ -36,7 +36,7 @@
 <!--    </div>-->
 
     <!-- Copyright -->
-    <div class="text-center p-3" style="background: rgba(210,210,210,0.57)">
+    <div class="text-center p-3" >
         © <?= date("Y"); ?>:
         <a class="text-body" href="https://mdbootstrap.com/">náš obchod</a>
     </div>

@@ -1,0 +1,16 @@
+*{
+    box-sizing: border-box;
+}
+
+.card-img-top {
+    width: 200px; /* Set the desired width */
+    height: 170px; /* Set the desired height */
+    /*object-fit: cover; !* Ensure the image covers the entire area *!*/
+}
+.card-subtitle{
+    border: red solid 1px;
+    height: 200px;
+}
+.card-subtitle .sale {
+    scale: 80%;
+}

@@ -28,6 +28,8 @@ class Product_card
                         <a href="../pages/product_detail.php?id=<?= $row['ID'] ?>"><h5
                                     class="card-title"><?= $row['title'] ?></h5></a>
                         <div class="card-body">
+
+
                             <a href="../pages/product_detail.php?id=<?= $row['ID'] ?>"><img
                                         src="../<?= $row['picture'] ?>" class="card-img-top" alt="<?= $row['title'] ?>"></a>
                             <p class="card-text"><?= $row['description'] ?></p>
@@ -57,6 +59,7 @@ class Product_card
                                     ?>
                                 </div>
                             </div>
+                            <p>skladem</p>
                             <a href="#" class="btn btn-primary">Add to cart</a>
                         </div>
                     </div>
