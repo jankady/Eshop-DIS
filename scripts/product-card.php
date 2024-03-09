@@ -2,30 +2,17 @@
 
 class Product_card
 {
-    public function product(): void
+    public function product($sql): void
     {
         require_once("DBconnect.php");
         $conn = DBconnect::connectionDatabase();
-        $productType = null;
-        if (isset($_GET['typ'])) {
-            $productType = $_GET['typ'];
-//            echo $productType;
-            $sql = "SELECT product.*, sale.discount_percent AS discount, category.name  FROM `product`
-                    INNER JOIN sale ON product.ID_sale=sale.ID
-                    INNER JOIN category ON product.ID_category = category.ID
-                    WHERE category.name = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("s", $productType);
-            $stmt->execute();
-            $result = $stmt->get_result();
-
-        } else {
-
-            $sql = "SELECT product.*, sale.discount_percent as discount FROM `product`
-                    INNER JOIN sale ON product.ID_sale=sale.ID";
+        if ($sql == NULL) {
+            $sql = "SELECT product.*, sale.discount_percent AS discount  FROM product
+                                  INNER JOIN sale ON product.ID_sale=sale.ID";
             $result = mysqli_query($conn, $sql);
 
-        }
+        } else $result = mysqli_query($conn, $sql);
+
 
         ?>
         <div class="row">

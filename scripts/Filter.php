@@ -5,7 +5,8 @@ class Filters
     public function filter_query($min_price, $max_price, $availability, $sale, $manafacturer, $category)
     {
         // Vytvoří SQL dotaz
-        $query = 'SELECT id FROM product WHERE';
+        $query = 'SELECT product.*, sale.discount_percent AS discount  FROM product
+                    INNER JOIN sale ON product.ID_sale=sale.ID WHERE';
 
         if ($min_price !== 0 && $max_price !== 0) {
             $query .= ' price BETWEEN ' . $min_price . ' AND ' . $max_price;
@@ -17,34 +18,40 @@ class Filters
 
 
         if ($availability !== '') {
-            if ($query !== 'SELECT id FROM product WHERE') {
+            if ($query !== 'SELECT product.*, sale.discount_percent AS discount  FROM product
+                    INNER JOIN sale ON product.ID_sale=sale.ID WHERE') {
                 $query .= ' AND';
             }
             $query .= ' number_of_products > 0';
         }
 
         if ($sale !== '') {
-            if ($query !== 'SELECT id FROM product WHERE') {
+            if ($query !== 'SELECT product.*, sale.discount_percent AS discount  FROM product
+                    INNER JOIN sale ON product.ID_sale=sale.ID WHERE') {
                 $query .= ' AND';
             }
             $query .= ' ID_sale > 1';
         }
 
         if ($manafacturer !== '') {
-            if ($query !== 'SELECT id FROM product WHERE') {
+            if ($query !== 'SELECT product.*, sale.discount_percent AS discount  FROM product
+                    INNER JOIN sale ON product.ID_sale=sale.ID WHERE') {
                 $query .= ' AND';
             }
             $query .= ' ID_manafacturer IN (' . $manafacturer . ')';
         }
         if ($category !== '') {
-            if ($query !== 'SELECT id FROM product WHERE') {
+            if ($query !== 'SELECT product.*, sale.discount_percent AS discount  FROM product
+                    INNER JOIN sale ON product.ID_sale=sale.ID WHERE') {
                 $query .= ' AND';
             }
             $query .= ' ID_category IN (' . $category . ')';
         }
 
 
-        if ($query == 'SELECT id FROM product WHERE') $query = 'SELECT id FROM product';
+        if ($query == 'SELECT product.*, sale.discount_percent AS discount  FROM product
+                    INNER JOIN sale ON product.ID_sale=sale.ID WHERE') $query = 'SELECT product.*, sale.discount_percent AS discount  FROM product
+                    INNER JOIN sale ON product.ID_sale=sale.ID';
 
 
         // return SQL querry
@@ -76,11 +83,11 @@ class Filters
                 $categories_string = implode(',', $selected_categories);
             } else $categories_string = '';
 
-            echo $this->filter_query($min_price, $max_price, $availability, $sale, $manufacturers_string, $categories_string);
 
-            // Redirect back to the page with SQL querry
-//            header('Location: product.php');
-            exit;
+            require_once("../scripts/product-card.php");
+            $sql = ($this->filter_query($min_price, $max_price, $availability, $sale, $manufacturers_string, $categories_string));
+            return $sql;
+
         }
     }
 

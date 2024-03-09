@@ -17,7 +17,12 @@
 require_once("../components/nav.php");
 require_once('../scripts/Filter.php');
 require_once ("../scripts/DBconnect.php");
+require_once("../scripts/product-card.php");
+
 $conn = DBconnect::connectionDatabase();
+$card = new Product_card();
+$filter = new Filters();
+
 
 ?>
 
@@ -112,9 +117,7 @@ $conn = DBconnect::connectionDatabase();
                 <div class="col-md-4">Nejdrahší</div>
             </div>
             <?php
-            require_once("../scripts/product-card.php");
-            $card = new Product_card();
-            $card->product();
+            $card->product($filter->process());
 
             ?>
         </div>
