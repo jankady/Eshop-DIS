@@ -20,11 +20,12 @@ require_once ("../scripts/DBconnect.php");
 $conn = DBconnect::connectionDatabase();
 
 ?>
+
 <div class="container-fluid">
     <section class="products row text-center" style="border: #4916b4 solid 1px">
 
         <div class="filter col-md-1 components">
-            <form action="" method="get">
+            <form action="" method="get" onsubmit="return validateForm()">
                 <div class="price-range">
                     <h4>Cena</h4>
                     <label for="min-price">minimalní cena</label>
@@ -124,6 +125,41 @@ $conn = DBconnect::connectionDatabase();
 require_once("../components/footer.php");
 
 ?>
+
+<script>
+    function validateForm() {
+        var minPrice = document.getElementById("min-price").value;
+        var maxPrice = document.getElementById("max-price").value;
+
+        // Check if minPrice and maxPrice are non-empty and numeric
+        if (minPrice !== "" && maxPrice !== "" && !isNaN(minPrice) && !isNaN(maxPrice)) {
+            minPrice = parseFloat(minPrice);
+            maxPrice = parseFloat(maxPrice);
+
+            // Check if minPrice is negative or maxPrice is less than or equal to 1
+            if (minPrice < 0) {
+                alert("Minimal price cannot be negative!");
+                return false; // Prevent form submission
+            }
+            if (maxPrice <= 1) {
+                alert("Maximal price should be greater than 1!");
+                return false; // Prevent form submission
+            }
+
+            // Check if minPrice is greater than maxPrice
+            if (minPrice > maxPrice) {
+                alert("Minimal price cannot be greater than maximal price!");
+                return false; // Prevent form submission
+            }
+        } else {
+            // Handle non-numeric or empty input
+            alert("Please enter valid numeric values for prices!");
+            return false; // Prevent form submission
+        }
+
+        return true; // Allow form submission
+    }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"></script>
