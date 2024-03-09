@@ -26,20 +26,23 @@ $conn = DBconnect::connectionDatabase();
             <form action="" method="get">
                 <div class="price-range">
                     <h4>Cena</h4>
-                    <input type="text" id="min-price" name="min-price" placeholder="minimální cena"/>
+                    <input type="text" id="min-price" name="min-price" placeholder="minimální cena"
+                           value="<?php echo isset($_GET['min-price']) ? htmlspecialchars($_GET['min-price']) : ''; ?>"/> <!-- saves the value after refresh  -->
                     <br>
-                    <input type="text" id="max-price" name="max-price" placeholder="maximální cena"/>
+                    <input type="text" id="max-price" name="max-price" placeholder="maximální cena"
+                           value="<?php echo isset($_GET['max-price']) ? htmlspecialchars($_GET['max-price']) : ''; ?>"/><!-- saves the value after refresh  -->
                 </div>
                 <div class="availability">
                     <hr>
                     <h4>Dostupnost</h4>
-                    <input type="checkbox" id="availability" name="availability">
+                    <input type="checkbox" id="availability"
+                           name="availability" <?php echo isset($_GET['availability']) ? 'checked' : ''; ?>> <!-- saves the value after refresh  -->
                     <label for="availability">skladem</label>
                 </div>
                 <div class="sale">
                     <hr>
                     <h4>Sleva</h4>
-                    <input type="checkbox" id="sale" name="sale">
+                    <input type="checkbox" id="sale" name="sale" <?php echo isset($_GET['sale']) ? 'checked' : ''; ?>><!-- saves the value after refresh  -->
                     <label for="sale">zlevněné</label>
                 </div>
                 <div class="manafacturer">
@@ -48,13 +51,14 @@ $conn = DBconnect::connectionDatabase();
                     <?php
                     $sql = "SELECT * FROM manafacturer";
                     $result = mysqli_query($conn, $sql);
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        if (isset($_GET["name"])) {
-                            $checked = $_GET["name"];
-                        }
-                        echo '<input type="checkbox" id="' . $row["name"] . '" name="manafacturers[]" value="'.$row["ID"].'">';
 
+                    while ($row = mysqli_fetch_assoc($result)) {
+
+                        // checkbox stay clicked after refresh
+                        $checked = (isset($_GET['manufacturers']) && in_array($row['ID'], $_GET['manufacturers'])) ? 'checked' : '';
+                        echo '<input type="checkbox" id="' . $row["name"] . '" name="manufacturers[]" value="' . $row["ID"] . '" ' . $checked . '>';
                         echo '<label for="' . $row['name'] . '">' . $row['name'] . '</label><br>';
+
                     }
 
                     mysqli_close($conn);
@@ -62,6 +66,14 @@ $conn = DBconnect::connectionDatabase();
                 </div>
                 <hr>
                 <button type="submit" name="submit">Filtrovat</button>
+
+                <?php
+                // Check if any filters are applied and remove them if you want
+                $filters_applied = isset($_GET['min-price']) || isset($_GET['max-price']) || isset($_GET['availability']) || isset($_GET['sale']) && !empty($_GET['manufacturers']);
+                if ($filters_applied) {
+                    echo '<button type="submit" name="clear_filters">Odstranit filtry</button>';
+                }
+                ?>
             </form>
 
         </div>
