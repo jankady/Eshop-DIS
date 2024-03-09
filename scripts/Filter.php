@@ -2,7 +2,7 @@
 
 class Filters
 {
-   public function filter_query($price, $availability, $sale, $manafacturer,)
+    public function filter_query($price, $availability, $sale, $manafacturer,)
     {
         // Vytvoří SQL dotaz
         $query = 'SELECT id FROM product WHERE';
@@ -36,7 +36,27 @@ class Filters
         return $query;
     }
 
-    public function process() {
+    public function process()
+    {
+        if (isset($_GET['submit'])) {
+            // Redirect back to the page without any filter parameters
+            header('Location: product.php');
+            exit;
+        }
+    }
 
+    public function clearFilter()
+    {
+        // Check if the "clear_filters" button was clicked
+        if (isset($_GET['clear_filters'])) {
+            // Redirect back to the page without any filter parameters
+            header('Location: product.php');
+            exit;
+        }
     }
 }
+
+
+$filter = new Filters();
+$filter->clearFilter();
+//$filter->process();

@@ -16,6 +16,7 @@
 <?php
 require_once("../components/nav.php");
 require_once('../scripts/Filter.php');
+require_once ("../scripts/DBconnect.php");
 $conn = DBconnect::connectionDatabase();
 
 ?>
@@ -26,23 +27,29 @@ $conn = DBconnect::connectionDatabase();
             <form action="" method="get">
                 <div class="price-range">
                     <h4>Cena</h4>
-                    <input type="text" id="min-price" name="min-price" placeholder="minimální cena"
-                           value="<?php echo isset($_GET['min-price']) ? htmlspecialchars($_GET['min-price']) : ''; ?>"/> <!-- saves the value after refresh  -->
+                    <label for="min-price">minimalní cena</label>
+                    <input type="text" id="min-price" name="min-price"
+                           value="<?php echo isset($_GET['min-price']) ? htmlspecialchars($_GET['min-price']) : ''; ?>"/>
+                    <!-- saves the value after refresh  -->
                     <br>
-                    <input type="text" id="max-price" name="max-price" placeholder="maximální cena"
-                           value="<?php echo isset($_GET['max-price']) ? htmlspecialchars($_GET['max-price']) : ''; ?>"/><!-- saves the value after refresh  -->
+                    <label for="max-price">maximalní cena</label>
+                    <input type="text" id="max-price" name="max-price"
+                           value="<?php echo isset($_GET['max-price']) ? htmlspecialchars($_GET['max-price']) : ''; ?>"/>
+                    <!-- saves the value after refresh  -->
                 </div>
                 <div class="availability">
                     <hr>
                     <h4>Dostupnost</h4>
                     <input type="checkbox" id="availability"
-                           name="availability" <?php echo isset($_GET['availability']) ? 'checked' : ''; ?>> <!-- saves the value after refresh  -->
+                           name="availability" <?php echo isset($_GET['availability']) ? 'checked' : ''; ?>>
+                    <!-- saves the value after refresh  -->
                     <label for="availability">skladem</label>
                 </div>
                 <div class="sale">
                     <hr>
                     <h4>Sleva</h4>
-                    <input type="checkbox" id="sale" name="sale" <?php echo isset($_GET['sale']) ? 'checked' : ''; ?>><!-- saves the value after refresh  -->
+                    <input type="checkbox" id="sale" name="sale" <?php echo isset($_GET['sale']) ? 'checked' : ''; ?>>
+                    <!-- saves the value after refresh  -->
                     <label for="sale">zlevněné</label>
                 </div>
                 <div class="manafacturer">
@@ -69,10 +76,12 @@ $conn = DBconnect::connectionDatabase();
 
                 <?php
                 // Check if any filters are applied and remove them if you want
-                $filters_applied = isset($_GET['min-price']) || isset($_GET['max-price']) || isset($_GET['availability']) || isset($_GET['sale']) && !empty($_GET['manufacturers']);
+                $filters_applied = isset($_GET['min-price']) && $_GET['min-price'] !== '' || isset($_GET['max-price']) && $_GET['max-price'] !== '' || isset($_GET['availability']) || isset($_GET['sale']) || (isset($_GET['manufacturers']) && !empty($_GET['manufacturers']));
+
                 if ($filters_applied) {
                     echo '<button type="submit" name="clear_filters">Odstranit filtry</button>';
                 }
+
                 ?>
             </form>
 

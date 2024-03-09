@@ -7,23 +7,22 @@
                     <a class="nav-link active" aria-current="page" href="../pages/index.php">Home</a>
                 </li>
                 <li class="nav-item dropdown ">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
+                    <a class="nav-link " href="../pages/product.php">
                         Products
                     </a>
 
-                    <ul class="dropdown-menu">
-                        <?php
-                        require_once("../scripts/nav-category.php");
-                        $nav = new Nav_category();
-                        $nav->nav();
-
-                        ?>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="../pages/product.php">Everyting</a></li>
-                    </ul>
+<!--                    <ul class="dropdown-menu">-->
+<!--                        --><?php
+//                        require_once("../scripts/nav-category.php");
+//                        $nav = new Nav_category();
+//                        $nav->nav();
+//
+//                        ?>
+<!--                        <li>-->
+<!--                            <hr class="dropdown-divider">-->
+<!--                        </li>-->
+<!--                        <li><a class="dropdown-item" href="../pages/product.php">Everyting</a></li>-->
+<!--                    </ul>-->
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " href="../pages/contact.php">Contact</a>
