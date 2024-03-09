@@ -2,9 +2,10 @@
 
 class Filters
 {
+    // Prepare SQL querry for filtering, depends on informations provided in form in product.php
     public function filter_query($min_price, $max_price, $availability, $sale, $manafacturer, $category)
     {
-        // Vytvoří SQL dotaz
+        // create default SQL
         $query = 'SELECT product.*, sale.discount_percent AS discount  FROM product
                     INNER JOIN sale ON product.ID_sale=sale.ID WHERE';
 
@@ -48,7 +49,7 @@ class Filters
             $query .= ' ID_category IN (' . $category . ')';
         }
 
-
+//if none filter is selected remove WHERE
         if ($query == 'SELECT product.*, sale.discount_percent AS discount  FROM product
                     INNER JOIN sale ON product.ID_sale=sale.ID WHERE') $query = 'SELECT product.*, sale.discount_percent AS discount  FROM product
                     INNER JOIN sale ON product.ID_sale=sale.ID';
@@ -60,6 +61,7 @@ class Filters
 
     public function process()
     {
+        //binds provided parameters into variables
         if (isset($_GET['submit'])) {
             //bind parameters
             if (isset($_GET["min-price"])) {
@@ -74,6 +76,7 @@ class Filters
             if (isset($_GET["sale"])) {
                 $sale = $_GET["sale"];
             } else $sale = '';
+            // create array if there are more parameters selected
             if (isset($_GET["manufacturers"])) {
                 $selected_manufacturers = $_GET['manufacturers'] ?? array();
                 $manufacturers_string = implode(',', $selected_manufacturers);
@@ -83,14 +86,14 @@ class Filters
                 $categories_string = implode(',', $selected_categories);
             } else $categories_string = '';
 
-
-            require_once("../scripts/product-card.php");
+            //return full sql querry into product.php
             $sql = ($this->filter_query($min_price, $max_price, $availability, $sale, $manufacturers_string, $categories_string));
             return $sql;
 
         }
     }
 
+    //create filters, is called when button is clicked
     public function clearFilter()
     {
         // Check if the "clear_filters" button was clicked
@@ -102,7 +105,6 @@ class Filters
     }
 }
 
-
+// needs to be there, serve for calling the method
 $filter = new Filters();
 $filter->clearFilter();
-$filter->process();

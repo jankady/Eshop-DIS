@@ -2,6 +2,7 @@
 
 class Nav_category
 {
+    //was used in NAV, now it is useless
     public function nav()
     {
 

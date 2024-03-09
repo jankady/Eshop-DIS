@@ -2,11 +2,10 @@
 require_once("../scripts/DBconnect.php");
 $conn = DBconnect::connectionDatabase();
 $productId = $_GET['id'];
-//$sql = "SELECT *, FROM `product` WHERE `ID` = ? ";
-//$sql = "SELECT product.*, sale.discount_percent as discount FROM `product` INNER JOIN sale ON product.ID_sale=sale.ID WHERE product.ID = ?";
+
 $sql = "SELECT product.*, sale.discount_percent as discount FROM `product` INNER JOIN sale ON product.ID_sale=sale.ID WHERE product.ID = ?";
 
-
+//bind parameters
 $stmt = $conn->prepare($sql);
 $stmt->bind_param('i', $productId);
 $stmt->execute();
@@ -47,9 +46,11 @@ require_once("../components/nav.php");
 
                     <p> <?= $product["description"] ?></p>
                     <div class="col-lg-12 align-self-end" style="background: darkgrey; width: 100%">
+                        <!--   number of avialable products/products on stock        -->
                         <p>Skladem: <?= $product["number_of_products"] ?>ks</p>
                         <p>
                             <?php
+                            // calculate when your stuff should arrive, now it is 3days
                             $storeTime = strtotime("+3 days");
                             $dayArrive = date("d.m", $storeTime);
                             echo " " . date("D", $dayArrive) . " " . $dayArrive . " at your place";
@@ -62,6 +63,7 @@ require_once("../components/nav.php");
 
         </div>
     </section>
+
     <section class="payment">
         <div class="container text-center">
             <div class="row">
@@ -70,6 +72,7 @@ require_once("../components/nav.php");
                     <div class="row">
                         <div class="col-md-6">
                             <div class="price">
+                                <!--  show sale if it is there-->
                                 <div class="sale">
                                     <?php
                                     if ($product["ID_sale"] != 1) {
@@ -77,18 +80,19 @@ require_once("../components/nav.php");
                                     }
                                     ?>
                                 </div>
+                                <!-- show final cost of product (sale included) -->
                                 <div class="priceNumber">
                                     <?php
                                     $originalPrice = number_format($product["price"], 0, ',', ' ');
 
                                     if ($product["ID_sale"] != 1) {
                                         $finalNumber = $product["price"] * ($product["discount"] / 100);
-                                        $finalNumber =round($product["price"] - $finalNumber)." Kč";
-                                        $finalNumberFloat= (float)$finalNumber;
+                                        $finalNumber = round($product["price"] - $finalNumber) . " Kč";
+                                        $finalNumberFloat = (float)$finalNumber;
                                         $finalNumberFloat = number_format($finalNumberFloat, 0, ',', ' ');
                                         ?>
                                         <p><?= $finalNumberFloat ?> Kč</p>
-                                        <p class="fs-6 text-decoration-line-through"><?= $originalPrice?> Kč</p>
+                                        <p class="fs-6 text-decoration-line-through"><?= $originalPrice ?> Kč</p>
                                         <?php
                                     } else echo $originalPrice . " Kč";
                                     ?>
@@ -105,8 +109,10 @@ require_once("../components/nav.php");
     </section>
 </div>
 <?php
-require_once ("../components/footer.php");
+require_once("../components/footer.php");
 ?>
+
+<!--style scripts for Bootstrap-->
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -115,6 +121,7 @@ require_once ("../components/footer.php");
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
 <?php
+//close connection to DB
 $stmt->close();
 ?>
 </body>

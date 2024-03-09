@@ -2,15 +2,18 @@
 
 class Product_card
 {
+    //creates individual items
     public function product($sql): void
     {
         require_once("DBconnect.php");
         $conn = DBconnect::connectionDatabase();
+        // is called when you click on Products in nav
         if ($sql == NULL) {
             $sql = "SELECT product.*, sale.discount_percent AS discount  FROM product
                                   INNER JOIN sale ON product.ID_sale=sale.ID";
             $result = mysqli_query($conn, $sql);
 
+            // is called for filtring
         } else $result = mysqli_query($conn, $sql);
 
 
@@ -29,7 +32,7 @@ class Product_card
                                         src="../<?= $row['picture'] ?>" class="card-img-top" alt="<?= $row['title'] ?>"></a>
                             <p class="card-text"><?= $row['description'] ?></p>
                             <div class="card-subtitle">
-                                <!--            Výpočet slevy a zobrazení slevy                    -->
+                                <!--            sale counting and showing                 -->
                                 <div class="sale">
                                     <?php
                                     if ($row["ID_sale"] != 1) {
@@ -64,7 +67,6 @@ class Product_card
             ?>
         </div>
         <?php
-//        $stmt->close();
         mysqli_close($conn);
     }
 }
