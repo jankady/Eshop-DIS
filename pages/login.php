@@ -37,7 +37,9 @@ require_once("../components/header.php");
                     <label for="password" class="form-label">Heslo</label>
                     <input type="password" class="form-control" id="password" name="password" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Přihlásit</button>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Přihlásit</button>
+                </div>
             </form>
         </div>
     </div>
