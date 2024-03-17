@@ -1,4 +1,6 @@
 <?php
+require_once ("../scripts/sessions.php");
+SessionClass::checkSessions();
 
 ?>
 <!doctype html>
@@ -17,8 +19,11 @@
 </head>
 <body>
 <?php
+
 require_once("../components/nav.php");
 require_once("../components/header.php");
+
+
 ?>
 
 

@@ -2,7 +2,7 @@
 
 class Filters
 {
-    // Prepare SQL querry for filtering, depends on informations provided in form in product.php
+    // Prepare SQL querry for filtering, depends on information provided in form in product.php
     public function filter_query($min_price, $max_price, $availability, $sale, $manafacturer, $category)
     {
         // create default SQL

@@ -6,6 +6,8 @@ class Product_card
     public function product($sql): void
     {
         require_once("DBconnect.php");
+        require_once("sessions.php");
+
         $conn = DBconnect::connectionDatabase();
         // is called when you click on Products in nav
         if ($sql == NULL) {
@@ -67,7 +69,16 @@ class Product_card
                                         else echo "není skladem";
 
                                         ?></p></div>
-                                <div class="col"><a href="#" class="btn btn-primary">Add to cart</a></div>
+                                <form action="sessions.php" method="post"></form>
+                                <div class="col">
+                                    <button type="submit" name="submit_addToCart" class="btn btn-primary">add to cart
+                                    </button>
+
+                                    <?php
+                                    $session = new SessionClass();
+                                    $session->cartSession();
+                                    ?>
+                                </div>
                             </div>
 
                         </div>

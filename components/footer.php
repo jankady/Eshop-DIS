@@ -35,7 +35,7 @@
 <!--        </section>-->
 <!--    </div>-->
 
-    <!-- Copyright -->
+<!--     Copyright-->
     <div class="text-center p-3" >
         © <?= date("Y"); ?>:
         <a class="text-body" href="https://mdbootstrap.com/">náš obchod</a>

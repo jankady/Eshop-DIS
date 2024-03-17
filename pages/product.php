@@ -1,3 +1,8 @@
+<?php
+require_once ("../scripts/sessions.php");
+
+SessionClass::checkSessions();
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -126,7 +131,9 @@ $filter = new Filters();
 
     </section>
 </div>
+<p>
 
+</p>
 <?php
 require_once("../components/footer.php");
 
