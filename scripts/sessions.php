@@ -1,7 +1,8 @@
 <?php
 class SessionClass {
 
-    public static function checkSessions() {
+    public static function checkSessions(): void
+    {
         session_start();
 
         $_SESSION["logged_in"]=false;
@@ -11,15 +12,11 @@ class SessionClass {
             $_SESSION["logged_in"]=true;
 
         }
-
-    }
-
-    public function cartSession() {
-        if (isset($_POST['submit_addToCart'])) {
-            session_start();
-            echo "ahoj";
-
+        else {
+            echo "nejsi přihlašený";
         }
 
     }
+
+
 }
