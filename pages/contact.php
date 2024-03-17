@@ -1,3 +1,8 @@
+<?php
+require_once ("../scripts/sessions.php");
+SessionClass::checkSessions();
+
+?>
 <!doctype html>
 <html lang="en">
 <head>

@@ -1,4 +1,4 @@
-<footer class="text-center bg-body-tertiary">
+<footer class="text-center bg-body-tertiary mt-5">
 <!--    <div class="container pt-4" style="border: red solid 1px">-->
 <!--        <section class="mb-4">-->
 <!--            <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"-->
@@ -39,5 +39,9 @@
     <div class="text-center p-3" >
         © <?= date("Y"); ?>:
         <a class="text-body" href="https://mdbootstrap.com/">náš obchod</a>
+        <?php
+//        session_start();
+        print_r($_SESSION["cart"]);
+        ?>
     </div>
 </footer>
