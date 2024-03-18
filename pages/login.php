@@ -19,7 +19,6 @@ SessionClass::checkSessions();
 <body>
 <?php
 require_once("../components/nav.php");
-require_once("../components/header.php");
 ?>
 
 <!-- Formulář pro přihlášení -->

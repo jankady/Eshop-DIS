@@ -41,7 +41,7 @@ $conn = DBconnect::connectionDatabase();
                 $result = mysqli_query($conn, $sql);
                 while ($row = mysqli_fetch_assoc($result)) {
                     ?>
-                    <div class="row mb-4 " style="height: 100px; border: red solid 1px">
+                    <div class="row mb-4 " style="height: 100px">
                         <div class="col-2">
                             <a href="../pages/product_detail.php?id=<?= $row['ID'] ?>"><img
                                         src="../<?= $row['picture'] ?>" class="img-thumbnail"
@@ -94,11 +94,25 @@ $conn = DBconnect::connectionDatabase();
 
                             ?>
                         </div>
+
+                        <div class="col-1">
+                            <form action="../scripts/cart.php" method="post">
+                                <input type="hidden" name="product_id" value="<?= $row['ID'] ?>">
+                                <button type="submit" class="btn btn-danger btn-sm" name="removeFromCart"></button>
+                            </form>
+                        </div>
                     </div>
 
                     <?php
                 }
 
+            } else {
+                ?>
+            <div class="row">
+                <p>Košík je prázdny</p>
+                <a href="product.php">zpět na produkty</a>
+            </div>
+            <?php
             }
             ?>
         </div>
@@ -108,8 +122,8 @@ $conn = DBconnect::connectionDatabase();
 
 <?php
 require_once("../components/footer.php");
-mysqli_close($conn
-) ?>
+mysqli_close($conn)
+?>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"></script>

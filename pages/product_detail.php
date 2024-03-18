@@ -1,7 +1,10 @@
 <?php
 require_once("../scripts/DBconnect.php");
+require_once("../scripts/sessions.php");
+
 $conn = DBconnect::connectionDatabase();
 $productId = $_GET['id'];
+SessionClass::checkSessions();
 
 $sql = "SELECT product.*, sale.discount_percent as discount FROM `product` INNER JOIN sale ON product.ID_sale=sale.ID WHERE product.ID = ?";
 
