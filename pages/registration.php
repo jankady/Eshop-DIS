@@ -1,4 +1,5 @@
 <?php
+require_once("../scripts/DBconnect.php");
 require_once("../scripts/sessions.php");
 SessionClass::checkSessions();
 
@@ -34,21 +35,25 @@ require_once("../components/nav.php");
                 </div>
 
                 <div class="mb-3">
+                    <label for="firstname" class="form-label">Jméno</label>
+                    <input type="text" class="form-control" id="firstname" name="firstname">
+                </div>
+
+                <div class="mb-3">
+                    <label for="lastname" class="form-label">Příjmení</label>
+                    <input type="text" class="form-control" id="lastname" name="lastname">
+                </div>
+
+                <div class="mb-3">
                     <label for="email" class="form-label">E-Mail</label>
                     <input type="email" class="form-control" id="email" name="email">
                 </div>
+
                 <div class="mb-3">
                     <label for="phone_number" class="form-label">Telefonní číslo</label>
                     <input type="text" class="form-control" id="phone_number" name="phone_number">
                 </div>
-                <div class="mb-3">
-                    <label for="firstname" class="form-label">Jméno</label>
-                    <input type="text" class="form-control" id="firstname" name="firstname" required>
-                </div>
-                <div class="mb-3">
-                    <label for="lastname" class="form-label">Příjmení</label>
-                    <input type="lastname" class="form-control" id="lastname" name="lastname" required>
-                </div>
+
                 <div class="text-center">
                     <h4>Registrační údaje</h4>
                 </div>
@@ -58,16 +63,30 @@ require_once("../components/nav.php");
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Heslo</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
+                    <input type="password" class="form-control" id="password" name="password">
                 </div>
                 <div class="text-center">
                     <h4>Fakturační údaje</h4>
                 </div>
                 <div class="mb-3">
                     <label for="country" class="form-label">Stát</label>
-                    <select id="country" name="country" class="form-control" required>
-                        <!--                       databaze jiříku :)-->
-                        <!-- :( -->
+                    <select id="country" name="country" class="form-control">
+                        <?php
+                        $conn = DBconnect::connectionDatabase();
+                        $sql = "SELECT `name` FROM country;";
+
+                        $result = mysqli_query($conn, $sql);
+
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+
+                            <option value=""><?= $row["name"] ?></option>
+
+                            <?php
+                        }
+                        ?>
+
+
                     </select>
 
                 </div>
