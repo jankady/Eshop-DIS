@@ -28,23 +28,18 @@ require_once("../components/nav.php");
             <div class="text-center">
                 <h2>Registace</h2>
             </div>
-            <?php if (isset($error_message)): ?>
-                <div class="alert alert-danger" role="alert">
-                    <?php echo $error_message; ?>
-                </div>
-            <?php endif; ?>
-            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <form method="post" action="../scripts/account.php">
                 <div class="text-center">
                     <h4>Kontaktní údaje</h4>
                 </div>
 
                 <div class="mb-3">
                     <label for="email" class="form-label">E-Mail</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
+                    <input type="email" class="form-control" id="email" name="email">
                 </div>
                 <div class="mb-3">
                     <label for="phone_number" class="form-label">Telefonní číslo</label>
-                    <input type="phone_number" class="form-control" id="phone_number" name="phone_number" required>
+                    <input type="text" class="form-control" id="phone_number" name="phone_number">
                 </div>
                 <div class="mb-3">
                     <label for="firstname" class="form-label">Jméno</label>
@@ -59,7 +54,7 @@ require_once("../components/nav.php");
                 </div>
                 <div class="mb-3">
                     <label for="username" class="form-label">Uživatelské jméno</label>
-                    <input type="username" class="form-control" id="username" name="username" required>
+                    <input type="text" class="form-control" id="username" name="username">
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Heslo</label>
@@ -78,19 +73,20 @@ require_once("../components/nav.php");
                 </div>
                 <div class="mb-3">
                     <label for="street" class="form-label">Ulice a č. p.</label>
-                    <input type="street" class="form-control" id="street" name="street" required>
+                    <input type="text" class="form-control" id="street" name="street">
                 </div>
                 <div class="mb-3">
                     <label for="city" class="form-label">Město</label>
-                    <input type="city" class="form-control" id="city" name="city" required>
+                    <input type="text" class="form-control" id="city" name="city">
                 </div>
                 <div class="mb-3">
                     <label for="postal_code" class="form-label">PSČ</label>
-                    <input type="postal_code" class="form-control" id="postal_code" name="postal_code" required>
+                    <input type="text" class="form-control" id="postal_code" name="postal_code">
+
+
                 </div>
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Registrovat</button>
-
+                    <button type="submit" name="registration_submit" class="btn btn-primary">Registrovat</button>
                 </div>
             </form>
         </div>
