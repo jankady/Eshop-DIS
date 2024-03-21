@@ -73,14 +73,14 @@ require_once("../components/nav.php");
                     <select id="country" name="country" class="form-control">
                         <?php
                         $conn = DBconnect::connectionDatabase();
-                        $sql = "SELECT `name` FROM country;";
+                        $sql = "SELECT * FROM country;";
 
                         $result = mysqli_query($conn, $sql);
 
                         while ($row = mysqli_fetch_assoc($result)) {
                             ?>
 
-                            <option value=""><?= $row["name"] ?></option>
+                            <option value="<?php echo $row["ID"]; ?>"><?= $row["name"] ?></option>
 
                             <?php
                         }
@@ -114,6 +114,7 @@ require_once("../components/nav.php");
 
 <?php
 require_once("../components/footer.php");
+mysqli_close($conn);
 ?>
 
 <!-- Obsah pro patičku HTML -->
