@@ -25,14 +25,13 @@ if (isset($_POST["registration_submit"])) {
     $postal_code = $_POST['postal_code'];
 
 
-// Close the statement
-
-
+//checking duplicite data in address
     $sql = "SELECT * FROM address WHERE city = ? AND street = ? AND postal_code = ? AND house_number = ? AND ID_country = ?";
 
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "ssssi", $city, $street, $postal_code, $street, $country);
     mysqli_stmt_execute($stmt);
+
 
     $result = mysqli_stmt_get_result($stmt);
 
@@ -40,20 +39,36 @@ if (isset($_POST["registration_submit"])) {
         $stmt = mysqli_prepare($conn, "INSERT INTO address (city, street, postal_code, house_number,ID_country) VALUES (?, ?, ?, ?, ?)");
 
         // Bind values to the statement
-        mysqli_stmt_bind_param($stmt, "ssssi", $city, $street, $postal_code, $street, $country);  // Replace "" with your house number logic
+        mysqli_stmt_bind_param($stmt, "ssssi", $city, $street, $postal_code, $street, $country);
+
 
         // Execute the statement
         mysqli_stmt_execute($stmt);
+
+        //get ID of new created row
+        $address_id = mysqli_stmt_insert_id($stmt);
+        mysqli_stmt_close($stmt);
+
+        $stmt = mysqli_prepare($conn, "INSERT INTO customer (name, surname, e_mail, tel_num, password, username, ID_address) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        mysqli_stmt_bind_param($stmt, "sssissi", $firstname, $lastname, $email, $phone_number, $password_hash, $username, $address_id);
+
+        mysqli_stmt_execute($stmt);
+
+
         mysqli_stmt_close($stmt);
         mysqli_close($conn);
-
         header('Location: ../pages/login.php');
 
+    } else {
+
+        //write duplicite row ID
+        $row = mysqli_fetch_assoc($result);
+        $duplicate_id = $row['ID'];
+        echo $duplicate_id;
+        mysqli_stmt_close($stmt);
+
+        mysqli_close($conn);
+//    header('Location: ../pages/registration.php');
     }
-    mysqli_stmt_close($stmt);
-
-    mysqli_close($conn);
-    header('Location: ../pages/registration.php');
-
 }
 ?>
