@@ -22,27 +22,38 @@ if (isset($_POST["registration_submit"])) {
     $country = $_POST['country'];
     $street = $_POST['street'];
     $city = $_POST['city'];
-    $postal_code =  $_POST['postal_code'];
+    $postal_code = $_POST['postal_code'];
 
-
-    // Prepare the SQL statements
-    $stmt = mysqli_prepare($conn, "INSERT INTO address (city, street, postal_code, house_number,ID_country) VALUES (?, ?, ?, ?, ?)");
-
-// Bind values to the statement
-    mysqli_stmt_bind_param($stmt, "ssssi", $city, $street, $postal_code, $street, $country);  // Replace "" with your house number logic
-
-// Execute the statement
-    mysqli_stmt_execute($stmt);
 
 // Close the statement
+
+
+    $sql = "SELECT * FROM address WHERE city = ? AND street = ? AND postal_code = ? AND house_number = ? AND ID_country = ?";
+
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "ssssi", $city, $street, $postal_code, $street, $country);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+
+    if (!mysqli_num_rows($result) > 0) {
+        $stmt = mysqli_prepare($conn, "INSERT INTO address (city, street, postal_code, house_number,ID_country) VALUES (?, ?, ?, ?, ?)");
+
+        // Bind values to the statement
+        mysqli_stmt_bind_param($stmt, "ssssi", $city, $street, $postal_code, $street, $country);  // Replace "" with your house number logic
+
+        // Execute the statement
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        mysqli_close($conn);
+
+        header('Location: ../pages/login.php');
+
+    }
     mysqli_stmt_close($stmt);
 
-// Insert customer with the address ID
-//    $customer_sql = "INSERT INTO customer (name, surname, e_mail, password, username, tel_num, ID_address) VALUES (?, ?, ?, ?, ?, ?, ?)";
-//    $stmt_customer = mysqli_prepare($conn, $customer_sql);
-//    mysqli_stmt_bind_param($stmt_customer, "sssssss", $firstname, $lastname, $email, $password_hash, $username, $phone_number, $address_id);
-//    mysqli_stmt_execute($stmt_customer);
-
     mysqli_close($conn);
+    header('Location: ../pages/registration.php');
+
 }
 ?>
