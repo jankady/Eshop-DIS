@@ -21,51 +21,84 @@ if (isset($_POST["registration_submit"])) {
     $city = $_POST['city'];
     $postal_code = $_POST['postal_code'];
 
+    // Checking duplicate data for username, phone_number, and email
+    $sql_duplicate_check = "SELECT COUNT(*) AS count FROM customer WHERE e_mail = ? OR tel_num = ? OR username = ?";
+    $stmt_duplicate_check = mysqli_prepare($conn, $sql_duplicate_check);
+    mysqli_stmt_bind_param($stmt_duplicate_check, "sss", $email, $phone_number, $username);
+    mysqli_stmt_execute($stmt_duplicate_check);
+    $result_duplicate_check = mysqli_stmt_get_result($stmt_duplicate_check);
+    $row_duplicate_check = mysqli_fetch_assoc($result_duplicate_check);
+    $count_duplicate_check = $row_duplicate_check['count'];
+    mysqli_stmt_close($stmt_duplicate_check);
 
-//checking duplicite data in address
-    $sql = "SELECT * FROM address WHERE city = ? AND street = ? AND postal_code = ? AND house_number = ? AND ID_country = ?"; //dodelat split na ulici a č. p.
+    if (!$count_duplicate_check > 0) {
+        // If no duplicate found, proceed with insertion
 
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ssssi", $city, $street, $postal_code, $house_number, $country);
-    mysqli_stmt_execute($stmt);
+        // Check if the address already exists
+        $sql_address_check = "SELECT ID FROM address WHERE city = ? AND street = ? AND postal_code = ? AND house_number = ? AND ID_country = ?";
+        $stmt_address_check = mysqli_prepare($conn, $sql_address_check);
+        mysqli_stmt_bind_param($stmt_address_check, "ssssi", $city, $street, $postal_code, $house_number, $country);
+        mysqli_stmt_execute($stmt_address_check);
+        $result_address_check = mysqli_stmt_get_result($stmt_address_check);
 
+        if (mysqli_num_rows($result_address_check) > 0) {
+            // If address exists, get its ID
+            $row_address = mysqli_fetch_assoc($result_address_check);
+            $address_id = $row_address['ID'];
+        } else {
+            // If address doesn't exist, insert it and get its ID
+            $stmt_insert_address = mysqli_prepare($conn, "INSERT INTO address (city, street, postal_code, house_number, ID_country) VALUES (?, ?, ?, ?, ?)");
+            mysqli_stmt_bind_param($stmt_insert_address, "ssssi", $city, $street, $postal_code, $house_number, $country);
+            mysqli_stmt_execute($stmt_insert_address);
+            $address_id = mysqli_insert_id($conn); // Get the ID of the newly inserted address
+            mysqli_stmt_close($stmt_insert_address);
+        }
+        mysqli_stmt_close($stmt_address_check);
 
-    $result = mysqli_stmt_get_result($stmt);
-
-    if (!mysqli_num_rows($result) > 0) {
-        $stmt = mysqli_prepare($conn, "INSERT INTO address (city, street, postal_code, house_number,ID_country) VALUES (?, ?, ?, ?, ?)");
-
-        // Bind values to the statement
-        mysqli_stmt_bind_param($stmt, "ssssi", $city, $street, $postal_code, $house_number, $country);
-
-
-        // Execute the statement
-        mysqli_stmt_execute($stmt);
-
-        //get ID of new created row
-        $address_id = mysqli_stmt_insert_id($stmt);
-        mysqli_stmt_close($stmt);
-
-        $stmt = mysqli_prepare($conn, "INSERT INTO customer (name, surname, e_mail, tel_num, password, username, ID_address) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        mysqli_stmt_bind_param($stmt, "sssissi", $firstname, $lastname, $email, $phone_number, $password_hash, $username, $address_id);
-
-        mysqli_stmt_execute($stmt);
-
-
-        mysqli_stmt_close($stmt);
+        // Insert customer using the existing or newly inserted address
+        $stmt_insert_customer = mysqli_prepare($conn, "INSERT INTO customer (name, surname, e_mail, tel_num, password, username, ID_address) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        mysqli_stmt_bind_param($stmt_insert_customer, "sssissi", $firstname, $lastname, $email, $phone_number, $password_hash, $username, $address_id);
+        mysqli_stmt_execute($stmt_insert_customer);
+        mysqli_stmt_close($stmt_insert_customer);
         mysqli_close($conn);
         header('Location: ../pages/login.php');
+    }
 
-    } else {
+    else{
+        // Handle duplicate user data
+        $duplicate_message = "";
 
-        //write duplicite row ID
-        $row = mysqli_fetch_assoc($result);
-        $duplicate_id = $row['ID'];
-        echo $duplicate_id;
-        mysqli_stmt_close($stmt);
+        $sql_duplicate_email_check = "SELECT * FROM customer WHERE e_mail = ?";
+        $stmt_duplicate_email_check = mysqli_prepare($conn, $sql_duplicate_email_check);
+        mysqli_stmt_bind_param($stmt_duplicate_email_check, "s", $email);
+        mysqli_stmt_execute($stmt_duplicate_email_check);
+        $result_duplicate_email_check = mysqli_stmt_get_result($stmt_duplicate_email_check);
+        if (mysqli_num_rows($result_duplicate_email_check) > 0) {
+            $duplicate_message .= "Emailová adresa je již použita. ";
+        }
+        mysqli_stmt_close($stmt_duplicate_email_check);
 
-        mysqli_close($conn);
-//    header('Location: ../pages/registration.php');
+        $sql_duplicate_phone_check = "SELECT * FROM customer WHERE tel_num = ?";
+        $stmt_duplicate_phone_check = mysqli_prepare($conn, $sql_duplicate_phone_check);
+        mysqli_stmt_bind_param($stmt_duplicate_phone_check, "s", $phone_number);
+        mysqli_stmt_execute($stmt_duplicate_phone_check);
+        $result_duplicate_phone_check = mysqli_stmt_get_result($stmt_duplicate_phone_check);
+        if (mysqli_num_rows($result_duplicate_phone_check) > 0) {
+            $duplicate_message .= "Telefonní číslo je již použito. ";
+        }
+        mysqli_stmt_close($stmt_duplicate_phone_check);
+
+        $sql_duplicate_username_check = "SELECT * FROM customer WHERE username = ?";
+        $stmt_duplicate_username_check = mysqli_prepare($conn, $sql_duplicate_username_check);
+        mysqli_stmt_bind_param($stmt_duplicate_username_check, "s", $username);
+        mysqli_stmt_execute($stmt_duplicate_username_check);
+        $result_duplicate_username_check = mysqli_stmt_get_result($stmt_duplicate_username_check);
+        if (mysqli_num_rows($result_duplicate_username_check) > 0) {
+            $duplicate_message .= "Uživatelské jméno je již použito.";
+        }
+        mysqli_stmt_close($stmt_duplicate_username_check);
+
+        echo "<script>alert('{$duplicate_message}'); window.location='../pages/registration.php';</script>";
     }
 }
 ?>

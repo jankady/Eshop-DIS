@@ -95,7 +95,7 @@ require_once("../components/nav.php");
                     <input type="text" class="form-control" id="street" name="street">
                 </div>
                 <div class="mb-3">
-                    <label for="street" class="form-label">Číslo popisné</label>
+                    <label for="house_number" class="form-label">Číslo popisné</label>
                     <input type="text" class="form-control" id="house_number" name="house_number">
                 </div>
                 <div class="mb-3">
