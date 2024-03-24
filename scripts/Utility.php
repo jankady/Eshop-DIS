@@ -1,5 +1,5 @@
 <?php
-class DBconnect
+class Utility
 {
     public static function connectionDatabase()
     {
@@ -13,5 +13,15 @@ class DBconnect
             die("Connection failed: " . $conn->connect_error);
         }
         return $conn;
+    }
+
+    public static function calculatePrice($price, $sale) {
+
+        $finalNumber = $price * ($sale / 100);
+        $finalNumber = round($price - $finalNumber) . " Kč";
+        $finalNumberFloat = (float)$finalNumber;
+
+        return $finalNumberFloat;
+
     }
 }
