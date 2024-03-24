@@ -1,13 +1,9 @@
 <?php
-require_once("DBconnect.php");
+require_once("Utility.php");
 
-$conn = DBconnect::connectionDatabase();
+$conn = Utility::connectionDatabase();
 
 if (isset($_POST["registration_submit"])) {
-    // Error handling for database connection
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
 
     // Sanitize user input to prevent SQL injection
     $email = mysqli_real_escape_string($conn, $_POST['email']);
@@ -21,15 +17,16 @@ if (isset($_POST["registration_submit"])) {
 
     $country = $_POST['country'];
     $street = $_POST['street'];
+    $house_number = $_POST['house_number'];
     $city = $_POST['city'];
     $postal_code = $_POST['postal_code'];
 
 
 //checking duplicite data in address
-    $sql = "SELECT * FROM address WHERE city = ? AND street = ? AND postal_code = ? AND house_number = ? AND ID_country = ?";
+    $sql = "SELECT * FROM address WHERE city = ? AND street = ? AND postal_code = ? AND house_number = ? AND ID_country = ?"; //dodelat split na ulici a č. p.
 
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ssssi", $city, $street, $postal_code, $street, $country);
+    mysqli_stmt_bind_param($stmt, "ssssi", $city, $street, $postal_code, $house_number, $country);
     mysqli_stmt_execute($stmt);
 
 
@@ -39,7 +36,7 @@ if (isset($_POST["registration_submit"])) {
         $stmt = mysqli_prepare($conn, "INSERT INTO address (city, street, postal_code, house_number,ID_country) VALUES (?, ?, ?, ?, ?)");
 
         // Bind values to the statement
-        mysqli_stmt_bind_param($stmt, "ssssi", $city, $street, $postal_code, $street, $country);
+        mysqli_stmt_bind_param($stmt, "ssssi", $city, $street, $postal_code, $house_number, $country);
 
 
         // Execute the statement
