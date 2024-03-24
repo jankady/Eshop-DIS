@@ -1,5 +1,5 @@
 <?php
-require_once("../scripts/DBconnect.php");
+require_once("../scripts/Utility.php");
 require_once("../scripts/sessions.php");
 SessionClass::checkSessions();
 
@@ -72,7 +72,7 @@ require_once("../components/nav.php");
                     <label for="country" class="form-label">Stát</label>
                     <select id="country" name="country" class="form-control">
                         <?php
-                        $conn = DBconnect::connectionDatabase();
+                        $conn = Utility::connectionDatabase();
                         $sql = "SELECT * FROM country;";
 
                         $result = mysqli_query($conn, $sql);
@@ -91,8 +91,12 @@ require_once("../components/nav.php");
 
                 </div>
                 <div class="mb-3">
-                    <label for="street" class="form-label">Ulice a č. p.</label>
+                    <label for="street" class="form-label">Ulice</label>
                     <input type="text" class="form-control" id="street" name="street">
+                </div>
+                <div class="mb-3">
+                    <label for="street" class="form-label">Číslo popisné</label>
+                    <input type="text" class="form-control" id="house_number" name="house_number">
                 </div>
                 <div class="mb-3">
                     <label for="city" class="form-label">Město</label>
