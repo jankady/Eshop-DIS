@@ -1,8 +1,8 @@
 <?php
-require_once("../scripts/DBconnect.php");
+require_once("../scripts/Utility.php");
 require_once("../scripts/sessions.php");
 
-$conn = DBconnect::connectionDatabase();
+$conn = Utility::connectionDatabase();
 $productId = $_GET['id'];
 SessionClass::checkSessions();
 
@@ -28,7 +28,7 @@ $product = $result->fetch_assoc();
     <link rel="icon" type="image/x-icon" href="../img/shop.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-<!--    <link rel="stylesheet" href="../style/styleTesting.css">-->
+    <!--    <link rel="stylesheet" href="../style/styleTesting.css">-->
 
     <title>Eshop-<?= $product["title"] ?></title>
 </head>
@@ -76,37 +76,34 @@ require_once("../components/nav.php");
                     <div class="row">
                         <div class="col-md-6">
                             <div class="price">
-                                <!--  show sale if it is there-->
-                                <div class="sale">
-                                    <?php
-                                    if ($product["ID_sale"] != 1) {
-                                        echo "SALE " . $product["discount"] . "%";
-                                    }
-                                    ?>
-                                </div>
-                                <!-- show final cost of product (sale included) -->
-                                <div class="priceNumber">
-                                    <?php
-                                    $originalPrice = number_format($product["price"], 0, ',', ' ');
+                                <?php
+                                $salePrice = Utility::calculatePrice($product["price"], $product["discount"]);
+                                $originalPrice = number_format($product["price"], 0, ',', ' ');
+                                $salePricerFloat = number_format($salePrice, 0, ',', ' ');
 
-                                    if ($product["ID_sale"] != 1) {
-                                        $finalNumber = $product["price"] * ($product["discount"] / 100);
-                                        $finalNumber = round($product["price"] - $finalNumber) . " Kč";
-                                        $finalNumberFloat = (float)$finalNumber;
-                                        $finalNumberFloat = number_format($finalNumberFloat, 0, ',', ' ');
-                                        ?>
-                                        <p><?= $finalNumberFloat ?> Kč</p>
-                                        <p class="fs-6 text-decoration-line-through"><?= $originalPrice ?> Kč</p>
-                                        <?php
-                                    } else echo $originalPrice . " Kč";
+                                if ($product["ID_sale"] != 1) {
+
                                     ?>
-                                </div>
+                                    <!--  show sale if it there is any-->
+                                    <p><?= "SALE " . $product["discount"] . "%" ?></p>
+                                    <div class="priceNumber">
+                                        <p><?= $salePricerFloat ?> Kč</p>
+                                        <p class="fs-6 text-decoration-line-through"><?= $originalPrice ?> Kč</p>
+                                    </div>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <p><?= $salePricerFloat ?> Kč</p>
+                                    <?php
+                                }
+                                ?>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 align-self-center">
                             <a href="#" class="btn btn-primary">Add to cart</a>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

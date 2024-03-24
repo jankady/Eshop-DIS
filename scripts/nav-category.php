@@ -6,8 +6,8 @@ class Nav_category
     public function nav()
     {
 
-        require_once ("DBconnect.php");
-        $conn = DBconnect::connectionDatabase();
+        require_once("Utility.php");
+        $conn = Utility::connectionDatabase();
         $sql = "SELECT name FROM category";
         $result = mysqli_query($conn, $sql);
 

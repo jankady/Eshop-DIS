@@ -5,9 +5,9 @@ class Product_card
     //creates individual items
     public function product($sql): void
     {
-        require_once("DBconnect.php");
+        require_once("Utility.php");
 
-        $conn = DBconnect::connectionDatabase();
+        $conn = Utility::connectionDatabase();
         // is called when you click on Products in nav
         if ($sql == NULL) {
             $sql = "SELECT product.*, sale.discount_percent AS discount  FROM product
@@ -34,49 +34,51 @@ class Product_card
                             <div class="productInfo">
                                 <p class="card-text"><?= $row['description'] ?></p>
                             </div>
-                            <div class="card-subtitle">
-                                <!--            sale counting and showing                 -->
-                                <div class="sale">
+                            <div class="card-text row">
+                                <div class="priceNumber col align-content-center" style="border: red solid 1px">
                                     <?php
+                                    $salePrice = Utility::calculatePrice($row["price"], $row["discount"]);
+                                    $originalPrice = number_format($row["price"], 0, ',', ' ');
+                                    $salePricerFloat = number_format($salePrice, 0, ',', ' ');
+
                                     if ($row["ID_sale"] != 1) {
-                                        echo "SALE " . $row["discount"] . "%";
+
+                                        ?>
+                                        <!--  show sale if it there is any-->
+                                        <p><?= "SALE " . $row["discount"] . "%" ?></p>
+                                        <div class="priceNumber">
+                                            <p><?= $salePricerFloat ?> Kč</p>
+                                            <p class="fs-6 text-decoration-line-through"><?= $originalPrice ?> Kč</p>
+                                        </div>
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <p class="align-self-center"><?= $salePricerFloat ?> Kč</p>
+                                        <?php
                                     }
                                     ?>
                                 </div>
-                                <div class="priceNumber">
-                                    <?php
-                                    $originalPrice = number_format($row["price"], 0, ',', ' ');
+                                <div class="row col">
+                                    <div class="">
+                                        <p><?php if ($row["number_of_products"] > 5) echo "skladem: 9+ kusů";
+                                            elseif ($row["number_of_products"] > 4) echo "skladem: " . $row["number_of_products"] . " kusů";
+                                            elseif ($row["number_of_products"] > 1) echo "skladem: " . $row["number_of_products"] . " kusy";
+                                            elseif ($row["number_of_products"] == 1) echo "skladem: " . $row["number_of_products"] . " kus";
+                                            else echo "není skladem";
 
-                                    if ($row["ID_sale"] != 1) {
-                                        $finalNumber = $row["price"] * ($row["discount"] / 100);
-                                        $finalNumber = round($row["price"] - $finalNumber);
-
-                                        $finalNumber = number_format($finalNumber, 0, ',', ' ');
-                                        ?>
-                                        <p><?= $finalNumber ?> Kč</p>
-                                        <p class="fs-6 text-decoration-line-through"><?= $originalPrice ?> Kč</p>
-                                        <?php
-                                    } else echo $originalPrice . " Kč";
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col"><p><?php if ($row["number_of_products"] > 5) echo "skladem: 9+ kusů";
-                                        elseif ($row["number_of_products"] > 4) echo "skladem: " . $row["number_of_products"] . " kusů";
-                                        elseif ($row["number_of_products"] > 1) echo "skladem: " . $row["number_of_products"] . " kusy";
-                                        elseif ($row["number_of_products"] == 1) echo "skladem: " . $row["number_of_products"] . " kus";
-                                        else echo "není skladem";
-
-                                        ?></p></div>
-                                <form action="../scripts/cart.php" method="post">
-                                    <div class="col">
-                                        <button type="submit" name="addToCart" class="btn btn-primary">add to cart
-                                        </button>
-                                        <input type="hidden" name="product_id" value='<?= $row["ID"] ?>'>
+                                            ?></p>
                                     </div>
-                                </form>
-                            </div>
+                                    <div class="">
+                                        <form action="../scripts/cart.php" method="post">
+                                            <button type="submit" name="addToCart" class="btn btn-primary">add to
+                                                cart
+                                            </button>
+                                            <input type="hidden" name="product_id" value='<?= $row["ID"] ?>'>
+                                        </form>
+                                    </div>
+                                </div>
 
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -21,11 +21,19 @@ SessionClass::checkSessions();
 <?php
 
 require_once("../components/nav.php");
-require_once("../components/header.php");
-
 
 ?>
+<div class="container-fluid">
 
+
+    
+
+
+<?php
+require_once("../components/header.php");
+
+?>
+</div>
 
 <?php
 require_once ("../components/footer.php");

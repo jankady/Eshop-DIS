@@ -23,11 +23,11 @@ SessionClass::checkSessions();
 //providing requierd files
 require_once("../components/nav.php");
 require_once('../scripts/Filter.php');
-require_once("../scripts/DBconnect.php");
+require_once("../scripts/Utility.php");
 require_once("../scripts/product-card.php");
 
 // DB connect and creating instances
-$conn = DBconnect::connectionDatabase();
+$conn = Utility::connectionDatabase();
 $card = new Product_card();
 $filter = new Filters();
 

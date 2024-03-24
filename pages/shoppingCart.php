@@ -19,8 +19,8 @@ SessionClass::checkSessions();
 <body>
 <?php
 require_once("../components/nav.php");
-require_once("../scripts/DBconnect.php");
-$conn = DBconnect::connectionDatabase();
+require_once("../scripts/Utility.php");
+$conn = Utility::connectionDatabase();
 
 ?>
 
@@ -55,45 +55,50 @@ $conn = DBconnect::connectionDatabase();
                             <p>počet ks</p>
                         </div>
                         <div class="col-2">
-                            <div class="col"><p><?php if ($row["number_of_products"] > 5) echo "skladem: 9+ kusů";
+                            <div class="col">
+                                <p><?php if ($row["number_of_products"] > 5) echo "skladem: 9+ kusů";
                                     elseif ($row["number_of_products"] > 4) echo "skladem: " . $row["number_of_products"] . " kusů";
                                     elseif ($row["number_of_products"] > 1) echo "skladem: " . $row["number_of_products"] . " kusy";
                                     elseif ($row["number_of_products"] == 1) echo "skladem: " . $row["number_of_products"] . " kus";
                                     else echo "není skladem";
 
-                                    ?></p></div>
-                        </div>
-                        <div class="col-2">
-                            <div class="priceNumber">
-                                <?php
-                                $originalPrice = number_format($row["price"], 0, ',', ' ');
-
-                                if ($row["ID_sale"] != 1) {
-                                    $finalNumber = $row["price"] * ($row["discount"] / 100);
-                                    $finalNumber = round($row["price"] - $finalNumber);
-
-                                    $finalNumber = number_format($finalNumber, 0, ',', ' ');
-                                    ?>
-                                    <p><?= $finalNumber ?> Kč/ks</p>
-                                    <?php
-                                } else echo $originalPrice . " Kč/ks";
-                                ?>
+                                    ?></p>
                             </div>
                         </div>
-                        <div class="col-2">
-                            <?php
-                            if ($row["ID_sale"] != 1) {
-                                $finalNumber = $row["price"] * ($row["discount"] / 100);
-                                $finalNumber = round($row["price"] - $finalNumber);
-                                $num = $finalNumber * 2;
-                                echo "<strong>" . $num . "</strong>";
-                            } else {
-                                $num = $row["price"] * 1;
-                                echo "<strong>" . $num . "</strong>";
-                            }
+                        <?php
+
+                        $quantity = 2; // change to real quantitiy
+
+                        if ($row["ID_sale"] != 1) {
+                            $sale = Utility::calculatePrice($row["price"], $row["discount"]);
+
+                            $saledPrice = number_format($sale, 0, ',', ' ');
+                            $finalSaledPrice = number_format($sale*$quantity, 0, ',', ' ');
+
 
                             ?>
-                        </div>
+                            <div class="col-2 pricePerStock">
+                                <p><?= $saledPrice ?> Kč/ks</p>
+                            </div>
+                            <div class="col-2 finalPrice">
+                                <p><strong><?= $finalSaledPrice ?></strong></p>
+                            </div>
+
+                            <?php
+                        } else {
+                            $unsaledPrice = number_format($row["price"], 0, ',', ' ');
+                            $finalUnsaledPrice = number_format($row["price"]*$quantity, 0, ',', ' ');
+
+                            ?>
+                            <div class="col-2 pricePerStock">
+                                <p><?= $unsaledPrice ?> Kč/ks</p>
+                            </div>
+                            <div class="col-2 finalPrice">
+                                <p><strong><?= $finalUnsaledPrice ?></strong></p>
+                            </div>
+                            <?php
+                        }
+                        ?>
 
                         <div class="col-1">
                             <form action="../scripts/cart.php" method="post">
@@ -108,11 +113,11 @@ $conn = DBconnect::connectionDatabase();
 
             } else {
                 ?>
-            <div class="row">
-                <p>Košík je prázdny</p>
-                <a href="product.php">zpět na produkty</a>
-            </div>
-            <?php
+                <div class="row">
+                    <p>Košík je prázdny</p>
+                    <a href="product.php">zpět na produkty</a>
+                </div>
+                <?php
             }
             ?>
         </div>
