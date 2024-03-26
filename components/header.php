@@ -42,10 +42,7 @@ $activeElement = 1;
 
                     </div>
                     <?php
-
-
                 }
-
             }
             ?>
         </div>

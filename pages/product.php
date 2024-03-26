@@ -1,5 +1,5 @@
 <?php
-require_once ("../scripts/sessions.php");
+require_once("../scripts/sessions.php");
 
 SessionClass::checkSessions();
 ?>
@@ -31,6 +31,9 @@ $conn = Utility::connectionDatabase();
 $card = new Product_card();
 $filter = new Filters();
 
+// Get current page number from URL (or set default to 1)
+$currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
 
 ?>
 
@@ -44,11 +47,11 @@ $filter = new Filters();
                     <h4>Cena</h4>
                     <label for="min-price">minimalní cena</label>
                     <input type="number" id="min-price" name="min-price"
-                    value="<?php echo isset($_GET['min-price']) ? htmlspecialchars($_GET['min-price']) : ''; ?>"/>
+                           value="<?php echo isset($_GET['min-price']) ? htmlspecialchars($_GET['min-price']) : ''; ?>"/>
                     <br>
                     <label for="max-price">maximalní cena</label>
                     <input type="number" id="max-price" name="max-price"
-                    value="<?php echo isset($_GET['max-price']) ? htmlspecialchars($_GET['max-price']) : ''; ?>"/>
+                           value="<?php echo isset($_GET['max-price']) ? htmlspecialchars($_GET['max-price']) : ''; ?>"/>
                 </div>
 
                 <div class="availability">
@@ -96,8 +99,7 @@ $filter = new Filters();
                         echo '<label for="' . $row['name'] . '">' . $row['name'] . '</label><br>';
 
                     }
-                    //end connection to DB
-                    mysqli_close($conn);
+
                     ?>
                 </div>
 
@@ -126,17 +128,52 @@ $filter = new Filters();
             <?php
             $card->product($filter->process());
 
+            if ($filters_applied) { //upravit podmínku
+                $sql = $filter->process();
+
+            } else {
+                $sql = "SELECT product.*, sale.discount_percent AS discount  FROM product
+                                  INNER JOIN sale ON product.ID_sale=sale.ID";
+            }
+            // Define number of products per page
+            $productsPerPage = 30;
+            // Filter products based on filters (if any)
+            $result = mysqli_query($conn, $sql);
+
+            // Assuming process() doesn't return products directly (refer to your implementation)
+            $filteredProducts = array();
+            while ($row = mysqli_fetch_assoc($result)) {
+                $filteredProducts[] = $row;
+            }
+
+            // Calculate total number of pages
+            $totalPages = ceil(count($filteredProducts) / $productsPerPage);
+
+            // Calculate offset for the current page
+            $offset = ($currentPage - 1) * $productsPerPage;
+
+            // Get products for the current page using array_slice on fetched products
+            $products = array_slice($filteredProducts, $offset, $productsPerPage);
+
+            if ($totalPages > 1) {
+                echo '<ul class="pagination">';
+                for ($i = 1; $i <= $totalPages; $i++) {
+                    $activeClass = ($currentPage == $i) ? 'active' : '';
+                    echo "<li class='page-item $activeClass'><a class='page-link' href='?page=$i'>$i</a></li>";
+                }
+                echo '</ul>';
+            }
             ?>
         </div>
 
     </section>
 </div>
-<p>
 
-</p>
 <?php
 require_once("../components/footer.php");
 
+//end connection to DB
+mysqli_close($conn);
 ?>
 
 <!--script for handling invalid numbers in form-->
