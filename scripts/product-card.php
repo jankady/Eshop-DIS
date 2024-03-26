@@ -11,7 +11,7 @@ class Product_card
         // is called when you click on Products in nav
         if ($sql == NULL) {
             $sql = "SELECT product.*, sale.discount_percent AS discount  FROM product
-                                  INNER JOIN sale ON product.ID_sale=sale.ID";
+                                  INNER JOIN sale ON product.ID_sale=sale.ID LIMIT 30";
             $result = mysqli_query($conn, $sql);
 
             // is called for filtring

@@ -55,6 +55,7 @@ class Filters
                     INNER JOIN sale ON product.ID_sale=sale.ID';
 
 
+        $query.=' LIMIT 30 OFFSET 0';
         // return SQL querry
         return $query;
     }
