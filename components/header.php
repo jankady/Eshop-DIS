@@ -9,35 +9,37 @@ $activeElement = 1;
 
 <header>
     <div id="carouselExampleIndicators" class="carousel slide">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                    aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                    aria-label="Slide 3"></button>
-        </div>
+
         <div class="carousel-inner">
             <?php
             while ($row = mysqli_fetch_assoc($result)) {
+                $price = $row["price"];
+                if ($row["ID_sale"] != 1) {
+                    $price = Utility::calculatePrice($price, $row["discount"]);
+                }
+                $price = number_format($price, 0, ',', ' ');
                 if ($activeElement == 1) {
                     ?>
                     <div class="carousel-item active">
-                        <img src="../<?= $row["picture"] ?>" class="d-block w-50" alt="...">
-                        <div class="carousel-caption d-none d-md-block">
+                        <a href="../pages/product_detail.php?id=<?= $row["ID"] ?>">
+                            <img src="../<?= $row["picture"] ?>" class=" mx-auto h-50" alt="...">
                             <h5><?= $row["title"] ?></h5>
-                            <p><?= $row["price"] ?></p>
-                        </div>
+                        </a>
+
+                        <p><?= $price ?> Kč</p>
+
                     </div>
                     <?php
+                    $activeElement++;
                 } else {
                     ?>
                     <div class="carousel-item">
-                        <img src="../<?= $row["picture"] ?>" class="d-block w-50" alt="...">
-                        <div class="carousel-caption d-none d-md-block">
+                        <a href="../pages/product_detail.php?id=<?= $row["ID"] ?>">
+                            <img src="../<?= $row["picture"] ?>" class=" mx-auto h-50" alt="...">
                             <h5><?= $row["title"] ?></h5>
-                            <p>Some representative placeholder content for the first slide.</p>
-                        </div>
+                        </a>
+                        <p><?= $price ?> Kč</p>
+
                     </div>
                     <?php
 

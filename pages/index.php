@@ -23,7 +23,7 @@ SessionClass::checkSessions();
 require_once("../components/nav.php");
 
 ?>
-<div class="container-fluid">
+<div class="container-fluid text-center" >
 
 
     
