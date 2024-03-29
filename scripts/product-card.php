@@ -9,7 +9,7 @@ class Product_card
 
         $conn = Utility::connectionDatabase();
 
-        $currentPage = ($_GET['page']-1) *6; // změnit 6 na 30 jinak se zobrazuje 6 produktu
+        $currentPage = ($_GET['page'] - 1) * 6; // změnit 6 na 30 jinak se zobrazuje 6 produktu
 
         // is called when you click on Products in nav
         if ($sql == NULL) {
@@ -22,7 +22,10 @@ class Product_card
 
             $result = $stmt->get_result();
             // is called for filtring
-        } else $result = mysqli_query($conn, $sql);
+        } else {
+            $sql .= ' LIMIT 6 OFFSET ' . $currentPage;   // změnit 6 na 30 jinak se zobrazuje 6 produktu
+            $result = mysqli_query($conn, $sql);
+        }
 
 
         ?>

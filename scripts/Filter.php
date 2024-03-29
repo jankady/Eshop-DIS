@@ -54,8 +54,8 @@ class Filters
                     INNER JOIN sale ON product.ID_sale=sale.ID WHERE') $query = 'SELECT product.*, sale.discount_percent AS discount  FROM product
                     INNER JOIN sale ON product.ID_sale=sale.ID';
 
-
-        $query.=' LIMIT 6 OFFSET 0';   // změnit 6 na 30 jinak se zobrazuje 6 produktu
+//        $currentPage = ($_GET['page']-1) *6; // změnit 6 na 30 jinak se zobrazuje 6 produktu
+//        $query.= ' LIMIT 6 OFFSET '.$currentPage;   // změnit 6 na 30 jinak se zobrazuje 6 produktu
         // return SQL querry
         return $query;
     }

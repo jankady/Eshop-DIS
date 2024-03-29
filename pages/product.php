@@ -42,6 +42,7 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
         <div class="filter col-md-1 components">
             <form action="" method="get" onsubmit="return validateForm()">
+                <input type="hidden" name="page" value="<?= $currentPage ?>">
 
                 <div class="price-range">
                     <h4>Cena</h4>
@@ -142,12 +143,12 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
             // Filter products based on filters (if any)
             $result = mysqli_query($conn, $sql);
 
-            // Assuming process() doesn't return products directly (refer to your implementation)
             $filteredProducts = array();
             while ($row = mysqli_fetch_assoc($result)) {
                 $filteredProducts[] = $row;
             }
 
+            print_r(count($filteredProducts));
             // Calculate total number of pages
             $totalPages = ceil(count($filteredProducts) / $productsPerPage);
 
