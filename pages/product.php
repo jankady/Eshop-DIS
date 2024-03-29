@@ -42,7 +42,7 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
         <div class="filter col-md-1 components">
             <form action="" method="get" onsubmit="return validateForm()">
-                <input type="hidden" name="page" value="<?= $currentPage ?>">
+                <input type="hidden" name="page" value="1">
 
                 <div class="price-range">
                     <h4>Cena</h4>
@@ -139,7 +139,7 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
                                   INNER JOIN sale ON product.ID_sale=sale.ID";
             }
             // Define number of products per page
-            $productsPerPage = 6; // změnit 6 na 30 jinak se zobrazuje 6 produktu
+            $productsPerPage = 30; // změnit 6 na 30 jinak se zobrazuje 6 produktu
             // Filter products based on filters (if any)
             $result = mysqli_query($conn, $sql);
 
@@ -148,24 +148,38 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
                 $filteredProducts[] = $row;
             }
 
-            print_r(count($filteredProducts));
+            //            print_r(count($filteredProducts));
             // Calculate total number of pages
             $totalPages = ceil(count($filteredProducts) / $productsPerPage);
 
             // Calculate offset for the current page
-            $offset = ($currentPage - 1) * $productsPerPage;
+//            $offset = ($currentPage - 1) * $productsPerPage;
 
             // Get products for the current page using array_slice on fetched products
-            $products = array_slice($filteredProducts, $offset, $productsPerPage);
+//            $products = array_slice($filteredProducts, $offset, $productsPerPage);
+
+
+            // get url after ?
+            $url = $_SERVER['REQUEST_URI'];
+            // Oddělí parametry URL od adresy
+            $parts = parse_url($url);
+            // Získá parametry URL
+            $query = $parts['query'];
+//            print_r($query);
+
 
             if ($totalPages > 1) {
                 echo '<ul class="pagination">';
                 for ($i = 1; $i <= $totalPages; $i++) {
                     $activeClass = ($currentPage == $i) ? 'active' : '';
-                    echo "<li class='page-item $activeClass'><a class='page-link' href='?page=$i'>$i</a></li>";
+                    $url = str_replace('page=' . $currentPage, 'page=' . $i, $query);
+                    echo "<li class='page-item $activeClass'><a class='page-link' href='product.php?$url'>$i</a></li>";
                 }
                 echo '</ul>';
             }
+
+
+
             ?>
         </div>
 

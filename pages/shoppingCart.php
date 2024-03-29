@@ -115,7 +115,7 @@ $conn = Utility::connectionDatabase();
                 ?>
                 <div class="row">
                     <p>Košík je prázdny</p>
-                    <a href="product.php">zpět na produkty</a>
+                    <a href="product.php?page=1">zpět na produkty</a>
                 </div>
                 <?php
             }
