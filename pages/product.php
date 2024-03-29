@@ -128,6 +128,8 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
             <?php
             $card->product($filter->process());
 
+            // strankování pro produkty
+
             if ($filters_applied) { //upravit podmínku
                 $sql = $filter->process();
 
@@ -136,7 +138,7 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
                                   INNER JOIN sale ON product.ID_sale=sale.ID";
             }
             // Define number of products per page
-            $productsPerPage = 30;
+            $productsPerPage = 6; // změnit 6 na 30 jinak se zobrazuje 6 produktu
             // Filter products based on filters (if any)
             $result = mysqli_query($conn, $sql);
 

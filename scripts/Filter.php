@@ -55,7 +55,7 @@ class Filters
                     INNER JOIN sale ON product.ID_sale=sale.ID';
 
 
-        $query.=' LIMIT 30 OFFSET 0';
+        $query.=' LIMIT 6 OFFSET 0';   // změnit 6 na 30 jinak se zobrazuje 6 produktu
         // return SQL querry
         return $query;
     }
@@ -100,7 +100,7 @@ class Filters
         // Check if the "clear_filters" button was clicked
         if (isset($_GET['clear_filters'])) {
             // Redirect back to the page without any filter parameters
-            header('Location: product.php');
+            header('Location: product.php?page=1');
             exit;
         }
     }

@@ -8,12 +8,19 @@ class Product_card
         require_once("Utility.php");
 
         $conn = Utility::connectionDatabase();
+
+        $currentPage = ($_GET['page']-1) *6; // změnit 6 na 30 jinak se zobrazuje 6 produktu
+
         // is called when you click on Products in nav
         if ($sql == NULL) {
             $sql = "SELECT product.*, sale.discount_percent AS discount  FROM product
-                                  INNER JOIN sale ON product.ID_sale=sale.ID LIMIT 30";
-            $result = mysqli_query($conn, $sql);
+                                  INNER JOIN sale ON product.ID_sale=sale.ID LIMIT 6 OFFSET ?";
 
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param('i', $currentPage);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
             // is called for filtring
         } else $result = mysqli_query($conn, $sql);
 

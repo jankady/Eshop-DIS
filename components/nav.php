@@ -8,7 +8,7 @@
                     <a class="nav-link active" aria-current="page" href="../pages/index.php">Home</a>
                 </li>
                 <li class="nav-item dropdown ">
-                    <a class="nav-link " href="../pages/product.php">Products</a>
+                    <a class="nav-link " href="../pages/product.php?page=1">Products</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " href="../pages/contact.php">Contact</a>
