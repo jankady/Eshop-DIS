@@ -35,7 +35,7 @@ if (isset($_POST['addToCart'])) {
         );
     }
 
-    header("Location: ../pages/product.php ");
+    header("Location: ../pages/product.php?page=1 ");
 }
 if (isset($_POST['removeFromCart'])) {
 
@@ -43,14 +43,33 @@ if (isset($_POST['removeFromCart'])) {
 
     $product_id = $_POST["product_id"];
 
+    echo "hi";
+    // Zapsat do logu ID produktu
+    error_log("Odstranění produktu ID: " . $product_id);
+
+    // Získat pole ID produktů
+    $product_ids = array_column($_SESSION["cart"], "product_id");
+
+    // Zapsat do logu pole ID produktů
+    error_log("Pole ID produktů: " . print_r($product_ids, true));
+
     // Najít index produktu v košíku
-    $index = array_search($product_id, array_column($_SESSION["cart"], "product_id"));
+    $index = array_search($product_id, $product_ids);
 
-
-    // Odstranit produkt z pole košíku
     if ($index !== false) {
+        // Zapsat do logu index produktu
+        error_log("Produkt nalezen na indexu: " . $index);
+
+        // Odstranit produkt z pole košíku
         unset($_SESSION["cart"][$index]);
+    } else {
+        // Zapsat do logu chybu
+        error_log("Produkt nenalezen v košíku!");
+
+        // Zobrazit chybovou zprávu uživateli
+        echo "Produkt nenalezen v košíku!";
     }
+
     if (empty($_SESSION["cart"])) {
         // Odstranit session "cart"
         unset($_SESSION["cart"]);
@@ -58,7 +77,7 @@ if (isset($_POST['removeFromCart'])) {
 
 
     // Přesměrovat zpět na stránku košíku
-    header("Location: ../pages/shoppingCart.php");
+//    header("Location: ../pages/shoppingCart.php");
 }
 
 

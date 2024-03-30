@@ -42,6 +42,9 @@
         <?php
 //        session_start();
         print_r($_SESSION["cart"]);
+
+//        session_unset();
+
         ?>
     </div>
 </footer>

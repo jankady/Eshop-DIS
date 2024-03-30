@@ -38,6 +38,7 @@ $conn = Utility::connectionDatabase();
                 //                echo $product_id_arr;
                 $sql = "SELECT product.*, sale.discount_percent AS discount  FROM product
                     INNER JOIN sale ON product.ID_sale=sale.ID  WHERE product.id IN ($product_id_arr)";
+                print_r($sql);
                 $result = mysqli_query($conn, $sql);
                 while ($row = mysqli_fetch_assoc($result)) {
                     ?>

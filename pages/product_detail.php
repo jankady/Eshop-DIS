@@ -100,7 +100,11 @@ require_once("../components/nav.php");
                             </div>
                         </div>
                         <div class="col-md-6 align-self-center">
-                            <a href="#" class="btn btn-primary">Add to cart</a>
+                            <form action="../scripts/cart.php" method="post">
+                                <button type="submit" name="addToCart" class="btn btn-primary">add to cart</button>
+                                <input type="hidden" name="product_id" value='<?= $product["ID"] ?>'>
+
+                            </form>
                         </div>
                     </div>
 
