@@ -77,7 +77,7 @@ if (isset($_POST['removeFromCart'])) {
 
 
     // Přesměrovat zpět na stránku košíku
-//    header("Location: ../pages/shoppingCart.php");
+    header("Location: ../pages/shoppingCart.php?yes");
 }
 
 

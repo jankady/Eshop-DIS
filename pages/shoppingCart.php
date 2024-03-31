@@ -30,14 +30,15 @@ $conn = Utility::connectionDatabase();
             <h2>Košík</h2>
             <?php
             if (isset($_SESSION["cart"])) {
-                // Extract the product IDs from the cart array
+                // Extrahujte ID produktů z pole košíku
                 $product_ids = array_column($_SESSION["cart"], "product_id");
 
-                // Display the product IDs as a comma-separated string
                 $product_id_arr = implode(', ', $product_ids);
-                //                echo $product_id_arr;
-                $sql = "SELECT product.*, sale.discount_percent AS discount  FROM product
-                    INNER JOIN sale ON product.ID_sale=sale.ID  WHERE product.id IN ($product_id_arr)";
+
+                $sql = "SELECT product.*, sale.discount_percent AS discount FROM product 
+                                                                INNER JOIN sale ON product.ID_sale=sale.ID
+                                                                WHERE product.id IN ($product_id_arr) 
+                                                                ORDER BY FIELD(product.id, $product_id_arr) ASC";
                 print_r($sql);
                 $result = mysqli_query($conn, $sql);
                 while ($row = mysqli_fetch_assoc($result)) {
@@ -74,7 +75,7 @@ $conn = Utility::connectionDatabase();
                             $sale = Utility::calculatePrice($row["price"], $row["discount"]);
 
                             $saledPrice = number_format($sale, 0, ',', ' ');
-                            $finalSaledPrice = number_format($sale*$quantity, 0, ',', ' ');
+                            $finalSaledPrice = number_format($sale * $quantity, 0, ',', ' ');
 
 
                             ?>
@@ -88,7 +89,7 @@ $conn = Utility::connectionDatabase();
                             <?php
                         } else {
                             $unsaledPrice = number_format($row["price"], 0, ',', ' ');
-                            $finalUnsaledPrice = number_format($row["price"]*$quantity, 0, ',', ' ');
+                            $finalUnsaledPrice = number_format($row["price"] * $quantity, 0, ',', ' ');
 
                             ?>
                             <div class="col-2 pricePerStock">
