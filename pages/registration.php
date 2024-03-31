@@ -121,6 +121,5 @@ require_once("../components/footer.php");
 mysqli_close($conn);
 ?>
 
-<!-- Obsah pro patičku HTML -->
 </body>
 </html>

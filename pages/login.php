@@ -21,7 +21,6 @@ SessionClass::checkSessions();
 require_once("../components/nav.php");
 ?>
 
-<!-- Formulář pro přihlášení -->
 <div class="container">
     <div class="row">
         <div class="col-md-6 offset-md-3">
@@ -50,6 +49,5 @@ require_once("../components/nav.php");
 
 <?php require_once("../components/footer.php"); ?>
 
-<!-- Obsah pro patičku HTML -->
 </body>
 </html>

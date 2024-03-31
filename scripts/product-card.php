@@ -8,13 +8,14 @@ class Product_card
         require_once("Utility.php");
 
         $conn = Utility::connectionDatabase();
+        $maxProducts = 6;
 
-        $currentPage = ($_GET['page'] - 1) * 30; // změnit 6 na 30 jinak se zobrazuje 6 produktu
+        $currentPage = ($_GET['page'] - 1) * $maxProducts; // změnit 6 na 30 jinak se zobrazuje 6 produktu
 
         // is called when you click on Products in nav
         if ($sql == NULL) {
             $sql = "SELECT product.*, sale.discount_percent AS discount  FROM product
-                                  INNER JOIN sale ON product.ID_sale=sale.ID LIMIT 30 OFFSET ?"; // taky změnit
+                                  INNER JOIN sale ON product.ID_sale=sale.ID LIMIT ".$maxProducts." OFFSET ?"; // taky změnit
 
             $stmt = $conn->prepare($sql);
             $stmt->bind_param('i', $currentPage);
@@ -23,7 +24,7 @@ class Product_card
             $result = $stmt->get_result();
             // is called for filtring
         } else {
-            $sql .= ' LIMIT 30 OFFSET ' . $currentPage;   // změnit 6 na 30 jinak se zobrazuje 6 produktu
+            $sql .= ' LIMIT '.$maxProducts.' OFFSET ' . $currentPage;   // změnit 6 na 30 jinak se zobrazuje 6 produktu
             $result = mysqli_query($conn, $sql);
         }
 
