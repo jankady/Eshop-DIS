@@ -39,8 +39,13 @@ $conn = Utility::connectionDatabase();
                                                                 INNER JOIN sale ON product.ID_sale=sale.ID
                                                                 WHERE product.id IN ($product_id_arr) 
                                                                 ORDER BY FIELD(product.id, $product_id_arr) ASC";
-                print_r($sql);
+//                print_r($sql);
                 $result = mysqli_query($conn, $sql);
+
+                $product_quantities = array();
+                foreach ($_SESSION["cart"] as $item) {
+                    $product_quantities[$item['product_id']] = $item['quantity'];
+                }
                 while ($row = mysqli_fetch_assoc($result)) {
                     ?>
                     <div class="row mb-4 " style="height: 100px">
@@ -53,19 +58,45 @@ $conn = Utility::connectionDatabase();
                             <a href="../pages/product_detail.php?id=<?= $row['ID'] ?>"><h5
                                         class="card-title"><?= $row['title'] ?></h5></a>
                         </div>
+
+                        <script>
+                            // Funkce pro zachycení události změny hodnoty vstupního pole
+                            function updateQuantityAutomatically(inputElement) {
+                                var quantity = inputElement.value;
+
+                                // Ověření, zda je množství nezáporné
+                                if (quantity < 0) {
+                                    alert('Množství nemůže být záporné.');
+                                    inputElement.value = 0; // Nastavíme hodnotu na 0
+                                } else {
+                                    inputElement.form.submit();
+                                }
+                            }
+                        </script>
                         <div class="col-2">
-                            <p>počet ks</p>
+
+                            <form action="../scripts/cart.php" method='post'>
+                                <input type='hidden' name='product_id' value='<?=$row["ID"]?>'>
+                                <input type='number' name='quantity' value='<?=$product_quantities[$row['ID']]?>' min="0" onchange='updateQuantityAutomatically(this)' class="w-50">
+                                <button type='submit' name='updateQuantity' style='display: none;'>Uložit</button>
+                                </form>
+                            <?php
+                            // Pokud je produkt v košíku, vypište jeho množství
+                            if (isset($product_quantities[$row['ID']])) {
+                                echo "<p>počet ks: {$product_quantities[$row['ID']]}</p>";
+                            }
+                            ?>
                         </div>
                         <div class="col-2">
-                            <div class="col">
-                                <p><?php if ($row["number_of_products"] > 5) echo "skladem: 9+ kusů";
-                                    elseif ($row["number_of_products"] > 4) echo "skladem: " . $row["number_of_products"] . " kusů";
-                                    elseif ($row["number_of_products"] > 1) echo "skladem: " . $row["number_of_products"] . " kusy";
-                                    elseif ($row["number_of_products"] == 1) echo "skladem: " . $row["number_of_products"] . " kus";
-                                    else echo "není skladem";
-
-                                    ?></p>
-                            </div>
+<!--                            <div class="col">-->
+<!--                                <p>--><?php //if ($row["number_of_products"] > 5) echo "skladem: 9+ kusů";
+//                                    elseif ($row["number_of_products"] > 4) echo "skladem: " . $row["number_of_products"] . " kusů";
+//                                    elseif ($row["number_of_products"] > 1) echo "skladem: " . $row["number_of_products"] . " kusy";
+//                                    elseif ($row["number_of_products"] == 1) echo "skladem: " . $row["number_of_products"] . " kus";
+//                                    else echo "není skladem";
+//
+//                                    ?><!--</p>-->
+<!--                            </div>-->
                         </div>
                         <?php
 

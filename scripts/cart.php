@@ -35,7 +35,9 @@ if (isset($_POST['addToCart'])) {
         );
     }
 
-    header("Location: ../pages/product.php?page=1 ");
+    // stay on current site using javaScript
+    echo "<script>window.history.go(-1);</script>";
+    exit();
 }
 if (isset($_POST['removeFromCart'])) {
     // Spustit session
@@ -64,8 +66,62 @@ if (isset($_POST['removeFromCart'])) {
 
     // Přesměrovat zpět na stránku košíku s ID produktu
     header("Location: ../pages/shoppingCart.php");
+    exit();
+
 }
+    session_start();
 
+    // Získání ID produktu a nového množství z formuláře
+    $product_id = $_POST['product_id'];
+    $new_quantity = $_POST['quantity'];
 
+    require_once ("Utility.php");
+    $conn = Utility::connectionDatabase();
+
+    // Získání dostupného množství produktu z databáze
+    $sql = "SELECT number_of_products FROM product WHERE ID = $product_id";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $available_quantity = $row['number_of_products'];
+
+    // Pokud je nové množství 0, odebereme položku z košíku
+    if ($new_quantity == 0) {
+        foreach ($_SESSION["cart"] as $key => $item) {
+            if ($item['product_id'] == $product_id) {
+                unset($_SESSION["cart"][$key]);
+                break;
+            }
+        }
+
+        if (empty($_SESSION["cart"])) {
+            unset($_SESSION["cart"]);
+        }
+
+    } else {
+        // Ověření, zda zadané množství nepřekračuje dostupné množství
+        if ($new_quantity <= $available_quantity) {
+            // Aktualizace množství produktu v session cart
+            foreach ($_SESSION["cart"] as &$item) {
+                if ($item['product_id'] == $product_id) {
+                    $item['quantity'] = $new_quantity;
+                    break;
+                }
+            }
+        } else {
+            // Pokud zadané množství překračuje dostupné množství, upravíme ho na maximálně dostupné množství
+            $new_quantity = $available_quantity;
+            echo "Upozornění: Zadané množství překračuje dostupné množství. Množství bylo automaticky sníženo na maximálně dostupné.";
+            // Aktualizace množství produktu v session cart
+            foreach ($_SESSION["cart"] as &$item) {
+                if ($item['product_id'] == $product_id) {
+                    $item['quantity'] = $new_quantity;
+                    break;
+                }
+            }
+        }
+    }
+
+    // Přesměrování na stejnou stránku (aktualizace)
+    header("Location: ../pages/shoppingCart.php");
 
 

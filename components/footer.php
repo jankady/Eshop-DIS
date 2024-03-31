@@ -38,10 +38,10 @@
 <!--     Copyright-->
     <div class="text-center p-3" >
         © <?= date("Y"); ?>:
-        <a class="text-body" href="https://mdbootstrap.com/">náš obchod</a>
+        <a class="text-body" href="https://spsoa.cz/">náš obchod</a>
         <?php
 //        session_start();
-        print_r($_SESSION["cart"]);
+//        print_r($_SESSION["cart"]);
 
 //        session_unset();
 
