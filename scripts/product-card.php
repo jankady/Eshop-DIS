@@ -15,7 +15,7 @@ class Product_card
         // is called when you click on Products in nav
         if ($sql == NULL) {
             $sql = "SELECT product.*, sale.discount_percent AS discount  FROM product
-                                  INNER JOIN sale ON product.ID_sale=sale.ID LIMIT ".$maxProducts." OFFSET ?"; // taky změnit
+                                  INNER JOIN sale ON product.ID_sale=sale.ID LIMIT " . $maxProducts . " OFFSET ?"; // taky změnit
 
             $stmt = $conn->prepare($sql);
             $stmt->bind_param('i', $currentPage);
@@ -24,7 +24,7 @@ class Product_card
             $result = $stmt->get_result();
             // is called for filtring
         } else {
-            $sql .= ' LIMIT '.$maxProducts.' OFFSET ' . $currentPage;   // změnit 6 na 30 jinak se zobrazuje 6 produktu
+            $sql .= ' LIMIT ' . $maxProducts . ' OFFSET ' . $currentPage;   // změnit 6 na 30 jinak se zobrazuje 6 produktu
             $result = mysqli_query($conn, $sql);
         }
 
@@ -75,17 +75,24 @@ class Product_card
                                             elseif ($row["number_of_products"] > 4) echo "skladem: " . $row["number_of_products"] . " kusů";
                                             elseif ($row["number_of_products"] > 1) echo "skladem: " . $row["number_of_products"] . " kusy";
                                             elseif ($row["number_of_products"] == 1) echo "skladem: " . $row["number_of_products"] . " kus";
-                                            else echo "není skladem";
+                                            else echo "<p class='text-warning'>není skladem</p>";
 
                                             ?></p>
                                     </div>
                                     <div class="">
-                                        <form action="../scripts/cart.php" method="post">
-                                            <button type="submit" name="addToCart" class="btn btn-primary">add to
-                                                cart
-                                            </button>
-                                            <input type="hidden" name="product_id" value='<?= $row["ID"] ?>'>
-                                        </form>
+                                        <?php
+                                        if ($row["number_of_products"] != 0) {
+                                            ?>
+                                            <form action="../scripts/cart.php" method="post">
+                                                <button type="submit" name="addToCart" class="btn btn-primary">add to
+                                                    cart
+                                                </button>
+                                                <input type="hidden" name="product_id" value='<?= $row["ID"] ?>'>
+                                            </form>
+                                            <?php
+                                        }
+                                        ?>
+
                                     </div>
                                 </div>
 

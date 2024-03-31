@@ -100,11 +100,20 @@ require_once("../components/nav.php");
                             </div>
                         </div>
                         <div class="col-md-6 align-self-center">
-                            <form action="../scripts/cart.php" method="post">
-                                <button type="submit" name="addToCart" class="btn btn-primary">add to cart</button>
-                                <input type="hidden" name="product_id" value='<?= $product["ID"] ?>'>
+                            <?php
 
-                            </form>
+                            if ($product["number_of_products"] != 0) {
+                                ?>
+                                <form action="../scripts/cart.php" method="post">
+                                    <button type="submit" name="addToCart" class="btn btn-primary">add to cart</button>
+                                    <input type="hidden" name="product_id" value='<?= $product["ID"] ?>'>
+                                </form>
+                                <?php
+                            } else {
+                                echo "<p class='text-warning'>není skladem</p>";
+                            }
+                            ?>
+
                         </div>
                     </div>
 
