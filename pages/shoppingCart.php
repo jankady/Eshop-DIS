@@ -46,6 +46,7 @@ $conn = Utility::connectionDatabase();
                 foreach ($_SESSION["cart"] as $item) {
                     $product_quantities[$item['product_id']] = $item['quantity'];
                 }
+                $totalCost=0;
                 while ($row = mysqli_fetch_assoc($result)) {
                     ?>
                     <div class="row mb-4 " style="height: 100px">
@@ -99,8 +100,14 @@ $conn = Utility::connectionDatabase();
 <!--                            </div>-->
                         </div>
                         <?php
+                        foreach ($_SESSION["cart"] as $item) {
 
-                        $quantity = 2; // change to real quantitiy
+                            if ($item['product_id'] == $row['ID']) {
+                                // Získáme množství a cenu pro danou položku
+                                $quantity = $item['quantity'];
+                                break;
+                            }
+                        }
 
                         if ($row["ID_sale"] != 1) {
                             $sale = Utility::calculatePrice($row["price"], $row["discount"]);
@@ -118,6 +125,7 @@ $conn = Utility::connectionDatabase();
                             </div>
 
                             <?php
+                            $totalCost+=$sale * $quantity;
                         } else {
                             $unsaledPrice = number_format($row["price"], 0, ',', ' ');
                             $finalUnsaledPrice = number_format($row["price"] * $quantity, 0, ',', ' ');
@@ -130,6 +138,7 @@ $conn = Utility::connectionDatabase();
                                 <p><strong><?= $finalUnsaledPrice ?></strong></p>
                             </div>
                             <?php
+                            $totalCost+=$row["price"] * $quantity;
                         }
                         ?>
 
@@ -140,9 +149,12 @@ $conn = Utility::connectionDatabase();
                             </form>
                         </div>
                     </div>
-
                     <?php
                 }
+                echo "<br>";
+                $totalCost = number_format($totalCost, 0, ',', ' ');
+
+                echo "<p><stroke>Celkem " . $totalCost . " Kč</stroke></p>";
 
             } else {
                 ?>

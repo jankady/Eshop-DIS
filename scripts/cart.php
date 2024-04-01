@@ -110,7 +110,6 @@ if (isset($_POST['removeFromCart'])) {
         } else {
             // Pokud zadané množství překračuje dostupné množství, upravíme ho na maximálně dostupné množství
             $new_quantity = $available_quantity;
-            echo "Upozornění: Zadané množství překračuje dostupné množství. Množství bylo automaticky sníženo na maximálně dostupné.";
             // Aktualizace množství produktu v session cart
             foreach ($_SESSION["cart"] as &$item) {
                 if ($item['product_id'] == $product_id) {
