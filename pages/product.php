@@ -126,7 +126,7 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         <script>
             $(document).ready(function() {
                 // Zachytíme kliknutí uživatele na jednotlivé možnosti
-                $('.show-products .col-md-4').click(function() {
+                $('.show-products .col-md-2').click(function() {
                     var sort_by = $(this).index() + 1; // Získáme pořadové číslo kliknutého sloupce (1, 2, 3)
                     var url = new URL(window.location.href); // Získáme URL adresu
                     url.searchParams.set('sort_by', sort_by); // Aktualizujeme hodnotu parametru sort_by
@@ -137,9 +137,10 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
         <div class="container text-center col-lg-9">
             <div class="row show-products w-50 text-center">
-                <div class="col-md-4"><a href="#" class="btn btn-link">Nejnovější</a></div>
-                <div class="col-md-4"><a href="#" class="btn btn-link">Nejlevnější</a></div>
-                <div class="col-md-4"><a href="#" class="btn btn-link">Nejdrahší</a></div>
+                <div class="col-md-2"><a href="#" class="btn btn-link">Nejnovější</a></div>
+                <div class="col-md-2"><a href="#" class="btn btn-link">Nejlevnější</a></div>
+                <div class="col-md-2"><a href="#" class="btn btn-link">Nejdrahší</a></div>
+                <div class="col-md-2"><a href="#" class="btn btn-link">Nejstarší</a></div>
             </div>
             <?php
             $card->product($filter->process());
