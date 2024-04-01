@@ -10,12 +10,13 @@ class Product_card
         $conn = Utility::connectionDatabase();
         $maxProducts = 6;
 
+        $sorted_by = $_GET['sort_by'];
         $currentPage = ($_GET['page'] - 1) * $maxProducts; // změnit 6 na 30 jinak se zobrazuje 6 produktu
 
         // is called when you click on Products in nav
         if ($sql == NULL) {
             $sql = "SELECT product.*, sale.discount_percent AS discount  FROM product
-                                  INNER JOIN sale ON product.ID_sale=sale.ID LIMIT " . $maxProducts . " OFFSET ?"; // taky změnit
+                                  INNER JOIN sale ON product.ID_sale=sale.ID ORDER BY product.ID DESC  LIMIT " . $maxProducts . " OFFSET ? "; // taky změnit
 
             $stmt = $conn->prepare($sql);
             $stmt->bind_param('i', $currentPage);
@@ -36,7 +37,7 @@ class Product_card
 //                echo var_dump($row);
                 ?>
                 <div class="col-4 mt-2 mb-2">
-                    <div class="card" style="max-width: 25rem; max-height: 40rem">
+                    <div class="card" style="max-width: 25rem; height: 31rem">
                         <a href="../pages/product_detail.php?id=<?= $row['ID'] ?>"><h5
                                     class="card-title"><?= $row['title'] ?></h5></a>
                         <div class="card-body">

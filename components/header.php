@@ -8,7 +8,7 @@ $activeElement = 1;
 ?>
 
 <header>
-    <div id="carouselExampleIndicators" class="carousel slide">
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
 
         <div class="carousel-inner">
             <?php
@@ -20,7 +20,7 @@ $activeElement = 1;
                 $price = number_format($price, 0, ',', ' ');
                 if ($activeElement == 1) {
                     ?>
-                    <div class="carousel-item active">
+                    <div class="carousel-item active" data-bs-interval="5000">
                         <a href="../pages/product_detail.php?id=<?= $row["ID"] ?>">
                             <img src="../<?= $row["picture"] ?>" class=" mx-auto h-50" alt="...">
                             <h5><?= $row["title"] ?></h5>
@@ -33,7 +33,7 @@ $activeElement = 1;
                     $activeElement++;
                 } else {
                     ?>
-                    <div class="carousel-item">
+                    <div class="carousel-item" data-bs-interval="5000">
                         <a href="../pages/product_detail.php?id=<?= $row["ID"] ?>">
                             <img src="../<?= $row["picture"] ?>" class=" mx-auto h-50" alt="...">
                             <h5><?= $row["title"] ?></h5>

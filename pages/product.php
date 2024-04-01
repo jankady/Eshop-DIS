@@ -43,6 +43,7 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         <div class="filter col-md-1 components">
             <form action="" method="get" onsubmit="return validateForm()">
                 <input type="hidden" name="page" value="1">
+                <input type="hidden" name="sort_by" value="1">
 
                 <div class="price-range">
                     <h4>Cena</h4>
@@ -120,11 +121,25 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
             </form>
 
         </div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                // Zachytíme kliknutí uživatele na jednotlivé možnosti
+                $('.show-products .col-md-4').click(function() {
+                    var sort_by = $(this).index() + 1; // Získáme pořadové číslo kliknutého sloupce (1, 2, 3)
+                    var url = new URL(window.location.href); // Získáme URL adresu
+                    url.searchParams.set('sort_by', sort_by); // Aktualizujeme hodnotu parametru sort_by
+                    window.location.href = url.href; // Přesměrujeme na stránku s aktualizovanými parametry
+                });
+            });
+        </script>
+
         <div class="container text-center col-lg-9">
             <div class="row show-products w-50 text-center">
-                <div class="col-md-4">Nejnovější</div>
-                <div class="col-md-4">Nejlevnější</div>
-                <div class="col-md-4">Nejdrahší</div>
+                <div class="col-md-4"><a href="#" class="btn btn-link">Nejnovější</a></div>
+                <div class="col-md-4"><a href="#" class="btn btn-link">Nejlevnější</a></div>
+                <div class="col-md-4"><a href="#" class="btn btn-link">Nejdrahší</a></div>
             </div>
             <?php
             $card->product($filter->process());

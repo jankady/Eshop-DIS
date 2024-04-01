@@ -100,7 +100,7 @@ class Filters
         // Check if the "clear_filters" button was clicked
         if (isset($_GET['clear_filters'])) {
             // Redirect back to the page without any filter parameters
-            header('Location: product.php?page=1');
+            header('Location: product.php?page=1&sort_by=1');
             exit;
         }
     }
