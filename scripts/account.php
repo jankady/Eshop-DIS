@@ -60,7 +60,6 @@ if (isset($_POST["registration_submit"])) {
         mysqli_stmt_bind_param($stmt_insert_customer, "sssissi", $firstname, $lastname, $email, $phone_number, $password_hash, $username, $address_id);
         mysqli_stmt_execute($stmt_insert_customer);
         mysqli_stmt_close($stmt_insert_customer);
-        mysqli_close($conn);
         header('Location: ../pages/login.php');
     } else {
         // Handle duplicate user data
@@ -140,4 +139,5 @@ if (isset($_POST["sign_out"])) {
     echo "<script>window.history.go(-1);</script>";
     exit();
 }
+mysqli_close($conn);
 ?>
