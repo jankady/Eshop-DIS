@@ -32,9 +32,22 @@
                 }
                 ?>
 
-                <li><a href="../pages/login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                <li><a href="../pages/registration.php"><span class="glyphicon glyphicon-log-in"></span> Register</a>
-                </li>
+                <?php
+                if ($_SESSION["logged_in"] == true) { ?>
+                    <li>
+                        <form method="post" action="../scripts/account.php">
+                        <button type="submit" name="sign_out" class="btn btn-primary">Sign Out</button>
+                        </form>
+                    </li>
+
+                    <?php
+                } else { ?>
+                    <li><a href="../pages/login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    <li><a href="../pages/registration.php"><span class="glyphicon glyphicon-log-in"></span>
+                            Register</a></li>
+                    <?php
+                }
+                ?>
             </ul>
         </div>
     </div>

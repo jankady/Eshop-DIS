@@ -62,9 +62,7 @@ if (isset($_POST["registration_submit"])) {
         mysqli_stmt_close($stmt_insert_customer);
         mysqli_close($conn);
         header('Location: ../pages/login.php');
-    }
-
-    else{
+    } else {
         // Handle duplicate user data
         $duplicate_message = "";
 
@@ -104,7 +102,7 @@ if (isset($_POST["registration_submit"])) {
 
 if (isset($_POST["login_submit"])) {
     // Zpracování přihlášení uživatele
-    if(isset($_POST['username']) && isset($_POST['password'])) {
+    if (isset($_POST['username']) && isset($_POST['password'])) {
         $password = $_POST['password'];
         $login_identity = mysqli_real_escape_string($conn, $_POST['username']); // Uživatelské jméno nebo email
 
@@ -120,8 +118,9 @@ if (isset($_POST["login_submit"])) {
             $user = mysqli_fetch_assoc($result_login);
             if (password_verify($password, $user['password'])) {
                 // Heslo je správné, přihlášení uživatele
-                echo "Přihlášen";
-                //header('Location: ../pages/index.php'); // Přesměrování na úvodní stránku po přihlášení
+                session_start();
+                $_SESSION["logged_in"] = true;
+                header('Location: ../pages/index.php'); // Přesměrování na úvodní stránku po přihlášení
                 exit();
             } else {
                 // Neplatné heslo
@@ -134,5 +133,11 @@ if (isset($_POST["login_submit"])) {
             exit();
         }
     }
+}
+
+if (isset($_POST["sign_out"])) {
+    $_SESSION["logged_in"]=false;
+    echo "<script>window.history.go(-1);</script>";
+    exit();
 }
 ?>

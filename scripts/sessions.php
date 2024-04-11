@@ -5,15 +5,15 @@ class SessionClass {
     {
         session_start();
 
-        $_SESSION["logged_in"]=false;
 
-        if (false) {
-            // setup loggin
-            $_SESSION["logged_in"]=true;
+        if ($_SESSION["logged_in"]==true) {
+        echo "přihlášen";
+        $_SESSION["logged_in"]=true;
 
-        }
+    }
         else {
-            echo "nejsi přihlašený";
+            echo "není přihlášen";
+            $_SESSION["logged_in"]=false;
         }
 
     }
