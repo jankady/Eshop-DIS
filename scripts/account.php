@@ -101,4 +101,7 @@ if (isset($_POST["registration_submit"])) {
         echo "<script>alert('{$duplicate_message}'); window.location='../pages/registration.php';</script>";
     }
 }
+
+if (isset($_POST["login_submit"])) {}
+
 ?>
