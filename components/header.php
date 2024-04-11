@@ -8,6 +8,13 @@ $activeElement = 1;
 ?>
 
 <header>
+
+    <?php
+    if($_SESSION["logged_in"] == true) { ?>
+        <h4>Ahoj, <?=$_SESSION["username"]?></h4>
+    <?php }
+    ?>
+
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
 
         <div class="carousel-inner">

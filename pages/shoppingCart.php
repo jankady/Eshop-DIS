@@ -76,7 +76,7 @@ $conn = Utility::connectionDatabase();
                         </script>
                         <div class="col-2">
 
-                            <form action="../scripts/cart.php" method='post'>
+                            <form action="../scripts/unlogined_cart.php" method='post'>
                                 <input type='hidden' name='product_id' value='<?=$row["ID"]?>'>
                                 <input type='number' name='quantity' value='<?=$product_quantities[$row['ID']]?>' min="0" onchange='updateQuantityAutomatically(this)' class="w-50">
                                 <button type='submit' name='updateQuantity' style='display: none;'>Uložit</button>
@@ -143,7 +143,7 @@ $conn = Utility::connectionDatabase();
                         ?>
 
                         <div class="col-1">
-                            <form action="../scripts/cart.php" method="post">
+                            <form action="../scripts/unlogined_cart.php" method="post">
                                 <input type="hidden" name="product_id" value="<?= $row['ID'] ?>">
                                 <button type="submit" class="btn btn-danger btn-sm" name="removeFromCart"></button>
                             </form>

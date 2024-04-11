@@ -8,9 +8,12 @@ if (isset($_POST["registration_submit"])) {
     // Sanitize user input to prevent SQL injection
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $phone_number = mysqli_real_escape_string($conn, $_POST['phone_number']);
+    $phone_number = preg_replace('/[^0-9]/', '', $phone_number); // Odstranění všech znaků kromě čísel
     $firstname = mysqli_real_escape_string($conn, $_POST['firstname']);
     $lastname = mysqli_real_escape_string($conn, $_POST['lastname']);
     $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $postal_code = mysqli_real_escape_string($conn, $_POST['postal_code']);
+    $postal_code = preg_replace('/[^0-9]/', '', $postal_code); // Odstranění všech znaků kromě čísel
 
     // Hash the password securely before storing it
     $password_hash = password_hash($_POST['password'], PASSWORD_DEFAULT);  // Use a strong hashing algorithm
@@ -19,7 +22,6 @@ if (isset($_POST["registration_submit"])) {
     $street = $_POST['street'];
     $house_number = $_POST['house_number'];
     $city = $_POST['city'];
-    $postal_code = $_POST['postal_code'];
 
     // Checking duplicate data for username, phone_number, and email
     $sql_duplicate_check = "SELECT COUNT(*) AS count FROM customer WHERE e_mail = ? OR tel_num = ? OR username = ?";
@@ -110,6 +112,7 @@ if (isset($_POST["login_submit"])) {
         $stmt_login = mysqli_prepare($conn, $sql_login);
         mysqli_stmt_bind_param($stmt_login, "ss", $login_identity, $login_identity);
         mysqli_stmt_execute($stmt_login);
+        //mysqli_stmt_close();
         $result_login = mysqli_stmt_get_result($stmt_login);
 
         if (mysqli_num_rows($result_login) == 1) {
@@ -119,6 +122,9 @@ if (isset($_POST["login_submit"])) {
                 // Heslo je správné, přihlášení uživatele
                 session_start();
                 $_SESSION["logged_in"] = true;
+                $_SESSION["username"] =$user["username"];
+                print_r($_SESSION["username"]);
+
                 header('Location: ../pages/index.php'); // Přesměrování na úvodní stránku po přihlášení
                 exit();
             } else {
@@ -137,6 +143,7 @@ if (isset($_POST["login_submit"])) {
 if (isset($_POST["sign_out"])) {
     session_start();
     $_SESSION["logged_in"]=false;
+    echo "odhlášen";
     echo "<script>window.history.go(-1);</script>";
     exit();
 }

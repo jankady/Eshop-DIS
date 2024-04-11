@@ -104,7 +104,7 @@ require_once("../components/nav.php");
 
                             if ($product["number_of_products"] != 0) {
                                 ?>
-                                <form action="../scripts/cart.php" method="post">
+                                <form action="../scripts/unlogined_cart.php" method="post">
                                     <button type="submit" name="addToCart" class="btn btn-primary">add to cart</button>
                                     <input type="hidden" name="product_id" value='<?= $product["ID"] ?>'>
                                 </form>
