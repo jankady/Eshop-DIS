@@ -1,19 +1,20 @@
 <?php
-class SessionClass {
+
+class SessionClass
+{
 
     public static function checkSessions(): void
     {
         session_start();
 
+        if ($_SESSION["logged_in"] == null || $_SESSION["logged_in"] == false) {
+            echo "není nastaveno nebo není přihlašený";
+            $_SESSION["logged_in"] = false;
 
-        if ($_SESSION["logged_in"]==true) {
-        echo "přihlášen";
-        $_SESSION["logged_in"]=true;
+        } else if ($_SESSION["logged_in"] == true) {
+            echo "přihlášen";
+            $_SESSION["logged_in"] = true;
 
-    }
-        else {
-            echo "není přihlášen";
-            $_SESSION["logged_in"]=false;
         }
 
     }

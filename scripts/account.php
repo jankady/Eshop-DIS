@@ -135,6 +135,7 @@ if (isset($_POST["login_submit"])) {
 }
 
 if (isset($_POST["sign_out"])) {
+    session_start();
     $_SESSION["logged_in"]=false;
     echo "<script>window.history.go(-1);</script>";
     exit();
