@@ -102,6 +102,39 @@ if (isset($_POST["registration_submit"])) {
     }
 }
 
-if (isset($_POST["login_submit"])) {}
+if (isset($_POST["login_submit"])) {
+    echo "test";
 
+    // Zpracování přihlášení uživatele
+
+    $login_identity = mysqli_real_escape_string($conn, $_POST['login_identity']); // Uživatelské jméno nebo email
+    $password = $_POST['password'];
+
+    // Vyhledání uživatele podle uživatelského jména nebo emailu
+    $sql_login = "SELECT * FROM customer WHERE username = ? OR e_mail = ?";
+    $stmt_login = mysqli_prepare($conn, $sql_login);
+    mysqli_stmt_bind_param($stmt_login, "ss", $login_identity, $login_identity);
+    mysqli_stmt_execute($stmt_login);
+    $result_login = mysqli_stmt_get_result($stmt_login);
+
+    if (mysqli_num_rows($result_login) == 1) {
+        // Uživatel nalezen, ověření hesla
+        $user = mysqli_fetch_assoc($result_login);
+        if (password_verify($password, $user['password'])) {
+            // Heslo je platné, přihlášení uživatele
+            session_start();
+            $_SESSION['user_id'] = $user['ID']; // Uložení ID uživatele do relační proměnné pro další použití
+            header('Location: ../pages/index.php'); // Přesměrování na úvodní stránku po přihlášení
+            exit();
+        } else {
+            // Neplatné heslo
+            echo "<script>alert('Neplatné heslo.'); window.location='../pages/login.php';</script>";
+            exit();
+        }
+    } else {
+        // Uživatel nenalezen
+        echo "<script>alert('Uživatel nenalezen.'); window.location='../pages/login.php';</script>";
+        exit();
+    }
+}
 ?>

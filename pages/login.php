@@ -30,7 +30,7 @@ require_once("../components/nav.php");
                     <?php echo $error_message; ?>
                 </div>
             <?php endif; ?>
-            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <form method="post" action="../scripts/account.php">
                 <div class="mb-3">
                     <label for="username" class="form-label">Uživatelské jméno nebo Email</label>
                     <input type="text" class="form-control" id="username" name="username" required>
@@ -40,7 +40,7 @@ require_once("../components/nav.php");
                     <input type="password" class="form-control" id="password" name="password" required>
                 </div>
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Přihlásit</button>
+                    <button type="submit" name="login_submit" class="btn btn-primary">Přihlásit</button>
                 </div>
             </form>
         </div>
