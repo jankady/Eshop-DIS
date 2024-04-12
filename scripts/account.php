@@ -61,7 +61,6 @@ if (isset($_POST["registration_submit"])) {
         $stmt_insert_customer = mysqli_prepare($conn, "INSERT INTO customer (name, surname, e_mail, tel_num, password, username, ID_address) VALUES (?, ?, ?, ?, ?, ?, ?)");
         mysqli_stmt_bind_param($stmt_insert_customer, "sssissi", $firstname, $lastname, $email, $phone_number, $password_hash, $username, $address_id);
         mysqli_stmt_execute($stmt_insert_customer);
-        mysqli_stmt_close($stmt_insert_customer);
 
         // Get the ID of the newly inserted customer
         $customer_id = mysqli_insert_id($conn);
