@@ -63,6 +63,16 @@ if (isset($_POST["registration_submit"])) {
         mysqli_stmt_execute($stmt_insert_customer);
         mysqli_stmt_close($stmt_insert_customer);
 
+        // Get the ID of the newly inserted customer
+        $customer_id = mysqli_insert_id($conn);
+        mysqli_stmt_close($stmt_insert_customer);
+
+        // Now, insert a corresponding record into the shopping_cart table
+        $stmt_insert_cart = mysqli_prepare($conn, "INSERT INTO shopping_cart (ID_customer) VALUES (?)");
+        mysqli_stmt_bind_param($stmt_insert_cart, "i", $customer_id);
+        mysqli_stmt_execute($stmt_insert_cart);
+        mysqli_stmt_close($stmt_insert_cart);
+
         header('Location: ../pages/login.php');
     } else {
         // Handle duplicate user data
