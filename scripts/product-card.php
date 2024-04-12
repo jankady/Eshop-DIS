@@ -99,7 +99,7 @@ class Product_card
                                         <?php
                                         if ($row["number_of_products"] != 0) {
                                             ?>
-                                            <form action="unlogined_cart.php" method="post">
+                                            <form action="../scripts/unlogined_cart.php" method="post">
                                                 <button type="submit" name="addToCart" class="btn btn-primary">add to
                                                     cart
                                                 </button>
