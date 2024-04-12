@@ -62,6 +62,7 @@ if (isset($_POST["registration_submit"])) {
         mysqli_stmt_bind_param($stmt_insert_customer, "sssissi", $firstname, $lastname, $email, $phone_number, $password_hash, $username, $address_id);
         mysqli_stmt_execute($stmt_insert_customer);
         mysqli_stmt_close($stmt_insert_customer);
+
         header('Location: ../pages/login.php');
     } else {
         // Handle duplicate user data
@@ -124,6 +125,7 @@ if (isset($_POST["login_submit"])) {
                 $_SESSION["logged_in"] = true;
                 $_SESSION["username"] =$user["username"];
                 print_r($_SESSION["username"]);
+                $_SESSION["user_id"] = $user["ID"];
 
                 header('Location: ../pages/index.php'); // Přesměrování na úvodní stránku po přihlášení
                 exit();
@@ -143,6 +145,8 @@ if (isset($_POST["login_submit"])) {
 if (isset($_POST["sign_out"])) {
     session_start();
     $_SESSION["logged_in"]=false;
+    $_SESSION["username"] = null;
+    $_SESSION["user_id"] = null;
     echo "odhlášen";
     echo "<script>window.history.go(-1);</script>";
     exit();
