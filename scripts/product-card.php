@@ -90,17 +90,28 @@ class Product_card
                                     </div>
                                     <div class="">
                                         <?php
-                                        if ($row["number_of_products"] != 0) {
+                                        if ($row["number_of_products"] != 0 && $_SESSION["logged_in"] == false) {
                                             ?>
+
                                             <form action="../scripts/unlogined_cart.php" method="post">
                                                 <button type="submit" name="addToCart" class="btn btn-primary">add to
                                                     cart
                                                 </button>
                                                 <input type="hidden" name="product_id" value='<?= $row["ID"] ?>'>
                                             </form>
+
+
+
                                             <?php
-                                        }
-                                        ?>
+                                        } elseif ($row["number_of_products"] != 0 && $_SESSION["logged_in"] == true){
+                                            ?>
+                                            <form action="../scripts/logined_cart.php" method="post">
+                                                <button type="submit" name="addToCart" class="btn btn-primary">add to
+                                                    cart
+                                                </button>
+                                                <input type="hidden" name="product_id" value='<?= $row["ID"] ?>'>
+                                            </form>
+                                        <?php } ?>
                                     </div>
                                 </div>
                             </div>
