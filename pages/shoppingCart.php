@@ -34,11 +34,11 @@ $conn = Utility::connectionDatabase();
                 $user_id = $_SESSION["user_id"];
 
                 // Připravit SQL dotaz pro získání záznamů z tabulky shopping_cart_item a potřebných atributů z tabulky product
-                $sql_items = "SELECT sci.ID, sci.quantity, p.title, p.picture, p.description, p.price, p.number_of_products, p.availability
+                $sql_items = "SELECT sci.ID, sci.quantity, p.title, p.picture, p.price, p.number_of_products, p.availability
                   FROM shopping_cart_item AS sci
                   INNER JOIN shopping_cart AS sc ON sci.ID_cart = sc.ID
                   INNER JOIN product AS p ON sci.ID_product = p.ID
-                  WHERE sc.ID_customer = ?";
+                  WHERE sc.ID_customer = ? AND p.availability >= CURDATE()";
                 $stmt_items = mysqli_prepare($conn, $sql_items);
                 mysqli_stmt_bind_param($stmt_items, "i", $user_id);
                 mysqli_stmt_execute($stmt_items);
@@ -46,14 +46,14 @@ $conn = Utility::connectionDatabase();
 
                 // Vypsat hodnoty získané z tabulky shopping_cart_item
                 echo "<table class='table'>";
-                echo "<thead><tr><th>ID</th><th>Quantity</th><th>Product</th><th>Picture</th><th>Price</th><th>Number of Products</th></tr></thead>";
+                echo "<thead><tr><th>ID</th><th>Quantity</th><th>Product</th><th>Picture</th><th>Price</th><th>Skladem</th></tr></thead>";
                 echo "<tbody>";
                 while ($row_item = mysqli_fetch_assoc($result_items)) {
                     echo "<tr>";
                     echo "<td>" . $row_item['ID'] . "</td>";
                     echo "<td>" . $row_item['quantity'] . "</td>";
                     echo "<td>" . $row_item['title'] . "</td>";
-                    echo "<td><img src='" . $row_item['picture'] . "' alt='Product Picture' style='width:100px;height:100px;'></td>";
+                    echo "<td><img src='../" . $row_item['picture'] . "' alt='Product Picture' style='width:100px;height:100px;'></td>";
                     echo "<td>" . $row_item['price'] . "</td>";
                     echo "<td>" . $row_item['number_of_products'] . "</td>";
                     echo "</tr>";
