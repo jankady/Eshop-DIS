@@ -7,67 +7,46 @@ if (isset($_POST['addToCart'])) {
     $conn = Utility::connectionDatabase();
 
     $product_id = $_POST["product_id"];
-
-
     $user_id = $_SESSION["user_id"];
 
+    // Připravit SQL dotaz s funkcí MAX() pro získání největšího ID z tabulky shopping_cart
+    $sql_cart = "SELECT MAX(ID) AS max_id FROM shopping_cart WHERE ID_customer = ?";
+    $stmt_cart = mysqli_prepare($conn, $sql_cart);
+    mysqli_stmt_bind_param($stmt_cart, "i", $user_id);
+    mysqli_stmt_execute($stmt_cart);
+    $result_cart = mysqli_stmt_get_result($stmt_cart);
+    $row_cart = mysqli_fetch_assoc($result_cart);
+    $cart_id = $row_cart['max_id'];
+    mysqli_stmt_close($stmt_cart);
 
-// Připravit SQL dotaz s funkcí MAX() pro získání největšího ID z tabulky shopping_cart
-    $sql = "SELECT MAX(ID) AS max_id FROM shopping_cart WHERE ID_customer = ?";
+    // Zkontrolovat, zda záznam s daným ID_product již existuje v tabulce shopping_cart_item
+    $sql_check_item = "SELECT * FROM shopping_cart_item WHERE ID_cart = ? AND ID_product = ?";
+    $stmt_check_item = mysqli_prepare($conn, $sql_check_item);
+    mysqli_stmt_bind_param($stmt_check_item, "ii", $cart_id, $product_id);
+    mysqli_stmt_execute($stmt_check_item);
+    $result_check_item = mysqli_stmt_get_result($stmt_check_item);
 
-// Připravit příkaz pro provedení připraveného SQL dotazu
-    $stmt = mysqli_prepare($conn, $sql);
-        // Vázat parametr pro ID uživatele na dotaz
-        mysqli_stmt_bind_param($stmt, "i", $user_id);
-        // Provést dotaz
-        mysqli_stmt_execute($stmt);
-        // Získat výsledek dotazu
-        $result = mysqli_stmt_get_result($stmt);
-        // Získat řádek výsledku jako asociativní pole
-        $row = mysqli_fetch_assoc($result);
-        // Získat největší ID záznamu z tabulky shopping_cart
-        $max_id = $row['max_id'];
-        // Uzavřít příkaz
-        mysqli_stmt_close($stmt);
-
-        // Zde můžete provést další akce s $max_id, například ho využít pro další operace v aplikaci
-        echo "Největší ID záznamu v tabulce shopping_cart pro uživatele s ID $user_id je: $max_id";
-
-
-
-    // stay on current site using javaScript
-//    echo "<script>window.history.go(-1);</script>";
-//    exit();
-}
-if (isset($_POST['removeFromCart'])) {
-    // Spustit session
-    session_start();
-
-    // Získat ID produktu
-    $product_id = $_POST['product_id'];
-
-    // Najít index produktu v košíku
-    foreach ($_SESSION["cart"] as $key => $item) {
-        if ($item['product_id'] == $product_id) {
-            $index = $key;
-            break;
-        }
+    if(mysqli_num_rows($result_check_item) > 0) {
+        // Pokud záznam existuje, aktualizujte množství o 1
+        $sql_update_quantity = "UPDATE shopping_cart_item SET quantity = quantity + 1 WHERE ID_cart = ? AND ID_product = ?";
+        $stmt_update_quantity = mysqli_prepare($conn, $sql_update_quantity);
+        mysqli_stmt_bind_param($stmt_update_quantity, "ii", $cart_id, $product_id);
+        mysqli_stmt_execute($stmt_update_quantity);
+        mysqli_stmt_close($stmt_update_quantity);
+    } else {
+        // Pokud záznam neexistuje, vložte nový záznam s množstvím 1
+        $sql_add_item = "INSERT INTO shopping_cart_item (ID_cart, ID_product, quantity) VALUES (?, ?, 1)";
+        $stmt_add_item = mysqli_prepare($conn, $sql_add_item);
+        mysqli_stmt_bind_param($stmt_add_item, "ii", $cart_id, $product_id);
+        mysqli_stmt_execute($stmt_add_item);
+        mysqli_stmt_close($stmt_add_item);
     }
 
-    // Odstranit produkt z pole košíku
-    if (isset($index)) {
-        unset($_SESSION["cart"][$index]);
-    }
+    echo "Produkt byl úspěšně přidán do košíku.";
 
-    // Odstranit session "cart" pokud je prázdná
-    if (empty($_SESSION["cart"])) {
-        unset($_SESSION["cart"]);
-    }
-
-    // Přesměrovat zpět na stránku košíku s ID produktu
-    header("Location: ../pages/shoppingCart.php");
-    exit();
-
+    // Zůstaňte na současné stránce pomocí JavaScriptu
+    // echo "<script>window.history.go(-1);</script>";
+    // exit();
 }
 //session_start();
 //
