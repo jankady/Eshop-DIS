@@ -5,7 +5,7 @@ if (isset($_POST['addToCart'])) {
 
     // odkazovani do kosiku nebo na produkty pres JAVASCRIPT - pak upravit
     // celkova cena uprava mnozstvi (pocitadlo) - hotovo
-    // odstranit z kosiku -
+    // odstranit z kosiku - hotovo
     // zmena ikony kosiku
     // skladem upravit
     // "Platba"
@@ -34,7 +34,7 @@ if (isset($_POST['addToCart'])) {
     mysqli_stmt_execute($stmt_check_item);
     $result_check_item = mysqli_stmt_get_result($stmt_check_item);
 
-    if(mysqli_num_rows($result_check_item) > 0) {
+    if (mysqli_num_rows($result_check_item) > 0) {
         // Pokud záznam existuje, aktualizujte množství o 1
         $sql_update_quantity = "UPDATE shopping_cart_item SET quantity = quantity + 1 WHERE ID_cart = ? AND ID_product = ?";
         $stmt_update_quantity = mysqli_prepare($conn, $sql_update_quantity);
@@ -50,9 +50,6 @@ if (isset($_POST['addToCart'])) {
         mysqli_stmt_close($stmt_add_item);
     }
 
-
-    // Postupy pro přidání položky do košíku...
-
     // JavaScript pro zobrazení dialogového okna
     echo '<script>
             if(confirm("Chcete pokračovat do košíku nebo zůstat na této stránce?")) {
@@ -62,6 +59,34 @@ if (isset($_POST['addToCart'])) {
             }
           </script>';
     exit();
+
+}
+
+if (isset($_POST['removeFromCart'])) {
+    $conn=Utility::connectionDatabase();
+    session_start();
+    // Získání ID produktu z formuláře
+    $product_id = $_POST['product_id'];
+
+    // Získání ID uživatele z session
+    $user_id = $_SESSION['user_id'];
+
+    // Příprava SQL dotazu pro odstranění produktu z košíku uživatele
+    $sql_remove_product = "DELETE FROM shopping_cart_item WHERE ID_product = ? AND ID_cart IN (SELECT ID FROM shopping_cart WHERE ID_customer = ?)";
+
+    echo"produkt:". $product_id;
+    echo " user:".$user_id;
+    // Příprava a provedení dotazu
+    $stmt_remove_product = mysqli_prepare($conn, $sql_remove_product);
+    mysqli_stmt_bind_param($stmt_remove_product, "ii", $product_id, $user_id);
+    mysqli_stmt_execute($stmt_remove_product);
+
+    // Zavřít přípravek
+    mysqli_stmt_close($stmt_remove_product);
+
+    // Přesměrování zpět na stránku košíku nebo jinou vhodnou stránku
+    header("Location: ../pages/shoppingCart.php");
+
 }
 
 //session_start();
