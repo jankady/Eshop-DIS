@@ -3,6 +3,14 @@ require_once("Utility.php");
 
 if (isset($_POST['addToCart'])) {
 
+    // odkazovani do kosiku nebo na produkty pres JAVASCRIPT - pak upravit
+    // celkova cena uprava mnozstvi (pocitadlo) - hotovo
+    // odstranit z kosiku -
+    // zmena ikony kosiku
+    // skladem upravit
+    // "Platba"
+    // doplnit databazi
+
     session_start();
     $conn = Utility::connectionDatabase();
 
@@ -42,12 +50,20 @@ if (isset($_POST['addToCart'])) {
         mysqli_stmt_close($stmt_add_item);
     }
 
-    echo "Produkt byl úspěšně přidán do košíku.";
 
-    // Zůstaňte na současné stránce pomocí JavaScriptu
-    // echo "<script>window.history.go(-1);</script>";
-    // exit();
+    // Postupy pro přidání položky do košíku...
+
+    // JavaScript pro zobrazení dialogového okna
+    echo '<script>
+            if(confirm("Chcete pokračovat do košíku nebo zůstat na této stránce?")) {
+                window.location.href = "../pages/shoppingCart.php"; // Pokud uživatel klikne na OK, přesměrujte ho do košíku
+            } else {
+                window.history.go(-1); // Pokud uživatel klikne na Zrušit, zůstaňte na současné stránce
+            }
+          </script>';
+    exit();
 }
+
 //session_start();
 //
 //// Získání ID produktu a nového množství z formuláře

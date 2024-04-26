@@ -51,11 +51,23 @@ $conn = Utility::connectionDatabase();
                 while ($row_item = mysqli_fetch_assoc($result_items)) {
                     echo "<tr>";
                     echo "<td>" . $row_item['ID'] . "</td>";
-                    echo "<td>" . $row_item['quantity'] . "</td>";
+                    echo "<td>
+            <form action='../scripts/logined_cart.php' method='post'>
+                <input type='hidden' name='product_id' value='" . $row_item['ID'] . "'>
+                <input type='number' name='quantity' value='" . $row_item['quantity'] . "' min='0' onchange='updateQuantityAutomatically(this)' class='w-50'>
+                <button type='submit' name='updateQuantity' style='display: none;'>Uložit</button>
+            </form>
+        </td>";
                     echo "<td>" . $row_item['title'] . "</td>";
                     echo "<td><img src='../" . $row_item['picture'] . "' alt='Product Picture' style='width:100px;height:100px;'></td>";
                     echo "<td>" . $row_item['price'] . "</td>";
                     echo "<td>" . $row_item['number_of_products'] . "</td>";
+                    echo "<td>
+                <form action='../scripts/logined_cart.php' method='post'>
+                    <input type='hidden' name='product_id' value='" . $row_item['ID'] . "'>
+                    <button type='submit' name='removeFromCart' class='btn btn-danger btn-sm'>Odstranit</button>
+                </form>
+            </td>";
                     echo "</tr>";
                 }
                 echo "</tbody></table>";
@@ -116,6 +128,7 @@ $conn = Utility::connectionDatabase();
                                 <input type='number' name='quantity' value='<?=$product_quantities[$row['ID']]?>' min="0" onchange='updateQuantityAutomatically(this)' class="w-50">
                                 <button type='submit' name='updateQuantity' style='display: none;'>Uložit</button>
                                 </form>
+
                             <?php
                             // Pokud je produkt v košíku, vypište jeho množství
                             if (isset($product_quantities[$row['ID']])) {

@@ -98,6 +98,9 @@ class Product_card
                                                     cart
                                                 </button>
                                                 <input type="hidden" name="product_id" value='<?= $row["ID"] ?>'>
+
+
+
                                             </form>
 
 
