@@ -35,8 +35,13 @@ if (isset($_POST['addToCart'])) {
         );
     }
 
-    // stay on current site using javaScript
-    echo "<script>window.history.go(-1);</script>";
+    echo '<script>
+            if(confirm("Chcete pokračovat do košíku nebo zůstat na této stránce?")) {
+                window.location.href = "../pages/shoppingCart.php"; // Pokud uživatel klikne na OK, přesměrujte ho do košíku
+            } else {
+                window.history.go(-1); // Pokud uživatel klikne na Zrušit, zůstaňte na současné stránce
+            }
+          </script>';
     exit();
 }
 if (isset($_POST['removeFromCart'])) {

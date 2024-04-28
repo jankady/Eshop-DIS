@@ -29,7 +29,52 @@ $conn = Utility::connectionDatabase();
         <div class="col-md-6 offset-md-3">
             <h2>Košík</h2>
             <?php
-            if (isset($_SESSION["cart"])) {
+
+            if ($_SESSION["logged_in"] == true) {
+                $user_id = $_SESSION["user_id"];
+
+                // Připravit SQL dotaz pro získání záznamů z tabulky shopping_cart_item a potřebných atributů z tabulky product
+                $sql_items = "SELECT sci.ID, sci.quantity, sci.ID_product, p.title, p.picture, p.price, p.number_of_products, p.availability FROM
+                              shopping_cart_item AS sci INNER JOIN shopping_cart AS sc ON sci.ID_cart = sc.ID 
+                                  INNER JOIN product AS p ON sci.ID_product = p.ID WHERE sc.ID_customer = ? AND p.availability >= CURDATE();";
+                $stmt_items = mysqli_prepare($conn, $sql_items);
+                mysqli_stmt_bind_param($stmt_items, "i", $user_id);
+                mysqli_stmt_execute($stmt_items);
+                $result_items = mysqli_stmt_get_result($stmt_items);
+
+                // Vypsat hodnoty získané z tabulky shopping_cart_item
+                echo "<table class='table'>";
+                echo "<thead><tr><th>ID</th><th>Quantity</th><th>Product</th><th>Picture</th><th>Price</th><th>Skladem</th></tr></thead>";
+                echo "<tbody>";
+                while ($row_item = mysqli_fetch_assoc($result_items)) {
+                    echo "<tr>";
+                    echo "<td>" . $row_item['ID'] . "</td>";
+                    echo "<td>
+            <form action='../scripts/logined_cart.php' method='post'>
+                <input type='hidden' name='product_id' value='" . $row_item['ID'] . "'>
+                <input type='number' name='quantity' value='" . $row_item['quantity'] . "' min='0' onchange='updateQuantityAutomatically(this)' class='w-50'>
+                <button type='submit' name='updateQuantity' style='display: none;'>Uložit</button>
+            </form>
+        </td>";
+                    echo "<td>" . $row_item['title'] . "</td>";
+                    echo "<td><img src='../" . $row_item['picture'] . "' alt='Product Picture' style='width:100px;height:100px;'></td>";
+                    echo "<td>" . $row_item['price'] . "</td>";
+                    echo "<td>" . $row_item['number_of_products'] . "</td>";
+                    echo "<td>
+                <form action='../scripts/logined_cart.php' method='post'>
+                    <input type='hidden' name='product_id' value='" . $row_item['ID_product'] . "'>
+                    <button type='submit' name='removeFromCart' class='btn btn-danger btn-sm'>Odstranit</button>
+                </form>
+            </td>";
+                    echo "</tr>";
+                }
+                echo "</tbody></table>";
+
+                mysqli_stmt_close($stmt_items);
+            }
+
+
+            elseif(isset($_SESSION["cart"])) {
                 // Extrahujte ID produktů z pole košíku
                 $product_ids = array_column($_SESSION["cart"], "product_id");
 
@@ -81,6 +126,7 @@ $conn = Utility::connectionDatabase();
                                 <input type='number' name='quantity' value='<?=$product_quantities[$row['ID']]?>' min="0" onchange='updateQuantityAutomatically(this)' class="w-50">
                                 <button type='submit' name='updateQuantity' style='display: none;'>Uložit</button>
                                 </form>
+
                             <?php
                             // Pokud je produkt v košíku, vypište jeho množství
                             if (isset($product_quantities[$row['ID']])) {

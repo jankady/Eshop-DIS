@@ -7,17 +7,19 @@ class SessionClass
     {
         session_start();
 
-        if ($_SESSION["logged_in"] == null || $_SESSION["logged_in"] == false) {
-            echo "není nastaveno nebo není přihlašený";
+        // Kontrola, zda je session inicializována
+        if (!isset($_SESSION["logged_in"])) {
+            echo "Session není inicializována nebo uživatel není přihlášený.";
             $_SESSION["logged_in"] = false;
-
-        } else if ($_SESSION["logged_in"] == true) {
-            echo "přihlášen";
+        } elseif ($_SESSION["logged_in"] == true) {
+            echo "Uživatel je přihlášen.";
             $_SESSION["logged_in"] = true;
-
+        } else {
+            echo "Uživatel není přihlášený.";
+            $_SESSION["logged_in"] = false;
         }
 
     }
-
-
 }
+
+?>

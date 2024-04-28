@@ -13,43 +13,37 @@ class Product_card
         $sorted_by = $_GET['sort_by'];
         $currentPage = ($_GET['page'] - 1) * $maxProducts; // změnit 6 na 30 jinak se zobrazuje 6 produktu
 
-        if ($sorted_by==1) {
+        if ($sorted_by == 1) {
             $sort = "ORDER BY product.ID DESC";
-        }
-        else if ($sorted_by==2) {
+        } elseif ($sorted_by == 2) {
             $sort = "ORDER BY product.price ASC";
-
-        }
-        else if ($sorted_by==3) {
+        } elseif ($sorted_by == 3) {
             $sort = "ORDER BY product.price DESC";
-
-        }
-        else if ($sorted_by==4) {
+        } elseif ($sorted_by == 4) {
             $sort = "ORDER BY product.ID ASC";
-
+        } else {
+            $sort = ""; // Pokud není definováno řazení, nevytváří se ORDER BY klauzule
         }
+
         // is called when you click on Products in nav
         if ($sql == NULL) {
-            $sql = "SELECT product.*, sale.discount_percent AS discount  FROM product
-                                  INNER JOIN sale ON product.ID_sale=sale.ID ".$sort."  LIMIT " . $maxProducts . " OFFSET ? "; // taky změnit
+            $sql = "SELECT product.*, sale.discount_percent AS discount FROM product
+                                  INNER JOIN sale ON product.ID_sale=sale.ID " . $sort . "  LIMIT " . $maxProducts . " OFFSET ? "; // taky změnit
 
             $stmt = $conn->prepare($sql);
             $stmt->bind_param('i', $currentPage);
             $stmt->execute();
 
             $result = $stmt->get_result();
-            // is called for filtring
         } else {
-            $sql .= $sort.' LIMIT ' . $maxProducts . ' OFFSET ' . $currentPage;   // změnit 6 na 30 jinak se zobrazuje 6 produktu
+            $sql .= " " . $sort . " LIMIT " . $maxProducts . " OFFSET " . $currentPage;   // změnit 6 na 30 jinak se zobrazuje 6 produktu
             $result = mysqli_query($conn, $sql);
         }
-
 
         ?>
         <div class="row">
             <?php
             while ($row = mysqli_fetch_assoc($result)) {
-//                echo var_dump($row);
                 ?>
                 <div class="col-4 mt-2 mb-2">
                     <div class="card" style="max-width: 25rem; height: 31rem">
@@ -69,7 +63,6 @@ class Product_card
                                     $salePricerFloat = number_format($salePrice, 0, ',', ' ');
 
                                     if ($row["ID_sale"] != 1) {
-
                                         ?>
                                         <!--  show sale if it there is any-->
                                         <p><?= "SALE " . $row["discount"] . "%" ?></p>
@@ -97,26 +90,37 @@ class Product_card
                                     </div>
                                     <div class="">
                                         <?php
-                                        if ($row["number_of_products"] != 0) {
+                                        if ($row["number_of_products"] != 0 && $_SESSION["logged_in"] == false) {
                                             ?>
-                                            <form action="unlogined_cart.php" method="post">
+
+                                            <form action="../scripts/unlogined_cart.php" method="post">
+                                                <button type="submit" name="addToCart" class="btn btn-primary">add to
+                                                    cart
+                                                </button>
+                                                <input type="hidden" name="product_id" value='<?= $row["ID"] ?>'>
+
+
+
+                                            </form>
+
+
+
+                                            <?php
+                                        } elseif ($row["number_of_products"] != 0 && $_SESSION["logged_in"] == true){
+                                            ?>
+                                            <form action="../scripts/logined_cart.php" method="post">
                                                 <button type="submit" name="addToCart" class="btn btn-primary">add to
                                                     cart
                                                 </button>
                                                 <input type="hidden" name="product_id" value='<?= $row["ID"] ?>'>
                                             </form>
-                                            <?php
-                                        }
-                                        ?>
-
+                                        <?php } ?>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <?php
             }
             ?>

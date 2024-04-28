@@ -61,7 +61,17 @@ if (isset($_POST["registration_submit"])) {
         $stmt_insert_customer = mysqli_prepare($conn, "INSERT INTO customer (name, surname, e_mail, tel_num, password, username, ID_address) VALUES (?, ?, ?, ?, ?, ?, ?)");
         mysqli_stmt_bind_param($stmt_insert_customer, "sssissi", $firstname, $lastname, $email, $phone_number, $password_hash, $username, $address_id);
         mysqli_stmt_execute($stmt_insert_customer);
+
+        // Get the ID of the newly inserted customer
+        $customer_id = mysqli_insert_id($conn);
         mysqli_stmt_close($stmt_insert_customer);
+
+        // Now, insert a corresponding record into the shopping_cart table
+        $stmt_insert_cart = mysqli_prepare($conn, "INSERT INTO shopping_cart (ID_customer) VALUES (?)");
+        mysqli_stmt_bind_param($stmt_insert_cart, "i", $customer_id);
+        mysqli_stmt_execute($stmt_insert_cart);
+        mysqli_stmt_close($stmt_insert_cart);
+
         header('Location: ../pages/login.php');
     } else {
         // Handle duplicate user data
@@ -124,6 +134,7 @@ if (isset($_POST["login_submit"])) {
                 $_SESSION["logged_in"] = true;
                 $_SESSION["username"] =$user["username"];
                 print_r($_SESSION["username"]);
+                $_SESSION["user_id"] = $user["ID"];
 
                 header('Location: ../pages/index.php'); // Přesměrování na úvodní stránku po přihlášení
                 exit();
@@ -143,6 +154,8 @@ if (isset($_POST["login_submit"])) {
 if (isset($_POST["sign_out"])) {
     session_start();
     $_SESSION["logged_in"]=false;
+    $_SESSION["username"] = null;
+    $_SESSION["user_id"] = null;
     echo "odhlášen";
     echo "<script>window.history.go(-1);</script>";
     exit();
