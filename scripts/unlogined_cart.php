@@ -35,13 +35,11 @@ if (isset($_POST['addToCart'])) {
         );
     }
 
-    echo '<script>
-            if(confirm("Chcete pokračovat do košíku nebo zůstat na této stránce?")) {
-                window.location.href = "../pages/shoppingCart.php"; // Pokud uživatel klikne na OK, přesměrujte ho do košíku
-            } else {
-                window.history.go(-1); // Pokud uživatel klikne na Zrušit, zůstaňte na současné stránce
-            }
-          </script>';
+    if (isset($_SERVER['HTTP_REFERER'])) {
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+    } else {
+        header("Location: ../index.php"); // If no referring page, redirect to index.php
+    }
     exit();
 }
 if (isset($_POST['removeFromCart'])) {
@@ -125,7 +123,11 @@ if (isset($_POST['removeFromCart'])) {
         }
     }
 
-    // Přesměrování na stejnou stránku (aktualizace)
-    header("Location: ../pages/shoppingCart.php");
+if (isset($_SERVER['HTTP_REFERER'])) {
+    header("Location: " . $_SERVER['HTTP_REFERER']);
+} else {
+    header("Location: ../index.php"); // If no referring page, redirect to index.php
+}
+exit();
 
 
