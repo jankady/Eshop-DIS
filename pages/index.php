@@ -26,7 +26,6 @@ require_once("../components/nav.php");
 <div class="container-fluid text-center" >
 
 
-    
 
 
 <?php

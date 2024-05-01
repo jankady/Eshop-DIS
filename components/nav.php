@@ -15,39 +15,53 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <?php
-                if (isset($_SESSION["cart"])) {
-                    ?>
-                    <li><a href="../pages/shoppingCart.php"><img src="../img/shopCart2.png" alt="">
-
-                        </a>
-                    </li>
-                    <?php
-                } else {
-                    ?>
-                    <li><a href="../pages/shoppingCart.php"><img src="../img/shopCart1.png" alt="">
-                        </a></li>
-
-                    <?php
-                }
-                ?>
 
                 <?php
-                if ($_SESSION["logged_in"] == true) { ?>
+                // Předpokládejme, že máte databázové připojení a uživatel je přihlášen
+                // Zde provedeme SQL dotaz, abychom zjistili, zda má uživatel něco v košíku
+                $user_id = $_SESSION["user_id"]; // Předpokládáme, že máte uloženo ID přihlášeného uživatele
+
+                $sql = "SELECT COUNT(*) AS cart_count FROM cart WHERE user_id = :user_id";
+                // Spusťte dotaz na databázi, zkontrolujte, zda uživatel má něco v košíku
+                // $result = mysqli_query($connection, $sql); // Předpokládáme, že používáte MySQLi
+
+                // Zde předpokládáme, že máte uložené výsledky dotazu a proměnnou $cart_count, která obsahuje počet položek v košíku
+                $cart_count = 5; // Například počet položek v košíku
+
+                if ($_SESSION["logged_in"] == true) {
+                    if ($cart_count > 0) {
+                        ?>
+                        <li><a href="../pages/shoppingCart.php"><img src="../img/shopCartFull.png" alt=""></a></li>
+                        <?php
+                    } else {
+                        ?>
+                        <li><a href="../pages/shoppingCart.php"><img src="../img/shopCartEmpty.png" alt=""></a></li>
+                        <?php
+                    }
+                    ?>
                     <li>
                         <form method="post" action="../scripts/account.php">
-                        <button type="submit" name="sign_out" class="btn btn-primary">Sign Out</button>
+                            <button type="submit" name="sign_out" class="btn btn-primary">Sign Out</button>
                         </form>
                     </li>
-
-                    <?php
-                } else { ?>
+                <?php } elseif ($_SESSION["logged_in"] == false) {
+                    if (isset($_SESSION["cart"])) {
+                        ?>
+                        <li><a href="../pages/shoppingCart.php"><img src="../img/shopCartFull.png" alt=""></a></li>
+                        <?php
+                    } else {
+                        ?>
+                        <li><a href="../pages/shoppingCart.php"><img src="../img/shopCartEmpty.png" alt=""></a></li>
+                        <?php
+                    }
+                    ?>
                     <li><a href="../pages/login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                     <li><a href="../pages/registration.php"><span class="glyphicon glyphicon-log-in"></span>
                             Register</a></li>
                     <?php
                 }
                 ?>
+
             </ul>
         </div>
     </div>
