@@ -17,16 +17,23 @@
             <ul class="nav navbar-nav navbar-right">
 
                 <?php
+                require_once ("../scripts/Utility.php");
+                $conn = Utility::connectionDatabase();
                 // Předpokládejme, že máte databázové připojení a uživatel je přihlášen
                 // Zde provedeme SQL dotaz, abychom zjistili, zda má uživatel něco v košíku
                 $user_id = $_SESSION["user_id"]; // Předpokládáme, že máte uloženo ID přihlášeného uživatele
 
-                $sql = "SELECT COUNT(*) AS cart_count FROM cart WHERE user_id = :user_id";
-                // Spusťte dotaz na databázi, zkontrolujte, zda uživatel má něco v košíku
-                // $result = mysqli_query($connection, $sql); // Předpokládáme, že používáte MySQLi
+                $sql = "SELECT COUNT(shopping_cart_item.ID_product) AS pocet_produktu
+FROM shopping_cart_item
+JOIN shopping_cart ON shopping_cart_item.ID_cart = shopping_cart.ID
+WHERE shopping_cart.ID_customer = ?";
 
-                // Zde předpokládáme, že máte uložené výsledky dotazu a proměnnou $cart_count, která obsahuje počet položek v košíku
-                $cart_count = 5; // Například počet položek v košíku
+                $stmt = $conn->prepare($sql);
+
+                $stmt->bind_param("s", $user_id);
+                $stmt->execute();
+                $stmt->bind_result($cart_count);
+                $stmt->fetch();
 
                 if ($_SESSION["logged_in"] == true) {
                     if ($cart_count > 0) {
@@ -110,9 +117,8 @@ if ($_SESSION["logged_in"] == true) {
 FROM shopping_cart sc
 JOIN shopping_cart_item sc_item ON sc.ID = sc_item.ID_cart
 WHERE sc.ID_customer = :customer_id;
-iArma
-Amogus
-ArmasOS
+
+
  *
  * <?php
 // Předpokládejme, že databázový dotaz vrátil 3 položky v košíku
