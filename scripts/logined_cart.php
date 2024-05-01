@@ -6,8 +6,8 @@ if (isset($_POST['addToCart'])) {
     // odkazovani do kosiku nebo na produkty pres JAVASCRIPT - pak upravit
     // celkova cena uprava mnozstvi (pocitadlo) - hotovo
     // odstranit z kosiku - hotovo
-    // zmena ikony kosiku
-    // skladem upravit
+    // zmena ikony kosiku - hotovo
+    // skladem upravit - hotovo
     // "Platba"
     // doplnit databazi
 

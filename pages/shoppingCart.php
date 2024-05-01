@@ -34,21 +34,38 @@ $conn = Utility::connectionDatabase();
                 $user_id = $_SESSION["user_id"];
 
                 // Připravit SQL dotaz pro získání záznamů z tabulky shopping_cart_item a potřebných atributů z tabulky product
-                $sql_items = "SELECT sci.ID, sci.quantity, sci.ID_product, p.title, p.picture, p.price, p.number_of_products, p.availability FROM
-                              shopping_cart_item AS sci INNER JOIN shopping_cart AS sc ON sci.ID_cart = sc.ID 
-                                  INNER JOIN product AS p ON sci.ID_product = p.ID WHERE sc.ID_customer = ? AND p.availability >= CURDATE();";
+                $sql_items = "SELECT sci.ID, sci.quantity, sci.ID_product, p.title, p.picture, p.price, p.number_of_products, p.availability 
+                  FROM shopping_cart_item AS sci 
+                  INNER JOIN shopping_cart AS sc ON sci.ID_cart = sc.ID 
+                  INNER JOIN product AS p ON sci.ID_product = p.ID 
+                  WHERE sc.ID_customer = ? AND p.availability >= CURDATE();";
                 $stmt_items = mysqli_prepare($conn, $sql_items);
                 mysqli_stmt_bind_param($stmt_items, "i", $user_id);
                 mysqli_stmt_execute($stmt_items);
                 $result_items = mysqli_stmt_get_result($stmt_items);
 
+                // Inicializace celkové ceny košíku
+                $total_price = 0;
+
                 // Vypsat hodnoty získané z tabulky shopping_cart_item
                 echo "<table class='table'>";
-                echo "<thead><tr><th>ID</th><th>Quantity</th><th>Product</th><th>Picture</th><th>Price</th><th>Skladem</th></tr></thead>";
+                echo "<thead><tr><th>Picture</th><th>Product</th><th>Skladem</th><th>Quantity</th><th>Price</th><th>Total Price</th><th>Action</th></tr></thead>";
                 echo "<tbody>";
                 while ($row_item = mysqli_fetch_assoc($result_items)) {
                     echo "<tr>";
-                    echo "<td>" . $row_item['ID'] . "</td>";
+                    echo "<td><img src='../" . $row_item['picture'] . "' alt='Product Picture' style='width:100px;height:100px;'></td>";
+                    echo "<td>" . $row_item['title'] . "</td>";
+
+                    // Logika pro vypsání dostupnosti produktu
+                    $availability = $row_item['number_of_products'];
+                    if ($availability >= 9) {
+                        echo "<td style='color:green;'>Skladem: 9+</td>";
+                    } elseif ($availability > 5) {
+                        echo "<td style='color:green;'>Skladem: 5+</td>";
+                    } else {
+                        echo "<td style='color:green;'>Skladem: " . $availability . "</td>";
+                    }
+
                     echo "<td>
             <form action='../scripts/logined_cart.php' method='post'>
                 <input type='hidden' name='product_id' value='" . $row_item['ID'] . "'>
@@ -56,19 +73,27 @@ $conn = Utility::connectionDatabase();
                 <button type='submit' name='updateQuantity' style='display: none;'>Uložit</button>
             </form>
         </td>";
-                    echo "<td>" . $row_item['title'] . "</td>";
-                    echo "<td><img src='../" . $row_item['picture'] . "' alt='Product Picture' style='width:100px;height:100px;'></td>";
-                    echo "<td>" . $row_item['price'] . "</td>";
-                    echo "<td>" . $row_item['number_of_products'] . "</td>";
+                    echo "<td><strong>" . number_format($row_item['price'], 0, ',', ' ') . " Kč</strong></td>";
+
+                    // Výpočet ceny za všechny kusy
+                    $item_total_price = $row_item['price'] * $row_item['quantity'];
+                    echo "<td id='item_total_price_" . $row_item['ID'] . "'><strong>" . number_format($item_total_price, 0, ',', ' ') . " Kč</strong></td>";
+
                     echo "<td>
-                <form action='../scripts/logined_cart.php' method='post'>
-                    <input type='hidden' name='product_id' value='" . $row_item['ID_product'] . "'>
-                    <button type='submit' name='removeFromCart' class='btn btn-danger btn-sm'>Odstranit</button>
-                </form>
-            </td>";
+            <form action='../scripts/logined_cart.php' method='post'>
+                <input type='hidden' name='product_id' value='" . $row_item['ID_product'] . "'>
+                <button type='submit' name='removeFromCart' class='btn btn-danger btn-sm'>Odstranit</button>
+            </form>
+        </td>";
                     echo "</tr>";
+
+                    // Přidat cenu aktuální položky k celkové ceně košíku
+                    $total_price += $item_total_price;
                 }
                 echo "</tbody></table>";
+
+                // Vypsat celkovou cenu košíku
+                echo "<p id='total_price'><strong>Celková cena košíku: " . number_format($total_price, 0, ',', ' ') . " Kč</strong></p>";
 
                 mysqli_stmt_close($stmt_items);
             }
