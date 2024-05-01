@@ -35,10 +35,10 @@ $conn = Utility::connectionDatabase();
 
                 // Připravit SQL dotaz pro získání záznamů z tabulky shopping_cart_item a potřebných atributů z tabulky product
                 $sql_items = "SELECT sci.ID, sci.quantity, sci.ID_product, p.title, p.picture, p.price, p.number_of_products, p.availability 
-                  FROM shopping_cart_item AS sci 
-                  INNER JOIN shopping_cart AS sc ON sci.ID_cart = sc.ID 
-                  INNER JOIN product AS p ON sci.ID_product = p.ID 
-                  WHERE sc.ID_customer = ? AND p.availability >= CURDATE();";
+        FROM shopping_cart_item AS sci 
+        INNER JOIN shopping_cart AS sc ON sci.ID_cart = sc.ID 
+        INNER JOIN product AS p ON sci.ID_product = p.ID 
+        WHERE sc.ID_customer = ? AND p.availability >= CURDATE();";
                 $stmt_items = mysqli_prepare($conn, $sql_items);
                 mysqli_stmt_bind_param($stmt_items, "i", $user_id);
                 mysqli_stmt_execute($stmt_items);
@@ -102,13 +102,10 @@ $conn = Utility::connectionDatabase();
             // Vypsat celkovou cenu košíku
             echo "<p id='total_price'><strong>Celková cena košíku: " . number_format($total_price, 0, ',', ' ') . " Kč</strong></p>";
 
-                mysqli_stmt_close($stmt_items);
-            }
-
-
-            elseif(isset($_SESSION["cart"])) {
-                // Extrahujte ID produktů z pole košíku
-                $product_ids = array_column($_SESSION["cart"], "product_id");
+            mysqli_stmt_close($stmt_items);
+            } elseif (isset($_SESSION["cart"])) {
+            // Extrahujte ID produktů z pole košíku
+            $product_ids = array_column($_SESSION["cart"], "product_id");
 
             $product_id_arr = implode(', ', $product_ids);
 
