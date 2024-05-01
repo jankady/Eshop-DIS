@@ -50,6 +50,7 @@ if (isset($_POST['addToCart'])) {
         mysqli_stmt_close($stmt_add_item);
     }
 
+    mysqli_close($conn);
     if (isset($_SERVER['HTTP_REFERER'])) {
         header("Location: " . $_SERVER['HTTP_REFERER']);
     } else {
@@ -80,6 +81,7 @@ if (isset($_POST['removeFromCart'])) {
     // Zavřít přípravek
     mysqli_stmt_close($stmt_remove_product);
 
+    mysqli_close($conn);
     if (isset($_SERVER['HTTP_REFERER'])) {
         header("Location: " . $_SERVER['HTTP_REFERER']);
     } else {
@@ -89,58 +91,44 @@ if (isset($_POST['removeFromCart'])) {
 
 }
 
-//session_start();
-//
-//// Získání ID produktu a nového množství z formuláře
-//$product_id = $_POST['product_id'];
-//$new_quantity = $_POST['quantity'];
-//
-//require_once("Utility.php");
-//$conn = Utility::connectionDatabase();
-//
-//// Získání dostupného množství produktu z databáze
-//$sql = "SELECT number_of_products FROM product WHERE ID = $product_id";
-//$result = mysqli_query($conn, $sql);
-//$row = mysqli_fetch_assoc($result);
-//$available_quantity = $row['number_of_products'];
-//
-//// Pokud je nové množství 0, odebereme položku z košíku
-//if ($new_quantity == 0) {
-//    foreach ($_SESSION["cart"] as $key => $item) {
-//        if ($item['product_id'] == $product_id) {
-//            unset($_SESSION["cart"][$key]);
-//            break;
-//        }
-//    }
-//
-//    if (empty($_SESSION["cart"])) {
-//        unset($_SESSION["cart"]);
-//    }
-//
-//} else {
-//    // Ověření, zda zadané množství nepřekračuje dostupné množství
-//    if ($new_quantity <= $available_quantity) {
-//        // Aktualizace množství produktu v session cart
-//        foreach ($_SESSION["cart"] as &$item) {
-//            if ($item['product_id'] == $product_id) {
-//                $item['quantity'] = $new_quantity;
-//                break;
-//            }
-//        }
-//    } else {
-//        // Pokud zadané množství překračuje dostupné množství, upravíme ho na maximálně dostupné množství
-//        $new_quantity = $available_quantity;
-//        // Aktualizace množství produktu v session cart
-//        foreach ($_SESSION["cart"] as &$item) {
-//            if ($item['product_id'] == $product_id) {
-//                $item['quantity'] = $new_quantity;
-//                break;
-//            }
-//        }
-//    }
-//}
-//
-//// Přesměrování na stejnou stránku (aktualizace)
-//header("Location: ../pages/shoppingCart.php");
+if(isset($_POST['product_id'], $_POST['quantity'])) {
+    // Získání ID aktuálně přihlášeného uživatele z relace
+    session_start();
+    if(isset($_SESSION["user_id"])) {
+        $user_id = $_SESSION["user_id"];
+
+        $conn = Utility::connectionDatabase();
+
+        // Přijměte data z formuláře
+        $product_id = $_POST['product_id'];
+        $quantity = $_POST['quantity'];
+
+        echo $product_id;
+
+        echo $quantity;
+
+        // Získání nejvyššího ID nákupního košíku pro daného uživatele
+        $sql_cart = "SELECT MAX(ID) AS max_id FROM shopping_cart WHERE ID_customer = ?";
+        $stmt_cart = mysqli_prepare($conn, $sql_cart);
+        mysqli_stmt_bind_param($stmt_cart, "i", $user_id);
+        mysqli_stmt_execute($stmt_cart);
+        $result_cart = mysqli_stmt_get_result($stmt_cart);
+        $row_cart = mysqli_fetch_assoc($result_cart);
+        $cart_id = $row_cart['max_id'];
+        mysqli_stmt_close($stmt_cart);
+
+        // Aktualizace množství pouze u konkrétního produktu v nákupním košíku
+        $sql_update_quantity = "UPDATE shopping_cart_item SET quantity = ? WHERE ID_cart = ? AND ID_product = ?";
+        $stmt_update_quantity = mysqli_prepare($conn, $sql_update_quantity);
+        mysqli_stmt_bind_param($stmt_update_quantity, "iii", $quantity, $cart_id, $product_id);
+        mysqli_stmt_execute($stmt_update_quantity);
+        mysqli_stmt_close($stmt_update_quantity);
+
+        mysqli_close($conn);
+        // Přesměrování zpět na stránku s nákupním košíkem
+        header("Location: ../pages/shoppingCart.php");
+        exit();
+    }
+}
 
 
