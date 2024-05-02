@@ -1,4 +1,20 @@
 .logine, .registre{
     border: black solid 1px;
-    width: 50px;
+    width: 80px;
+    margin-left: 50px;
+    padding: 4px;
+    border-radius: 15px;
+    padding-left: 8px;
+    padding-right: 8px;
+margin-right: 12px;
 }
+.registre:hover{
+    background: rgba(0,127,255,0.35);
+    -webkit-backdrop-filter: blur(28px);
+    backdrop-filter: blur(28px);
+    border: 1px solid rgba(0,127,255,0.175);}
+.logine:hover{
+    background: rgba(0,127,255,0.35);
+    -webkit-backdrop-filter: blur(28px);
+    backdrop-filter: blur(28px);
+    border: 1px solid rgba(0,127,255,0.175);}

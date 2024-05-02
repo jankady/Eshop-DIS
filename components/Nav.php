@@ -69,10 +69,10 @@
                     ?>
                     <li style="margin-top: 10px"><a href="../pages/Login.php"
                                                    style="text-decoration: none; color: #1a1d20" class="logine"><span
-                                    class="glyphicon glyphicon-log-in " style="margin-left: 50px"></span > Přihlásit se</a></li>
-                    <li style=" margin-right: 50px; margin-top: 10px"><a href="../pages/Registration.php"
+                                    class="glyphicon glyphicon-log-in "></span > Přihlásit se</a></li>
+                    <li style=" margin-top: 10px"><a href="../pages/Registration.php"
                                                                         style="text-decoration: none; color: #1a1d20" class="registre"><span
-                                    class="glyphicon glyphicon-log-in " style="margin-left: 20px"></span>
+                                    class="glyphicon glyphicon-log-in " ></span>
                             Registrace</a></li>
                     <?php
                 }
