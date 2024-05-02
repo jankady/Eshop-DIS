@@ -53,7 +53,7 @@ class Product_card
                             <a href="../pages/product_detail.php?id=<?= $row['ID'] ?>"><img
                                         src="../<?= $row['picture'] ?>" class="card-img-top" alt="<?= $row['title'] ?>"></a>
                             <div class="productInfo">
-                                <p class="card-text"><?= $row['description'] ?></p>
+                                <p class="card-text"><?= implode(' ', array_slice(str_word_count($row['description'], 1), 0, 100)) ?></p>
                             </div>
                             <div class="card-text row">
                                 <div class="priceNumber col align-content-center">

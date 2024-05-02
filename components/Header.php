@@ -27,7 +27,7 @@ $activeElement = 1;
                 $price = number_format($price, 0, ',', ' ');
                 if ($activeElement == 1) {
                     ?>
-                    <div class="carousel-item active" data-bs-interval="5000">
+                    <div class="carousel-item active" data-bs-interval="2000">
                         <a href="../pages/product_detail.php?id=<?= $row["ID"] ?>">
                             <img src="../<?= $row["picture"] ?>" class="" height="250px" alt="...">
                             <h5><?= $row["title"] ?></h5>
@@ -40,7 +40,7 @@ $activeElement = 1;
                     $activeElement++;
                 } else {
                     ?>
-                    <div class="carousel-item" data-bs-interval="5000">
+                    <div class="carousel-item" data-bs-interval="2000">
                         <a href="../pages/product_detail.php?id=<?= $row["ID"] ?>">
                             <img src="../<?= $row["picture"] ?>" class=" " height="250px" alt="...">
                             <h5><?= $row["title"] ?></h5>
