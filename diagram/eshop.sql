@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Čtv 02. kvě 2024, 22:26
+-- Vytvořeno: Pát 03. kvě 2024, 00:31
 -- Verze serveru: 10.4.32-MariaDB
 -- Verze PHP: 8.2.12
 
@@ -197,7 +197,7 @@ INSERT INTO `product` (`ID`, `title`, `picture`, `description`, `price`, `number
 (2, 'ASUS Vivobook Pro 16 OLED K6602VU-OLED006W Quiet Blue kovový + 3 měsíce Adobe Creative Cloud', 'img/products/ASUSVivoBook.png', 'Notebook - Intel Core i9 13900H Raptor Lake, 16\" OLED lesklý 3200 × 2000 120Hz, RAM 16GB DDR5, NVIDIA GeForce RTX 4050 6GB 65 W (MUX Switch), SSD 1000GB, numerická klávesnice, podsvícená klávesnice, webkamera, USB 3.2 Gen 1, USB-C, čtečka otisků prstů, WiFi 6E, Hmotnost 1,9 kg, Windows 11 Home', 47999, 2, '2026-01-14', 2, 2, 2),
 (3, 'Huawei P50 Pocket bílá', 'img/products/HuaweiP50.jpg', 'Mobilní telefon - 6,9\" OLED 2790 × 1188, 120Hz, procesor Qualcomm Snapdragon 888 8jádrový, RAM 8 GB, interní paměť 256 GB, zadní fotoaparát 40 Mpx (f/1,8) + 13 Mpx (f/2,2) + 32 Mpx (f/1,8), přední fotoaparát 10,7 Mpx, elektronická stabilizace, GPS, Glonass, NFC, LTE, USB-C, čtečka otisků, hybridní slot, neblokovaný, rychlé nabíjení 40W, baterie 4000 mAh, Android 11', 18460, 0, '2026-01-22', 1, 1, 3),
 (4, 'Lenovo Tab M11 4GB + 128GB Luna Grey + aktivní stylus Lenovo', 'img/products/LenovoTabP12.png', 'Tablet - displej 11\" 1920 × 1200 IPS, MediaTek Helio G88 2 GHz, RAM 4 GB, kapacita úložiště 128 GB, paměťová karta až 1024 GB, WiFi, Bluetooth, GPS, zadní fotoaparát 8 Mpx, přední fotoaparát 8 Mpx, USB-C, 15W rychlé nabíjení, baterie 7040 mAh, Android 13', 4893, 15, '2024-01-19', 1, 3, 4),
-(5, 'MacBook Air 13\" M1 CZ Vesmírně Šedý 2020', 'img/products/MacBook.png', 'MacBook - Apple M1, 13,3\" IPS lesklý 2560 × 1600 px, RAM 8GB, Apple M1 7jádrová GPU, SSD 256GB, podsvícená klávesnice, webkamera, USB-C, čtečka otisků prstů, WiFi 6, hmotnost 1,25 kg, macOS', 24599, 3, '2028-03-10', 2, 2, 1),
+(5, 'MacBook Air 13\" M1 CZ Vesmírně Šedý 2020', 'img/products/Macbook13.jpg', 'MacBook - Apple M1, 13,3\" IPS lesklý 2560 × 1600 px, RAM 8GB, Apple M1 7jádrová GPU, SSD 256GB, podsvícená klávesnice, webkamera, USB-C, čtečka otisků prstů, WiFi 6, hmotnost 1,25 kg, macOS', 24599, 3, '2028-03-10', 2, 2, 1),
 (6, 'Samsung A30 ', 'img/products/SamsungGalaxyA5.jpg', 'Mobilní telefon - 6,7\" PLS 2400 × 1080 (90Hz), operační paměť 4 GB, vnitřní paměť 128 GB, dual SIM + paměťová karta, procesor Qualcomm Snapdragon 680 4G, fotoaparát: 50Mpx (f/1,8) hlavní + 2Mpx makro, přední kamera 13Mpx, čtečka otisků prstů, GPS, LTE, Jack (3,5mm) a USB-C, rychlé nabíjení 25W, baterie 5000 mAh, model 2023, Android', 4269, 12, '2026-01-16', 1, 1, 5),
 (7, 'Xiaomi Redmi Note 9 LTE 64GB zelená', 'img/products/XiaomiRedmiNote9.png', 'Mobilní telefon - 6,53\" IPS 2340 × 1080, procesor MediaTek Helio G85 8jádrový, RAM 3 GB, interní paměť 64 GB, Micro SD až 512 GB, zadní fotoaparát 48 Mpx (f/1,79) + 8 Mpx (f/2,2) + 2 Mpx (f/2,4) + 2 Mpx (f/2,4), přední fotoaparát 13 Mpx, elektronická stabilizace, GPS, Glonass, IrDA, NFC, LTE, Jack (3,5mm) a USB-C, čtečka otisků, dual SIM, neblokovaný, rychlé nabíjení 18W, baterie 5020 mAh, Android 10', 7899, 4, '2026-03-19', 2, 1, 6),
 (8, 'Samsung Galaxy Tab S7+ 5G modrý', 'img/products/SamsungGalaxyTabS7.png', 'Tablet - displej 12,4\" QHD 2800 × 1752 Super AMOLED, Qualcomm Snapdragon 865+ 3,09 GHz, RAM 6 GB, interní paměť 128 GB, paměťová karta až 1000 GB, WiFi, Bluetooth, GPS, 5G, zadní fotoaparát 13 Mpx (f/2), přední fotoaparát 8 Mpx (f/2), USB-C, výdrž až 15 h, rychlé nabíjení 45W, baterie 10090 mAh, Android 10', 28490, 99, '2026-04-09', 1, 3, 5),
@@ -222,7 +222,7 @@ INSERT INTO `product` (`ID`, `title`, `picture`, `description`, `price`, `number
 (28, 'HTC Vive Pro 2 Full Kit', 'img/products/HTCPro.jpg', 'VR brýle k počítači - celkové rozlišení 4K 4896 × 2448 px, obnovovací frekvence 120 Hz, s mikrofonem, připojení skrze Bluetooth, USB-C a DisplayPort, zorné pole 120°, ovladač součástí balení', 33990, 2, '2026-05-14', 1, 13, 25),
 (29, 'HTC Vive XR Elite', 'img/products/HTCXR.jpg', 'VR brýle - obnovovací frekvence 90 Hz, připojení skrze Wi-Fi a USB-C, zorné pole 110°, černá barva', 34990, 10, '2026-05-14', 1, 13, 25),
 (30, 'HTC Vive Focus 3 Business Edition', 'img/products/HTCBusiness.jpg', 'VR brýle - samostatně fungující, LCD displej, celkové rozlišení 4K 4896 × 2448 px, obnovovací frekvence 90 Hz, s mikrofonem, připojení skrze Bluetooth, Wi-Fi a USB-C, zorné pole 120°, gyroskop, g-senzor a proximity senzor, Snapdragon XR2 Gen 1, úložiště 128 GB, RAM 8 GB, černá barva, ovladač součástí balení', 35900, 4, '2025-07-08', 1, 13, 25),
-(31, 'MacBook Air 13\" M1 CZ Zlatý 2020', 'img/products/Macbook13', 'MacBook - Apple M1, 13,3\" IPS lesklý 2560 × 1600 px, RAM 8GB, Apple M1 7jádrová GPU, SSD 256GB, podsvícená klávesnice, webkamera, USB-C, čtečka otisků prstů, WiFi 6, hmotnost 1,25 kg, macOS', 19990, 10, '2026-05-14', 1, 2, 1),
+(31, 'MacBook Air 13\" M1 CZ Zlatý 2020', 'img/products/Macbook13.jpg', 'MacBook - Apple M1, 13,3\" IPS lesklý 2560 × 1600 px, RAM 8GB, Apple M1 7jádrová GPU, SSD 256GB, podsvícená klávesnice, webkamera, USB-C, čtečka otisků prstů, WiFi 6, hmotnost 1,25 kg, macOS', 19990, 10, '2026-05-14', 1, 2, 1),
 (32, 'MacBook Pro 16\" M3 MAX CZ 2023 Vesmírně černý', 'img/products/MacPro.jpg', 'MacBook - Apple M3 Max (16jádrový), 16,2\" Liquid Retina XDR lesklý 3456 × 2234 px, 120 Hz, RAM 128GB, Apple M3 MAX 40jádrová GPU, SSD 8000GB, podsvícená klávesnice, webkamera, WiFi 6E, Bluetooth, hmotnost 2,16 kg, macOS', 215990, 2, '2026-05-14', 1, 2, 1),
 (33, 'MacBook Pro 16\" M1 MAX CZ 2021 Stříbrný', 'img/products/MacProM1.jpg', 'MacBook - Apple M1 MAX, 16,2\" Liquid Retina XDR lesklý 3456 × 2234 px, 120 Hz, RAM 64GB, Apple M1 MAX 32jádrová GPU, SSD 1000GB, podsvícená klávesnice, webkamera, čtečka otisků prstů, WiFi 6, hmotnost 2,2 kg, macOS', 97690, 2, '2026-05-14', 1, 2, 1),
 (34, 'ASUS ROG Strix G17 G713PI-LL044W Eclipse Gray kovový', 'img/products/ASUSROG.jpg', 'Herní notebook - AMD Ryzen 9 7845HX, 17.3\" IPS antireflexní 2560 × 1440 240Hz, RAM 32GB DDR5, NVIDIA GeForce RTX 4070 8GB 140 W (MUX Switch), SSD 1000GB, numerická klávesnice, podsvícení, podsvícená RGB klávesnice, webkamera, USB 3.2 Gen 1, USB-C, WiFi 6E, WiFi, Bluetooth, Hmotnost 2,8 kg, Windows 11 Home', 51990, 3, '2026-05-14', 1, 2, 2),
@@ -291,7 +291,13 @@ CREATE TABLE `shopping_cart_item` (
 
 INSERT INTO `shopping_cart_item` (`ID`, `quantity`, `ID_cart`, `ID_product`) VALUES
 (32, 1, 4, 7),
-(33, 1, 4, 8);
+(33, 1, 4, 8),
+(34, 1, 5, 39),
+(35, 1, 3, 38),
+(36, 1, 3, 35),
+(37, 1, 3, 9),
+(38, 1, 3, 4),
+(39, 1, 3, 2);
 
 --
 -- Indexy pro exportované tabulky
@@ -415,7 +421,7 @@ ALTER TABLE `shopping_cart`
 -- AUTO_INCREMENT pro tabulku `shopping_cart_item`
 --
 ALTER TABLE `shopping_cart_item`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- Omezení pro exportované tabulky
