@@ -1,4 +1,5 @@
 <?php
+
 require_once ("../scripts/sessions.php");
 SessionClass::checkSessions();
 
@@ -24,9 +25,10 @@ require_once("../components/nav.php");
 <div class="container-fluid text-center" >
 
     <h1>Contact</h1>
-    <p>Vytvořili studenti ze <a href="https://www.spsoa.cz/">SPŠOA</a></p>
-    <p><a href="https://www.instagram.com/kaduch_jan/">Jan Kaduch</a></p>
-    <p><a href="https://www.instagram.com/jiri.majak/">Jiří Maják</a></p>
+    <p>Vytvořili studenti ze <a href="https://www.spsoa.cz/" style="color: #1a1d20">SPŠOA</a></p>
+    <p><a href="https://www.instagram.com/kaduch_jan/" style="color: #1a1d20">Jan Kaduch</a></p>
+    <p><a href="https://www.instagram.com/jiri.majak/" style="color: #1a1d20">Jiří Maják</a></p>
+    
 </div>
 
 

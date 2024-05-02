@@ -4,10 +4,6 @@
         © <?= date("Y"); ?>:
         <a class="text-body text-decoration-none " href="https://spsoa.cz/">náš obchod</a>
         <?php
-//        session_start();
-//        print_r($_SESSION["cart"]);
-
-//        session_unset();
 
         ?>
     </div>
