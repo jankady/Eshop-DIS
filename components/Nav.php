@@ -1,19 +1,18 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="../pages/Index.php"><img src="../img/mobile-shopping.png" alt="eshop" width="30"
-                                                               height="24"></a>
+    <div class="container-fluid ">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-center justify-content-center">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="../pages/Index.php">Domů</a>
                 </li>
-                <li class="nav-item dropdown ">
-                    <a class="nav-link " href="../pages/product.php?page=1&sort_by=1">Produkty</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="../pages/product.php?page=1&sort_by=1">Produkty</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="../pages/Contact.php">Kontakt</a>
+                    <a class="nav-link" href="../pages/Contact.php">Kontakt</a>
                 </li>
             </ul>
+
             <ul class="nav navbar-nav navbar-right">
 
                 <?php
@@ -68,12 +67,12 @@
                         <?php
                     }
                     ?>
-                    <li style="margin-top: 8px"><a href="../pages/Login.php"
-                                                   style="text-decoration: none; color: #1a1d20"><span
-                                    class="glyphicon glyphicon-log-in" style="margin-left: 50px"></span> Přihlásit se</a></li>
-                    <li style=" margin-right: 50px; margin-top: 8px"><a href="../pages/Registration.php"
-                                                                        style="text-decoration: none; color: #1a1d20"><span
-                                    class="glyphicon glyphicon-log-in" style="margin-left: 20px"></span>
+                    <li style="margin-top: 10px"><a href="../pages/Login.php"
+                                                   style="text-decoration: none; color: #1a1d20" class="logine"><span
+                                    class="glyphicon glyphicon-log-in " style="margin-left: 50px"></span > Přihlásit se</a></li>
+                    <li style=" margin-right: 50px; margin-top: 10px"><a href="../pages/Registration.php"
+                                                                        style="text-decoration: none; color: #1a1d20" class="registre"><span
+                                    class="glyphicon glyphicon-log-in " style="margin-left: 20px"></span>
                             Registrace</a></li>
                     <?php
                 }
