@@ -56,7 +56,7 @@ if (isset($_POST['addToCart'])) {
     if (isset($_SERVER['HTTP_REFERER'])) {
         header("Location: " . $_SERVER['HTTP_REFERER']);
     } else {
-        header("Location: ../index.php"); // If no referring page, redirect to index.php
+        header("Location: ../Index.php"); // If no referring page, redirect to Index.php
     }
     exit();
 }
@@ -87,7 +87,7 @@ if (isset($_POST['removeFromCart'])) {
     if (isset($_SERVER['HTTP_REFERER'])) {
         header("Location: " . $_SERVER['HTTP_REFERER']);
     } else {
-        header("Location: ../index.php"); // If no referring page, redirect to index.php
+        header("Location: ../Index.php"); // If no referring page, redirect to Index.php
     }
     exit();
 
@@ -148,11 +148,11 @@ if(isset($_POST['product_id'], $_POST['quantity'])) {
 
         mysqli_close($conn);
         // Přesměrování zpět na stránku s nákupním košíkem
-        header("Location: ../pages/shoppingCart.php");
+        header("Location: ../pages/Shopping_cart.php");
         exit();
     } else {
         // Pokud uživatel není přihlášen, mělo by se nějakým způsobem ošetřit, co se stane, například přesměrováním na přihlašovací stránku
-        header("Location: ../pages/login.php");
+        header("Location: ../pages/Login.php");
         exit();
     }
 }
@@ -171,7 +171,7 @@ if (isset($_POST['checkout'])) {
     mysqli_stmt_close($stmt_insert_cart);
 
     mysqli_close($conn);
-    header("Location: ../pages/index.php");
+    header("Location: ../pages/Index.php");
     exit();
 
 }

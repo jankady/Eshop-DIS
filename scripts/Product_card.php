@@ -80,11 +80,11 @@ class Product_card
                                 </div>
                                 <div class="row col">
                                     <div class="">
-                                        <p><?php if ($row["number_of_products"] > 5) echo "skladem: 9+ kusů";
-                                            elseif ($row["number_of_products"] > 4) echo "skladem: " . $row["number_of_products"] . " kusů";
-                                            elseif ($row["number_of_products"] > 1) echo "skladem: " . $row["number_of_products"] . " kusy";
-                                            elseif ($row["number_of_products"] == 1) echo "skladem: " . $row["number_of_products"] . " kus";
-                                            else echo "<p class='text-warning'>není skladem</p>";
+                                        <p><?php if ($row["number_of_products"] > 5) echo "Skladem: 9+ kusů";
+                                            elseif ($row["number_of_products"] > 4) echo "Skladem: " . $row["number_of_products"] . " kusů";
+                                            elseif ($row["number_of_products"] > 1) echo "Skladem: " . $row["number_of_products"] . " kusy";
+                                            elseif ($row["number_of_products"] == 1) echo "Skladem: " . $row["number_of_products"] . " kus";
+                                            else echo "<p class='text-warning'>Není skladem</p>";
 
                                             ?></p>
                                     </div>
@@ -93,9 +93,8 @@ class Product_card
                                         if ($row["number_of_products"] != 0 && $_SESSION["logged_in"] == false) {
                                             ?>
 
-                                            <form action="../scripts/unlogined_cart.php" method="post">
-                                                <button type="submit" name="addToCart" class="btn btn-primary">add to
-                                                    cart
+                                            <form action="Unlogged_cart.php" method="post">
+                                                <button type="submit" name="addToCart" class="btn btn-primary">Přidat do košíku
                                                 </button>
                                                 <input type="hidden" name="product_id" value='<?= $row["ID"] ?>'>
 
@@ -108,9 +107,8 @@ class Product_card
                                             <?php
                                         } elseif ($row["number_of_products"] != 0 && $_SESSION["logged_in"] == true){
                                             ?>
-                                            <form action="../scripts/logined_cart.php" method="post">
-                                                <button type="submit" name="addToCart" class="btn btn-primary">add to
-                                                    cart
+                                            <form action="Logged_cart.php" method="post">
+                                                <button type="submit" name="addToCart" class="btn btn-primary">Přidat do košíku
                                                 </button>
                                                 <input type="hidden" name="product_id" value='<?= $row["ID"] ?>'>
                                             </form>

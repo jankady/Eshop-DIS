@@ -1,5 +1,5 @@
 <?php
-require_once ("../scripts/sessions.php");
+require_once("../scripts/Sessions.php");
 SessionClass::checkSessions();
 
 ?>
@@ -20,7 +20,7 @@ SessionClass::checkSessions();
 <body>
 <?php
 
-require_once("../components/nav.php");
+require_once("../components/Nav.php");
 
 ?>
 <div class="container-fluid text-center" >
@@ -29,13 +29,13 @@ require_once("../components/nav.php");
 
 
 <?php
-require_once("../components/header.php");
+require_once("../components/Header.php");
 
 ?>
 </div>
 
 <?php
-require_once ("../components/footer.php");
+require_once("../components/Footer.php");
 ?>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

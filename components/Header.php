@@ -10,8 +10,8 @@ $activeElement = 1;
 <header>
 
     <?php
-    if($_SESSION["logged_in"] == true) { ?>
-        <h4>Ahoj, <?=$_SESSION["username"]?></h4>
+    if ($_SESSION["logged_in"] == true) { ?>
+        <h4>Ahoj, <?= $_SESSION["username"] ?></h4>
     <?php }
     ?>
 

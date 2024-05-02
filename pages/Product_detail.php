@@ -1,6 +1,6 @@
 <?php
 require_once("../scripts/Utility.php");
-require_once("../scripts/sessions.php");
+require_once("../scripts/Sessions.php");
 
 $conn = Utility::connectionDatabase();
 $productId = $_GET['id'];
@@ -34,7 +34,7 @@ $product = $result->fetch_assoc();
 </head>
 <body>
 <?php
-require_once("../components/nav.php");
+require_once("../components/Nav.php");
 ?>
 
 <div class="container-fluid">
@@ -51,13 +51,13 @@ require_once("../components/nav.php");
                     <p> <?= $product["description"] ?></p>
                     <div class="col-lg-12 align-self-end" style="background: darkgrey; width: 100%">
                         <!--   number of avialable products/products on stock        -->
-                        <p>Skladem: <?= $product["number_of_products"] ?>ks</p>
+                        <p>Skladem: <?= $product["number_of_products"] ?> ks</p>
                         <p>
                             <?php
                             // calculate when your stuff should arrive, now it is 3days
                             $storeTime = strtotime("+3 days");
                             $dayArrive = date("d.m", $storeTime);
-                            echo " " . date("D", $dayArrive) . " " . $dayArrive . " at your place";
+                            echo " " . date("D", $dayArrive) . " " . $dayArrive . " u Vás doma";
                             ?>
                         </p>
 
@@ -104,14 +104,23 @@ require_once("../components/nav.php");
 
                             if ($product["number_of_products"] != 0) {
                                 ?>
-                                <form action="../scripts/unlogined_cart.php" method="post">
-                                    <button type="submit" name="addToCart" class="btn btn-primary">add to cart</button>
+                                <form action="../scripts/Unlogged_cart.php" method="post">
+                                    <button type="submit" name="addToCart" class="btn btn-primary">Přidat do košíku</button>
                                     <input type="hidden" name="product_id" value='<?= $product["ID"] ?>'>
                                 </form>
                                 <?php
-                            } else {
-                                echo "<p class='text-warning'>není skladem</p>";
-                            }
+                                }
+                                else if ($_SESSION["logged_in"] == true) {
+                                    ?>
+                                    <form action="../scripts/Logged_cart.php" method="post">
+                                        <button type="submit" name="addToCart" class="btn btn-primary">Přidat do košíku</button>
+                                        <input type="hidden" name="product_id" value='<?= $product["ID"] ?>'>
+                                    </form>
+                                    <?php
+                                } else {
+                                    echo "<p class='text-warning'>Není Skladem</p>";
+                                }
+
                             ?>
 
                         </div>
@@ -123,7 +132,7 @@ require_once("../components/nav.php");
     </section>
 </div>
 <?php
-require_once("../components/footer.php");
+require_once("../components/Footer.php");
 ?>
 
 <!--style scripts for Bootstrap-->

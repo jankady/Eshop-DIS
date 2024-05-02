@@ -72,7 +72,7 @@ if (isset($_POST["registration_submit"])) {
         mysqli_stmt_execute($stmt_insert_cart);
         mysqli_stmt_close($stmt_insert_cart);
 
-        header('Location: ../pages/login.php');
+        header('Location: ../pages/Login.php');
     } else {
         // Handle duplicate user data
         $duplicate_message = "";
@@ -107,7 +107,7 @@ if (isset($_POST["registration_submit"])) {
         }
         mysqli_stmt_close($stmt_duplicate_username_check);
 
-        echo "<script>alert('{$duplicate_message}'); window.location='../pages/registration.php';</script>";
+        echo "<script>alert('{$duplicate_message}'); window.location='../pages/Registration.php';</script>";
     }
 }
 
@@ -132,20 +132,20 @@ if (isset($_POST["login_submit"])) {
                 // Heslo je správné, přihlášení uživatele
                 session_start();
                 $_SESSION["logged_in"] = true;
-                $_SESSION["username"] =$user["username"];
+                $_SESSION["username"] = $user["username"];
                 print_r($_SESSION["username"]);
                 $_SESSION["user_id"] = $user["ID"];
 
-                header('Location: ../pages/index.php'); // Přesměrování na úvodní stránku po přihlášení
+                header('Location: ../pages/Index.php'); // Přesměrování na úvodní stránku po přihlášení
                 exit();
             } else {
                 // Neplatné heslo
-                echo "<script>alert('Neplatné heslo.'); window.location='../pages/login.php';</script>";
+                echo "<script>alert('Neplatné heslo.'); window.location='../pages/Login.php';</script>";
                 exit();
             }
         } else {
             // Uživatel nenalezen
-            echo "<script>alert('Uživatel nenalezen.'); window.location='../pages/login.php';</script>";
+            echo "<script>alert('Uživatel nenalezen.'); window.location='../pages/Login.php';</script>";
             exit();
         }
     }
@@ -153,7 +153,7 @@ if (isset($_POST["login_submit"])) {
 
 if (isset($_POST["sign_out"])) {
     session_start();
-    $_SESSION["logged_in"]=false;
+    $_SESSION["logged_in"] = false;
     $_SESSION["username"] = null;
     $_SESSION["user_id"] = null;
     echo "odhlášen";

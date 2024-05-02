@@ -1,5 +1,5 @@
 <?php
-require_once("../scripts/sessions.php");
+require_once("../scripts/Sessions.php");
 
 SessionClass::checkSessions();
 ?>
@@ -21,10 +21,10 @@ SessionClass::checkSessions();
 <body>
 <?php
 //providing requierd files
-require_once("../components/nav.php");
+require_once("../components/Nav.php");
 require_once('../scripts/Filter.php');
 require_once("../scripts/Utility.php");
-require_once("../scripts/product-card.php");
+require_once("../scripts/Product_card.php");
 
 // DB connect and creating instances
 $conn = Utility::connectionDatabase();
@@ -47,11 +47,11 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
                 <div class="price-range">
                     <h4>Cena</h4>
-                    <label for="min-price">minimalní cena</label>
+                    <label for="min-price">Minimalní cena</label>
                     <input type="number" id="min-price" name="min-price"
                            value="<?php echo isset($_GET['min-price']) ? htmlspecialchars($_GET['min-price']) : ''; ?>"/>
                     <br>
-                    <label for="max-price">maximalní cena</label>
+                    <label for="max-price">Maximalní cena</label>
                     <input type="number" id="max-price" name="max-price"
                            value="<?php echo isset($_GET['max-price']) ? htmlspecialchars($_GET['max-price']) : ''; ?>"/>
                 </div>
@@ -61,14 +61,14 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
                     <h4>Dostupnost</h4>
                     <input type="checkbox" id="availability"
                            name="availability" <?php echo isset($_GET['availability']) ? 'checked' : ''; ?>>
-                    <label for="availability">skladem</label>
+                    <label for="availability">Skladem</label>
                 </div>
 
                 <div class="sale">
                     <hr>
                     <h4>Sleva</h4>
                     <input type="checkbox" id="sale" name="sale" <?php echo isset($_GET['sale']) ? 'checked' : ''; ?>>
-                    <label for="sale">zlevněné</label>
+                    <label for="sale">Slevněné</label>
                 </div>
 
                 <div class="manafacturer">
@@ -124,9 +124,9 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 // Zachytíme kliknutí uživatele na jednotlivé možnosti
-                $('.show-products .col-md-2').click(function() {
+                $('.show-products .col-md-2').click(function () {
                     var sort_by = $(this).index() + 1; // Získáme pořadové číslo kliknutého sloupce (1, 2, 3)
                     var url = new URL(window.location.href); // Získáme URL adresu
                     url.searchParams.set('sort_by', sort_by); // Aktualizujeme hodnotu parametru sort_by
@@ -169,10 +169,10 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
             $totalPages = ceil(count($filteredProducts) / $productsPerPage);
 
             // Calculate offset for the current page
-//            $offset = ($currentPage - 1) * $productsPerPage;
+            //            $offset = ($currentPage - 1) * $productsPerPage;
 
             // Get products for the current page using array_slice on fetched products
-//            $products = array_slice($filteredProducts, $offset, $productsPerPage);
+            //            $products = array_slice($filteredProducts, $offset, $productsPerPage);
 
 
             // get url after ?
@@ -181,7 +181,7 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
             $parts = parse_url($url);
             // Získá parametry URL
             $query = $parts['query'];
-//            print_r($query);
+            //            print_r($query);
 
 
             if ($totalPages > 1) {
@@ -195,7 +195,6 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
             }
 
 
-
             ?>
         </div>
 
@@ -203,7 +202,7 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 </div>
 
 <?php
-require_once("../components/footer.php");
+require_once("../components/Footer.php");
 
 //end connection to DB
 mysqli_close($conn);

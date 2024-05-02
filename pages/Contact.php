@@ -1,6 +1,6 @@
 <?php
 
-require_once ("../scripts/sessions.php");
+require_once("../scripts/Sessions.php");
 SessionClass::checkSessions();
 
 ?>
@@ -19,23 +19,22 @@ SessionClass::checkSessions();
 </head>
 
 <?php
-require_once("../components/nav.php");
+require_once("../components/Nav.php");
 
 ?>
-<div class="container-fluid text-center" >
+<div class="container-fluid text-center">
 
     <h1>Contact</h1>
     <p>Vytvořili studenti ze <a href="https://www.spsoa.cz/" style="color: #1a1d20">SPŠOA</a></p>
     <p><a href="https://www.instagram.com/kaduch_jan/" style="color: #1a1d20">Jan Kaduch</a></p>
     <p><a href="https://www.instagram.com/jiri.majak/" style="color: #1a1d20">Jiří Maják</a></p>
-    
-</div>
 
+</div>
 
 
 <body>
 <?php
-require_once("../components/footer.php");
+require_once("../components/Footer.php");
 
 ?>
 
