@@ -76,10 +76,30 @@ if (isset($_POST['removeFromCart'])) {
 
 if (isset($_POST['checkout'])) {
     // Přesměrování na stránku s formulářem pro zadání e-mailu
-    echo "Za chvílí by vám měl přijít mail, Děkujeme za nákup";
-    echo '<a class="nav-link " href="../pages/index.php">zpátky</a>';
+    unset($_SESSION["cart"]);
+?>
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Potvrzení nákupu</title>
+    </head>
+    <body>
+    <h1>Děkujeme za nákup!</h1>
+    <p>Vaše objednávka byla úspěšně provedena.</p>
+    <p>Děkujeme za nákup!</p>
+    <a class="nav-link" href="../pages/index.php">Zpět na úvodní stránku</a>
+    </body>
+    </html>
+
+
+<?php
     exit();
 }
+
+
 
     session_start();
 
