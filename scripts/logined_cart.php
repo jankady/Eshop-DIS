@@ -160,8 +160,8 @@ if(isset($_POST['product_id'], $_POST['quantity'])) {
 if (isset($_POST['checkout'])) {
     session_start();
     $customer_id= $_SESSION["user_id"];
-    echo $customer_id;
-    echo "kk";
+//    echo $customer_id;
+//    echo "kk";
     $conn = Utility::connectionDatabase();
 
 
@@ -171,7 +171,8 @@ if (isset($_POST['checkout'])) {
     mysqli_stmt_close($stmt_insert_cart);
 
     mysqli_close($conn);
-//    header("Location: ../pages/shoppingCart.php");
-//    exit();
+    header("Location: ../pages/index.php");
+    exit();
 
 }
+
