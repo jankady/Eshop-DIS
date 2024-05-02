@@ -108,7 +108,7 @@ $conn = Utility::connectionDatabase();
             echo "<p id='total_price'><strong>Celková cena košíku: " . number_format($total_price, 0, ',', ' ') . " Kč</strong></p>";
 
             // Tlačítko pro provedení platby
-            echo "<form action='../scripts/checkout.php' method='post'>";
+            echo "<form action='../scripts/logined_cart.php' method='post'>";
             echo "<input type='hidden' name='total_cost' value='$total_price '>";
             echo "<button type='submit' class='btn btn-primary'>Checkout</button>";
             echo "</form>";
@@ -248,9 +248,9 @@ $conn = Utility::connectionDatabase();
             echo "<p><stroke>Celkem " . $totalCost . " Kč</stroke></p>";
 
             // Tlačítko pro provedení platby
-            echo "<form action='../scripts/checkout.php' method='post'>";
+            echo "<form action='../scripts/unlogined_cart.php' method='post'>";
             echo "<input type='hidden' name='total_cost' value='$totalCost'>";
-            echo "<button type='submit' class='btn btn-primary'>Checkout</button>";
+            echo "<button type='submit' name='checkout' class='btn btn-primary'>Checkout</button>";
             echo "</form>";
 
             } else {

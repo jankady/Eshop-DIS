@@ -72,6 +72,16 @@ if (isset($_POST['removeFromCart'])) {
     exit();
 
 }
+
+if (isset($_POST['checkout'])) {
+    echo "jirka je pracovity";
+
+    header("Location: ../pages/shoppingCart.php");
+    exit();
+
+}
+
+
     session_start();
 
     // Získání ID produktu a nového množství z formuláře
