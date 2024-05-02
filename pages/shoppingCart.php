@@ -31,20 +31,29 @@ $conn = Utility::connectionDatabase();
             if ($_SESSION["logged_in"] == true) {
                 $user_id = $_SESSION["user_id"];
 
+
+
                 // Připravit SQL dotaz pro získání záznamů z tabulky shopping_cart_item a potřebných atributů z tabulky product
-                $sql_items = "SELECT sci.ID, sci.quantity, sci.ID_product, p.title, p.picture, p.price, p.number_of_products, p.availability , p.ID as PI
+                $sql_items = "SELECT sci.ID, sci.quantity, sci.ID_product, p.title, p.picture, p.price, p.number_of_products, p.availability, p.ID AS PI
     FROM shopping_cart_item AS sci 
     INNER JOIN shopping_cart AS sc ON sci.ID_cart = sc.ID 
     INNER JOIN product AS p ON sci.ID_product = p.ID 
-    WHERE sc.ID_customer = ? AND p.availability >= CURDATE();";
+    WHERE sc.ID_customer = ? 
+    AND p.availability >= CURDATE() 
+    AND sc.ID = (
+        SELECT MAX(ID)
+        FROM shopping_cart
+        WHERE ID_customer = ?
+    )";
+
                 $stmt_items = mysqli_prepare($conn, $sql_items);
-                mysqli_stmt_bind_param($stmt_items, "i", $user_id);
+                mysqli_stmt_bind_param($stmt_items, "ii", $user_id, $user_id);
                 mysqli_stmt_execute($stmt_items);
                 $result_items = mysqli_stmt_get_result($stmt_items);
 
                 // Inicializace celkové ceny košíku
                 $total_price = 0;
-
+            if (mysqli_num_rows($result_items) > 0) {
                 // Vypsat hodnoty získané z tabulky shopping_cart_item
                 echo "<table class='table'>";
                 echo "<thead><tr><th>Picture</th><th>Product</th><th>Skladem</th><th>Quantity</th><th>Price</th><th>Total Price</th><th>Action</th></tr></thead>";
@@ -110,8 +119,17 @@ $conn = Utility::connectionDatabase();
             // Tlačítko pro provedení platby
             echo "<form action='../scripts/logined_cart.php' method='post'>";
             echo "<input type='hidden' name='total_cost' value='$total_price '>";
-            echo "<button type='submit' class='btn btn-primary'>Checkout</button>";
+            echo "<button type='submit' name='checkout' class='btn btn-primary'>Checkout</button>";
             echo "</form>";
+            }
+            else {
+                // Pokud košík neobsahuje žádné produkty, zobrazí se zpráva
+                echo "<div class='row'>";
+                echo "<p>Košík je prázdny</p>";
+                echo "<a href='product.php?page=1&sort_by=1'>zpět na produkty</a>";
+                echo "</div>";
+            }
+
 
             mysqli_stmt_close($stmt_items);
             }

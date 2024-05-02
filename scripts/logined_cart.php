@@ -10,6 +10,8 @@ if (isset($_POST['addToCart'])) {
     // skladem upravit - hotovo
     // "Platba"
     // doplnit databazi
+    // umazat bordel
+    // když je košík prádzny tak tam něco mrdnout
 
     session_start();
     $conn = Utility::connectionDatabase();
@@ -153,4 +155,23 @@ if(isset($_POST['product_id'], $_POST['quantity'])) {
         header("Location: ../pages/login.php");
         exit();
     }
+}
+
+if (isset($_POST['checkout'])) {
+    session_start();
+    $customer_id= $_SESSION["user_id"];
+    echo $customer_id;
+    echo "kk";
+    $conn = Utility::connectionDatabase();
+
+
+    $stmt_insert_cart = mysqli_prepare($conn, "INSERT INTO shopping_cart (ID_customer) VALUES (?)");
+    mysqli_stmt_bind_param($stmt_insert_cart, "i", $customer_id);
+    mysqli_stmt_execute($stmt_insert_cart);
+    mysqli_stmt_close($stmt_insert_cart);
+
+    mysqli_close($conn);
+//    header("Location: ../pages/shoppingCart.php");
+//    exit();
+
 }

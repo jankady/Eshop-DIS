@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Pát 19. dub 2024, 10:36
--- Verze serveru: 10.4.28-MariaDB
--- Verze PHP: 8.2.4
+-- Vytvořeno: Čtv 02. kvě 2024, 15:30
+-- Verze serveru: 10.4.32-MariaDB
+-- Verze PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -51,7 +51,8 @@ INSERT INTO `address` (`ID`, `city`, `street`, `postal_code`, `house_number`, `I
 (28, 'Zátor', 'Loučky', '793 16', '845gdfg', 1),
 (29, 'Zátordsgf', 'Loučky', '793 16', '8', 1),
 (30, 'test_town', 'test_street', '97801', 'test_house-number', 1),
-(31, 'test', 'test', '87940', 'test', 1);
+(31, 'test', 'test', '87940', 'test', 1),
+(32, 'test', 'test', '', 'test', 1);
 
 -- --------------------------------------------------------
 
@@ -117,14 +118,8 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`ID`, `name`, `surname`, `e_mail`, `tel_num`, `password`, `username`, `ID_address`) VALUES
-(3, 'Jan', 'Kaduch', 'Kaduch05@gmail.com', 773007138, '$2y$10$NTkc2XM8E/zaey4uFYMk0.BXwQC8F/mtMMiMIwf1OrbJop3fKVDPW', '', 24),
-(4, '', '', '', 0, '$2y$10$ou5AT89vm0Wzon7Y.VaRxuIqH94E.zjIcqvumzOorAeNaHXmsAo0W', '', 25),
-(5, 'Jan', 'Kaduch', 'Kaduch05@gmail.com', 773007138, '$2y$10$hLL.tdDjI8BDfYcH8qiFmurzQ1yKaSjIHstJ/4zQy6LlbhqcHXtMy', '', 26),
-(6, 'Jan', 'Kaduch', 'Kaduch0@gmail.com', 123, '$2y$10$4dh0CZ0z6eBpMNJ9mKrEJOTEFem45WmZou/0EM8yZe/ZmZ1.LA.Yy', 'j', 27),
-(7, 'Jan', 'Kaduch', 'Kasvxcydaduch05@gmail.com', 7730, '$2y$10$Eo4BTLRzn3Ypovlvki3eZOIia0PX27Dy9Qarzag1nWt3mrmmoiDNC', 'dgf', 28),
-(8, 'Jan', 'Kaduch', 'Kaduch0xcyvxdycgdfshgdf5@gmail.com', 2147483647, '$2y$10$mt8dnNB86u7hBRs9mT3ZluKcKyoeRby.E1N73xMu7ep03i.dF8Try', '564gftuj', 29),
-(9, 'test_firstname', 'test_lastname', 'test@email.com', 321465978, '$2y$10$mZGE9p4BwAPdfKkfu7Xjz.a9gUC860WwE1iuPmm7fSVXwAnso7Ti6', 'test_username', 30),
-(10, 'test', 'test', 'test@test.test', 2147483647, '$2y$10$5qLBC5x8SksvngqiGF3gcurCxjeypm3/jCg4X19Ek2TSYkocVlmba', 'test', 31);
+(11, 'test', 'test', 'test@test.cz', 0, '$2y$10$e177dMB7L1Iemjp9YBX7guCYhfDvkrXH/dMCGlZXHBYqvKfewsXza', 'test', 32),
+(12, 'test', 'test', 'testtest@test.cz', 15644, '$2y$10$pxjbcGtVatoD1C720665fO6aXcsVjCq89I2RoJcCsxZrL1.tIZUCK', 'test_username', 32);
 
 -- --------------------------------------------------------
 
@@ -217,8 +212,8 @@ CREATE TABLE `shopping_cart` (
 --
 
 INSERT INTO `shopping_cart` (`ID`, `ID_customer`) VALUES
-(1, 9),
-(2, 10);
+(3, 11),
+(4, 12);
 
 -- --------------------------------------------------------
 
@@ -232,20 +227,6 @@ CREATE TABLE `shopping_cart_item` (
   `ID_cart` int(11) NOT NULL,
   `ID_product` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
-
---
--- Vypisuji data pro tabulku `shopping_cart_item`
---
-
-INSERT INTO `shopping_cart_item` (`ID`, `quantity`, `ID_cart`, `ID_product`) VALUES
-(4, 1, 1, 8),
-(5, 4, 1, 7),
-(6, 1, 1, 6),
-(7, 1, 2, 4),
-(8, 2, 2, 5),
-(9, 2, 2, 8),
-(10, 2, 2, 7),
-(11, 1, 2, 6);
 
 --
 -- Indexy pro exportované tabulky
@@ -321,7 +302,7 @@ ALTER TABLE `shopping_cart_item`
 -- AUTO_INCREMENT pro tabulku `address`
 --
 ALTER TABLE `address`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT pro tabulku `category`
@@ -339,7 +320,7 @@ ALTER TABLE `country`
 -- AUTO_INCREMENT pro tabulku `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT pro tabulku `manafacturer`
@@ -363,13 +344,13 @@ ALTER TABLE `sale`
 -- AUTO_INCREMENT pro tabulku `shopping_cart`
 --
 ALTER TABLE `shopping_cart`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pro tabulku `shopping_cart_item`
 --
 ALTER TABLE `shopping_cart_item`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- Omezení pro exportované tabulky

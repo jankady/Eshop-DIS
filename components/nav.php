@@ -17,25 +17,28 @@
             <ul class="nav navbar-nav navbar-right">
 
                 <?php
-                require_once ("../scripts/Utility.php");
-                $conn = Utility::connectionDatabase();
-                // Předpokládejme, že máte databázové připojení a uživatel je přihlášen
-                // Zde provedeme SQL dotaz, abychom zjistili, zda má uživatel něco v košíku
-                $user_id = $_SESSION["user_id"]; // Předpokládáme, že máte uloženo ID přihlášeného uživatele
+                require_once("../scripts/Utility.php");
 
-                $sql = "SELECT COUNT(shopping_cart_item.ID_product) AS pocet_produktu
+
+                if ($_SESSION["logged_in"] == true) {
+
+                    $conn = Utility::connectionDatabase();
+                    // Předpokládejme, že máte databázové připojení a uživatel je přihlášen
+                    // Zde provedeme SQL dotaz, abychom zjistili, zda má uživatel něco v košíku
+                    $user_id = $_SESSION["user_id"]; // Předpokládáme, že máte uloženo ID přihlášeného uživatele
+
+                    $sql = "SELECT COUNT(shopping_cart_item.ID_product) AS pocet_produktu
 FROM shopping_cart_item
 JOIN shopping_cart ON shopping_cart_item.ID_cart = shopping_cart.ID
 WHERE shopping_cart.ID_customer = ?";
 
-                $stmt = $conn->prepare($sql);
+                    $stmt = $conn->prepare($sql);
 
-                $stmt->bind_param("s", $user_id);
-                $stmt->execute();
-                $stmt->bind_result($cart_count);
-                $stmt->fetch();
+                    $stmt->bind_param("s", $user_id);
+                    $stmt->execute();
+                    $stmt->bind_result($cart_count);
+                    $stmt->fetch();
 
-                if ($_SESSION["logged_in"] == true) {
                     if ($cart_count > 0) {
                         ?>
                         <li><a href="../pages/shoppingCart.php"><img src="../img/shopCartFull.png" alt=""></a></li>

@@ -1,4 +1,5 @@
 <?php
+
 if (isset($_POST['addToCart'])) {
 
     session_start();
@@ -74,12 +75,69 @@ if (isset($_POST['removeFromCart'])) {
 }
 
 if (isset($_POST['checkout'])) {
-    echo "jirka je pracovity";
-
-    header("Location: ../pages/shoppingCart.php");
+    // Přesměrování na stránku s formulářem pro zadání e-mailu
+    header("Location: ../pages/checkout_email.php");
     exit();
-
 }
+
+// Na stránce s odesláním e-mailu (checkout_email.php)
+if (isset($_POST['submit_email'])) {
+    // Zde můžete provádět validaci e-mailu a další logiku
+
+    // Získání zadané e-mailové adresy
+    $email = $_POST['email'];
+
+    // Obsah e-mailu
+    $subject = "Potvrzení objednávky";
+
+    // Zpráva e-mailu s obsahem košíku
+    $message = "
+    <html>
+    <head>
+    <title>Potvrzení objednávky</title>
+    </head>
+    <body>
+    <h2>Děkujeme za Vaši objednávku!</h2>
+    <p>Zde je obsah Vašeho košíku:</p>
+    <table>
+    <tr>
+    <th>Produkt</th>
+    <th>Množství</th>
+    <th>Cena za kus</th>
+    <th>Celková cena</th>
+    </tr>";
+
+    // Iterace přes položky v košíku a přidání informací do e-mailu
+    foreach ($_SESSION["cart"] as $item) {
+        $total_price = $item['quantity'] * $item['price']; // Spočítáme celkovou cenu pro tuto položku
+        $message .= "<tr>";
+        $message .= "<td>{$item['product_name']}</td>"; // Nahraďte 'product_name' skutečným názvem produktu
+        $message .= "<td>{$item['quantity']}</td>";
+        $message .= "<td>{$item['price']} $</td>"; // Nahraďte 'price' skutečnou cenou produktu
+        $message .= "<td>{$total_price} $</td>"; // Vložíme spočítanou celkovou cenu
+        $message .= "</tr>";
+    }
+
+    $message .= "</table>";
+    $message .= "<p>Děkujeme za Vaši objednávku!</p>";
+    $message .= "</body></html>";
+
+    // Nastavení hlaviček pro HTML e-mail
+    $headers = "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+    // Odeslání e-mailu
+    mail($email, $subject, $message, $headers);
+
+    // Po odeslání e-mailu smažte obsah košíku ze session
+    unset($_SESSION["cart"]);
+
+    // Přesměrování na hlavní stránku, kde může uživatel pokračovat v nákupu
+    header("Location: index.php");
+    exit();
+}
+
+
 
 
     session_start();
