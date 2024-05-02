@@ -30,7 +30,7 @@
                     $sql = "SELECT COUNT(shopping_cart_item.ID_product) AS pocet_produktu
 FROM shopping_cart_item
 JOIN shopping_cart ON shopping_cart_item.ID_cart = shopping_cart.ID
-WHERE shopping_cart.ID_customer = ?";
+WHERE shopping_cart.ID_customer = (SELECT MAX(ID) FROM shopping_cart WHERE ID_customer = ?)";
 
                     $stmt = $conn->prepare($sql);
 
