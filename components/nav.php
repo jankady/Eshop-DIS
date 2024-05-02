@@ -20,25 +20,28 @@
                 require_once("../scripts/Utility.php");
 
 
-                if ($_SESSION["logged_in"] == true) {
+                if ($_SESSION["logged_in"]) {
 
                     $conn = Utility::connectionDatabase();
                     // Předpokládejme, že máte databázové připojení a uživatel je přihlášen
                     // Zde provedeme SQL dotaz, abychom zjistili, zda má uživatel něco v košíku
                     $user_id = $_SESSION["user_id"]; // Předpokládáme, že máte uloženo ID přihlášeného uživatele
 
+
                     $sql = "SELECT COUNT(shopping_cart_item.ID_product) AS pocet_produktu
-FROM shopping_cart_item
-JOIN shopping_cart ON shopping_cart_item.ID_cart = shopping_cart.ID
-WHERE shopping_cart.ID = (SELECT MAX(ID) FROM shopping_cart WHERE ID_customer = ?)";
+                                FROM shopping_cart_item
+                                JOIN shopping_cart ON shopping_cart_item.ID_cart = shopping_cart.ID
+                                WHERE shopping_cart.ID = (SELECT MAX(ID) FROM shopping_cart WHERE ID_customer = ?)";
 
                     $stmt = $conn->prepare($sql);
 
                     $stmt->bind_param("s", $user_id);
                     $stmt->execute();
                     $stmt->bind_result($cart_count);
-                    $stmt->fetch();
+                    $stmt->fetch();?>
 
+                    <li><p style="margin-top: 8px; margin-right: 20px"><?= $_SESSION["username"] ?></p></li>
+                <?php
                     if ($cart_count > 0) {
                         ?>
                         <li><a href="../pages/shoppingCart.php"><img src="../img/shopCartFull.png" alt=""></a></li>
@@ -50,7 +53,7 @@ WHERE shopping_cart.ID = (SELECT MAX(ID) FROM shopping_cart WHERE ID_customer = 
                     }
                     ?>
                     <li>
-                        <form method="post" action="../scripts/account.php">
+                        <form method="post" action="../scripts/account.php" style="margin-left: 50px">
                             <button type="submit" name="sign_out" class="btn btn-primary">Sign Out</button>
                         </form>
                     </li>
@@ -65,8 +68,8 @@ WHERE shopping_cart.ID = (SELECT MAX(ID) FROM shopping_cart WHERE ID_customer = 
                         <?php
                     }
                     ?>
-                    <li><a href="../pages/login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                    <li><a href="../pages/registration.php"><span class="glyphicon glyphicon-log-in"></span>
+                    <li style="margin-top: 8px"><a href="../pages/login.php" style="text-decoration: none; color: #1a1d20"><span class="glyphicon glyphicon-log-in" style="margin-left: 50px"></span> Login</a></li>
+                    <li style=" margin-right: 50px; margin-top: 8px" ><a href="../pages/registration.php" style="text-decoration: none; color: #1a1d20"><span class="glyphicon glyphicon-log-in" style="margin-left: 20px"></span>
                             Register</a></li>
                     <?php
                 }
@@ -78,123 +81,6 @@ WHERE shopping_cart.ID = (SELECT MAX(ID) FROM shopping_cart WHERE ID_customer = 
 </nav>
 
 <?php
-/*
- <?php
-// Předpokládejme, že máte databázové připojení a uživatel je přihlášen
-// Zde provedeme SQL dotaz, abychom zjistili, zda má uživatel něco v košíku
-$user_id = $_SESSION["user_id"]; // Předpokládáme, že máte uloženo ID přihlášeného uživatele
 
-$sql = "SELECT COUNT(*) as count FROM cart WHERE user_id = $user_id";
-// Spusťte dotaz na databázi, zkontrolujte, zda uživatel má něco v košíku
-// $result = mysqli_query($connection, $sql); // Předpokládáme, že používáte MySQLi
-
-// Zde předpokládáme, že máte uložené výsledky dotazu a proměnnou $cart_count, která obsahuje počet položek v košíku
-$cart_count = 5; // Například počet položek v košíku
-
-if ($_SESSION["logged_in"] == true) {
-    if ($cart_count > 0) {
-        ?>
-        <li><a href="../pages/shoppingCart.php"><img src="../img/shopCartFull.png" alt=""></a></li>
-        <?php
-    } else {
-        ?>
-        <li><a href="../pages/shoppingCart.php"><img src="../img/shopCartEmpty.png" alt=""></a></li>
-        <?php
-    }
-?>
-    <li>
-        <form method="post" action="../scripts/account.php">
-            <button type="submit" name="sign_out" class="btn btn-primary">Sign Out</button>
-        </form>
-    </li>
-<?php } else { ?>
-    <li><a href="../pages/login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-    <li><a href="../pages/registration.php"><span class="glyphicon glyphicon-log-in"></span>
-            Register</a></li>
-<?php } ?>
- */
-
-/*
- *
- * SELECT COUNT(sc_item.ID) AS cart_count
-FROM shopping_cart sc
-JOIN shopping_cart_item sc_item ON sc.ID = sc_item.ID_cart
-WHERE sc.ID_customer = :customer_id;
-
-
- *
- * <?php
-// Předpokládejme, že databázový dotaz vrátil 3 položky v košíku
-$cart_count = 3;
-
-if ($_SESSION["logged_in"] == true) {
-  if ($cart_count > 0) {
-    ?>
-    <li><a href="../pages/shoppingCart.php"><img src="../img/shopCartFull.png" alt=""></a></li>
-    <?php
-  } else {
-    ?>
-    <li><a href="../pages/shoppingCart.php"><img src="../img/shopCartEmpty.png" alt=""></a></li>
-    <?php
-  }
-?>
-  <li>
-    <form method="post" action="../scripts/account.php">
-      <button type="submit" name="sign_out" class="btn btn-primary">Sign Out</button>
-    </form>
-  </li>
-<?php } else { ?>
-  <li><a href="../pages/login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-  <li><a href="../pages/registration.php"><span class="glyphicon glyphicon-log-in"></span>
-      Register</a></li>
-<?php } ?>
-
-SELECT COUNT(*) AS cart_count
-FROM cart
-WHERE user_id = :user_id;
-
-
-<?php
-// Předpokládejme, že máte databázové připojení a proměnnou $user_id s ID přihlášeného uživatele
-
-// Připravte dotaz
-$sql = "SELECT COUNT(*) AS cart_count FROM cart WHERE user_id = :user_id";
-$stmt = $pdo->prepare($sql);
-
-// Vložte parametry
-$stmt->bindParam(':user_id', $user_id);
-
-// Spusťte dotaz
-$stmt->execute();
-
-// Získejte výsledek
-$result = $stmt->fetch();
-
-// Získejte počet položek v košíku
-$cart_count = $result['cart_count'];
-
-// Podmíněné zobrazení obrázku košíku
-if ($_SESSION["logged_in"] == true) {
-  if ($cart_count > 0) {
-    ?>
-    <li><a href="../pages/shoppingCart.php"><img src="../img/shopCartFull.png" alt=""></a></li>
-    <?php
-  } else {
-    ?>
-    <li><a href="../pages/shoppingCart.php"><img src="../img/shopCartEmpty.png" alt=""></a></li>
-    <?php
-  }
-?>
-  <li>
-    <form method="post" action="../scripts/account.php">
-      <button type="submit" name="sign_out" class="btn btn-primary">Sign Out</button>
-    </form>
-  </li>
-<?php } else { ?>
-  <li><a href="../pages/login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-  <li><a href="../pages/registration.php"><span class="glyphicon glyphicon-log-in"></span>
-      Register</a></li>
-<?php } ?>
- */
 ?>
 
