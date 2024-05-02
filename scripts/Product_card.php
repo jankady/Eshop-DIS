@@ -93,21 +93,17 @@ class Product_card
                                         if ($row["number_of_products"] != 0 && $_SESSION["logged_in"] == false) {
                                             ?>
 
-                                            <form action="Unlogged_cart.php" method="post">
+                                            <form action="../scripts/Unlogged_cart.php" method="post">
                                                 <button type="submit" name="addToCart" class="btn btn-primary">Přidat do košíku
                                                 </button>
                                                 <input type="hidden" name="product_id" value='<?= $row["ID"] ?>'>
 
-
-
                                             </form>
-
-
 
                                             <?php
                                         } elseif ($row["number_of_products"] != 0 && $_SESSION["logged_in"] == true){
                                             ?>
-                                            <form action="Logged_cart.php" method="post">
+                                            <form action="../scripts/Logged_cart.php" method="post">
                                                 <button type="submit" name="addToCart" class="btn btn-primary">Přidat do košíku
                                                 </button>
                                                 <input type="hidden" name="product_id" value='<?= $row["ID"] ?>'>

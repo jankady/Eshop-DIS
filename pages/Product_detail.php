@@ -102,24 +102,25 @@ require_once("../components/Nav.php");
                         <div class="col-md-6 align-self-center">
                             <?php
 
-                            if ($product["number_of_products"] != 0) {
+                            if ($_SESSION["logged_in"] == true) {
                                 ?>
-                                <form action="../scripts/Unlogged_cart.php" method="post">
-                                    <button type="submit" name="addToCart" class="btn btn-primary">Přidat do košíku</button>
+                                <form action="../scripts/Logged_cart.php" method="post">
+                                    <button type="submit" name="addToCart" class="btn btn-primary">Přidat do košíku
+                                    </button>
                                     <input type="hidden" name="product_id" value='<?= $product["ID"] ?>'>
                                 </form>
                                 <?php
-                                }
-                                else if ($_SESSION["logged_in"] == true) {
-                                    ?>
-                                    <form action="../scripts/Logged_cart.php" method="post">
-                                        <button type="submit" name="addToCart" class="btn btn-primary">Přidat do košíku</button>
-                                        <input type="hidden" name="product_id" value='<?= $product["ID"] ?>'>
-                                    </form>
-                                    <?php
-                                } else {
-                                    echo "<p class='text-warning'>Není Skladem</p>";
-                                }
+                            } else if ($product["number_of_products"] != 0) {
+                                ?>
+                                <form action="../scripts/Unlogged_cart.php" method="post">
+                                    <button type="submit" name="addToCart" class="btn btn-primary">Přidat do košíku
+                                    </button>
+                                    <input type="hidden" name="product_id" value='<?= $product["ID"] ?>'>
+                                </form>
+                                <?php
+                            } else {
+                                echo "<p class='text-warning'>Není Skladem</p>";
+                            }
 
                             ?>
 
