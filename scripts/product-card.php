@@ -56,7 +56,7 @@ class Product_card
                                 <p class="card-text"><?= $row['description'] ?></p>
                             </div>
                             <div class="card-text row">
-                                <div class="priceNumber col align-content-center" style="border: red solid 1px">
+                                <div class="priceNumber col align-content-center">
                                     <?php
                                     $salePrice = Utility::calculatePrice($row["price"], $row["discount"]);
                                     $originalPrice = number_format($row["price"], 0, ',', ' ');
