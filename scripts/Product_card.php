@@ -46,7 +46,7 @@ class Product_card
             while ($row = mysqli_fetch_assoc($result)) {
                 ?>
                 <div class="col-4 mt-2 mb-2">
-                    <div class="card" style="max-width: 25rem; height: 31rem">
+                    <div class="card" style="max-width: 30rem; height: 35rem">
                         <a href="../pages/product_detail.php?id=<?= $row['ID'] ?>"><h5
                                     class="card-title"><?= $row['title'] ?></h5></a>
                         <div class="card-body">

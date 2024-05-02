@@ -81,11 +81,12 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
                         // checkbox stay clicked after refresh
                         $checked = (isset($_GET['manufacturers']) && in_array($row['ID'], $_GET['manufacturers'])) ? 'checked' : '';
-                        echo '<input type="checkbox" id="' . $row["name"] . '" name="manufacturers[]" value="' . $row["ID"] . '" ' . $checked . '>';
-                        echo '<label for="' . $row['name'] . '">' . $row['name'] . '</label><br>';
-
-                    }
-                    ?>
+                        ?>
+                        <div class="manufacturer-item" style="display: block; margin-bottom: 3px">
+                            <input type="checkbox" id="<?php echo $row["name"]; ?>" name="manufacturers[]" value="<?php echo $row["ID"]; ?>" <?php echo $checked; ?>>
+                            <label for="<?php echo $row['name']; ?>"><?php echo $row['name']; ?></label>
+                        </div>
+                    <?php } ?>
                 </div>
 
                 <div class="Category">
@@ -97,12 +98,15 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
                     while ($row = mysqli_fetch_assoc($result)) {
 
                         $checked = (isset($_GET['categories']) && in_array($row['ID'], $_GET['categories'])) ? 'checked' : '';
-                        echo '<input type="checkbox" id="' . $row["name"] . '" name="categories[]" value="' . $row["ID"] . '" ' . $checked . '>';
-                        echo '<label for="' . $row['name'] . '">' . $row['name'] . '</label><br>';
-
-                    }
-
                     ?>
+                            <div class="manufacturer-item" style="display: block; margin-bottom: 3px">
+                                <input type="checkbox" id="<?=$row["name"];?>" name="categories[]" value="<?php echo $row["ID"]; ?>" <?php echo $checked; ?>>
+                                <label for="<?= $row['name']; ?>"><?= $row['name']; ?></label><br>
+                            </div>
+
+
+                    <?php } ?>
+
                 </div>
 
                 <hr>
