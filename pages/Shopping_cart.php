@@ -56,7 +56,7 @@ $conn = Utility::connectionDatabase();
             if (mysqli_num_rows($result_items) > 0) {
                 // Vypsat hodnoty získané z tabulky shopping_cart_item
                 echo "<table class='table'>";
-                echo "<thead><tr><th>Picture</th><th>Product</th><th>Skladem</th><th>Quantity</th><th>Price</th><th>Total Price</th><th>Action</th></tr></thead>";
+                echo "<thead><tr><th> </th><th>Produkt</th><th>Skladem</th><th>Kvantita</th><th>Cena</th><th>Celková cena</th><th> </th></tr></thead>";
                 echo "<tbody>";
             while ($row_item = mysqli_fetch_assoc($result_items)) {
                 echo "<tr>";
@@ -120,7 +120,7 @@ $conn = Utility::connectionDatabase();
             // Tlačítko pro provedení platby
             echo "<form action='../scripts/Logged_cart.php' method='post'>";
             echo "<input type='hidden' name='total_cost' value='$total_price '>";
-            echo "<button type='submit' name='checkout' class='btn btn-primary'>Checkout</button>";
+            echo "<button type='submit' name='checkout' class='btn btn-primary'>Zaplatit</button>";
             echo "</form>";
             }
             else {
@@ -269,7 +269,7 @@ $conn = Utility::connectionDatabase();
             // Tlačítko pro provedení platby
             echo "<form action='../scripts/Unlogged_cart.php' method='post'>";
             echo "<input type='hidden' name='total_cost' value='$totalCost'>";
-            echo "<button type='submit' name='checkout' class='btn btn-primary'>Checkout</button>";
+            echo "<button type='submit' name='checkout' class='btn btn-primary'>Zaplatit</button>";
             echo "</form>";
 
             } else {
