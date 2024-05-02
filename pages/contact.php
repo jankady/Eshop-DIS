@@ -16,9 +16,23 @@ SessionClass::checkSessions();
     <title>Contacts</title>
 
 </head>
-<body>
+
 <?php
 require_once("../components/nav.php");
+
+?>
+<div class="container-fluid text-center" >
+
+    <h1>Contact</h1>
+    <p>Vytvořili studenti ze <a href="https://www.spsoa.cz/">SPŠOA</a></p>
+    <p><a href="https://www.instagram.com/kaduch_jan/">Jan Kaduch</a></p>
+    <p><a href="https://www.instagram.com/jiri.majak/">Jiří Maják</a></p>
+</div>
+
+
+
+<body>
+<?php
 require_once("../components/footer.php");
 
 ?>
