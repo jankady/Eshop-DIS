@@ -15,7 +15,7 @@ $activeElement = 1;
     <?php }
     ?>
 
-    <div id="carouselExampleIndicators" class="carousel slide h-50" data-bs-ride="carousel">
+    <div id="carouselExampleIndicators" class="carousel slide h-50" data-bs-ride="carousel" style="margin-top: 50px">
 
         <div class="carousel-inner">
             <?php
@@ -29,7 +29,7 @@ $activeElement = 1;
                     ?>
                     <div class="carousel-item active" data-bs-interval="5000">
                         <a href="../pages/product_detail.php?id=<?= $row["ID"] ?>">
-                            <img src="../<?= $row["picture"] ?>" class=" mx-auto h-25" alt="...">
+                            <img src="../<?= $row["picture"] ?>" class="" height="250px" alt="...">
                             <h5><?= $row["title"] ?></h5>
                         </a>
 
@@ -42,7 +42,7 @@ $activeElement = 1;
                     ?>
                     <div class="carousel-item" data-bs-interval="5000">
                         <a href="../pages/product_detail.php?id=<?= $row["ID"] ?>">
-                            <img src="../<?= $row["picture"] ?>" class=" mx-auto h-25" alt="...">
+                            <img src="../<?= $row["picture"] ?>" class=" " height="250px" alt="...">
                             <h5><?= $row["title"] ?></h5>
                         </a>
                         <p><?= $price ?> Kč</p>
