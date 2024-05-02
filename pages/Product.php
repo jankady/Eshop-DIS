@@ -15,6 +15,7 @@ SessionClass::checkSessions();
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="../style/styleTesting.css">
     <link rel="stylesheet" href="../style/IndividualProduct.css">
+    <link rel="stylesheet" href="../style/nav.css">
 
     <title>Products</title>
 </head>
@@ -83,7 +84,8 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
                         $checked = (isset($_GET['manufacturers']) && in_array($row['ID'], $_GET['manufacturers'])) ? 'checked' : '';
                         ?>
                         <div class="manufacturer-item" style="display: block; margin-bottom: 3px">
-                            <input type="checkbox" id="<?php echo $row["name"]; ?>" name="manufacturers[]" value="<?php echo $row["ID"]; ?>" <?php echo $checked; ?>>
+                            <input type="checkbox" id="<?php echo $row["name"]; ?>" name="manufacturers[]"
+                                   value="<?php echo $row["ID"]; ?>" <?php echo $checked; ?>>
                             <label for="<?php echo $row['name']; ?>"><?php echo $row['name']; ?></label>
                         </div>
                     <?php } ?>
@@ -98,11 +100,12 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
                     while ($row = mysqli_fetch_assoc($result)) {
 
                         $checked = (isset($_GET['categories']) && in_array($row['ID'], $_GET['categories'])) ? 'checked' : '';
-                    ?>
-                            <div class="manufacturer-item" style="display: block; margin-bottom: 3px">
-                                <input type="checkbox" id="<?=$row["name"];?>" name="categories[]" value="<?php echo $row["ID"]; ?>" <?php echo $checked; ?>>
-                                <label for="<?= $row['name']; ?>"><?= $row['name']; ?></label><br>
-                            </div>
+                        ?>
+                        <div class="manufacturer-item" style="display: block; margin-bottom: 3px">
+                            <input type="checkbox" id="<?= $row["name"]; ?>" name="categories[]"
+                                   value="<?php echo $row["ID"]; ?>" <?php echo $checked; ?>>
+                            <label for="<?= $row['name']; ?>"><?= $row['name']; ?></label><br>
+                        </div>
 
 
                     <?php } ?>
@@ -141,10 +144,10 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
         <div class="container text-center col-lg-9">
             <div class="row show-products w-50 text-center">
-                <div class="col-md-2"><a href="#" class="btn btn-link">Nejnovější</a></div>
-                <div class="col-md-2"><a href="#" class="btn btn-link">Nejlevnější</a></div>
-                <div class="col-md-2"><a href="#" class="btn btn-link">Nejdrahší</a></div>
-                <div class="col-md-2"><a href="#" class="btn btn-link">Nejstarší</a></div>
+                <div class="col-md-2"><a href="#" class="btn btn-link" style="text-decoration: none; color: black">Nejnovější</a></div>
+                <div class="col-md-2"><a href="#" class="btn btn-link" style="text-decoration: none; color: black">Nejlevnější</a></div>
+                <div class="col-md-2"><a href="#" class="btn btn-link" style="text-decoration: none; color: black">Nejdražší</a></div>
+                <div class="col-md-2"><a href="#" class="btn btn-link" style="text-decoration: none; color: black">Nejstarší</a></div>
             </div>
             <?php
             $card->product($filter->process());
@@ -189,7 +192,7 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
 
             if ($totalPages > 1) {
-                echo '<ul class="pagination">';
+                echo '<ul class="pagination justify-content-center" style="margin-top: 20px">'; // Přidána třída justify-content-center
                 for ($i = 1; $i <= $totalPages; $i++) {
                     $activeClass = ($currentPage == $i) ? 'active' : '';
                     $url = str_replace('page=' . $currentPage, 'page=' . $i, $query);

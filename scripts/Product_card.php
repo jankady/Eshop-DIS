@@ -46,12 +46,12 @@ class Product_card
             while ($row = mysqli_fetch_assoc($result)) {
                 ?>
                 <div class="col-4 mt-2 mb-2">
-                    <div class="card" style="max-width: 30rem; height: 35rem">
-                        <a href="../pages/product_detail.php?id=<?= $row['ID'] ?>"><h5
-                                    class="card-title"><?= $row['title'] ?></h5></a>
-                        <div class="card-body">
-                            <a href="../pages/product_detail.php?id=<?= $row['ID'] ?>"><img
-                                        src="../<?= $row['picture'] ?>" class="card-img-top" alt="<?= $row['title'] ?>"></a>
+                    <div class="card" style="max-width: 30rem; height: 35rem; background: linear-gradient(0deg, #e0f8ff 0%, #ebebeb 53%);" >
+                        <a href="../pages/product_detail.php?id=<?= $row['ID'] ?>" style="text-decoration: none; color: black"><h5
+                                    class="card-title" ><?= $row['title'] ?></h5></a>
+                        <div class="card-body" >
+                            <a href="../pages/product_detail.php?id=<?= $row['ID'] ?>" ><img
+                                        src="../<?= $row['picture'] ?>" class="card-img-top " alt="<?= $row['title'] ?>"></a>
                             <div class="productInfo">
                                 <p class="card-text"><?= implode(' ', array_slice(str_word_count($row['description'], 1), 0, 100)) ?></p>
                             </div>
