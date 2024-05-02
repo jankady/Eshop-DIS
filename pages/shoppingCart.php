@@ -60,7 +60,8 @@ $conn = Utility::connectionDatabase();
                 echo "<tbody>";
             while ($row_item = mysqli_fetch_assoc($result_items)) {
                 echo "<tr>";
-                echo "<td><img src='../" . $row_item['picture'] . "' alt='Product Picture' style='width:100px;height:100px;'></td>";
+                echo "<td><a href='../pages/product_detail.php?id=".$row_item["ID_product"]."'><img src='../" . $row_item['picture'] . "' alt='Product Picture' style='width:100px;height:100px;'></a>
+</td>";
                 echo "<td>" . $row_item['title'] . "</td>";
 
                 // Logika pro vypsání dostupnosti produktu
