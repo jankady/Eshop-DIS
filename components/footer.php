@@ -41,7 +41,7 @@
         <a class="text-body" href="https://spsoa.cz/">náš obchod</a>
         <?php
 //        session_start();
-//        print_r($_SESSION["cart"]);
+        print_r($_SESSION["cart"]);
 
 //        session_unset();
 

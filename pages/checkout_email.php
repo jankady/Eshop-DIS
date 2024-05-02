@@ -25,13 +25,13 @@ require_once("../components/nav.php");
 ?>
 <div class="container-fluid text-center" >
 
-
-
-
-    <?php
-    require_once("../components/header.php");
-
-    ?>
+    <h2>Zadejte váš e-mail pro potvrzení objednávky:</h2>
+    <form action="../scripts/unlogined_cart.php" method="post">
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" required>
+        <br>
+        <input type="submit" name="submit_email" value="Odeslat">
+    </form>
 </div>
 
 <?php
