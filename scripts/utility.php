@@ -1,5 +1,5 @@
 <?php
-class Utility
+class utility
 {
     public static function connectionDatabase()
     {

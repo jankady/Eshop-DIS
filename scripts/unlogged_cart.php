@@ -40,7 +40,7 @@ if (isset($_POST['addToCart'])) {
     if (isset($_SERVER['HTTP_REFERER'])) {
         header("Location: " . $_SERVER['HTTP_REFERER']);
     } else {
-        header("Location: ../Index.php"); // If no referring page, redirect to Index.php
+        header("Location: ../index.php"); // If no referring page, redirect to index.php
     }
     exit();
 }
@@ -70,7 +70,7 @@ if (isset($_POST['removeFromCart'])) {
     }
 
     // Přesměrovat zpět na stránku košíku s ID produktu
-    header("Location: ../pages/Shopping_cart.php");
+    header("Location: ../pages/shopping_cart.php");
     exit();
 
 }
@@ -78,7 +78,7 @@ if (isset($_POST['removeFromCart'])) {
 if (isset($_POST['checkout'])) {
 
     unset($_SESSION["cart"]);
-    header("Location: ../pages/Index.php"); // If no referring page, redirect to Index.php
+    header("Location: ../pages/index.php"); // If no referring page, redirect to index.php
 
 }
 
@@ -89,8 +89,8 @@ if (isset($_POST['checkout'])) {
     $product_id = $_POST['product_id'];
     $new_quantity = $_POST['quantity'];
 
-    require_once ("Utility.php");
-    $conn = Utility::connectionDatabase();
+    require_once("utility.php");
+    $conn = utility::connectionDatabase();
 
     // Získání dostupného množství produktu z databáze
     $sql = "SELECT number_of_products FROM product WHERE ID = $product_id";
@@ -137,7 +137,7 @@ if (isset($_POST['checkout'])) {
 if (isset($_SERVER['HTTP_REFERER'])) {
     header("Location: " . $_SERVER['HTTP_REFERER']);
 } else {
-    header("Location: ../Index.php"); // If no referring page, redirect to Index.php
+    header("Location: ../index.php"); // If no referring page, redirect to index.php
 }
 exit();
 

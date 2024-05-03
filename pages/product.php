@@ -1,5 +1,5 @@
 <?php
-require_once("../scripts/Sessions.php");
+require_once("../scripts/sessions.php");
 
 SessionClass::checkSessions();
 ?>
@@ -22,14 +22,14 @@ SessionClass::checkSessions();
 <body>
 <?php
 //providing requierd files
-require_once("../components/Nav.php");
-require_once('../scripts/Filter.php');
-require_once("../scripts/Utility.php");
-require_once("../scripts/Product_card.php");
+require_once("../components/nav.php");
+require_once('../scripts/filter.php');
+require_once("../scripts/utility.php");
+require_once("../scripts/product_card.php");
 
 // DB connect and creating instances
-$conn = Utility::connectionDatabase();
-$card = new Product_card();
+$conn = utility::connectionDatabase();
+$card = new product_card();
 $filter = new Filters();
 
 // Get current page number from URL (or set default to 1)
@@ -119,7 +119,7 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
                 // Check if any filters are applied and remove them if you want
                 $filters_applied = isset($_GET['min-price']) && $_GET['min-price'] !== '' || isset($_GET['max-price']) && $_GET['max-price'] !== '' || isset($_GET['availability']) || isset($_GET['sale']) || (isset($_GET['manufacturers']) && !empty($_GET['manufacturers'])) || (isset($_GET['categories']) && !empty($_GET['categories']));
 
-                //appiers only if filters are avialable, clearing is handled in Filter.php
+                //appiers only if filters are avialable, clearing is handled in filter.php
                 if ($filters_applied) {
                     echo '<button type="submit" name="clear_filters">Odstranit filtry</button>';
                 }
@@ -209,7 +209,7 @@ $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 </div>
 
 <?php
-require_once("../components/Footer.php");
+require_once("../components/footer.php");
 
 //end connection to DB
 mysqli_close($conn);

@@ -1,5 +1,5 @@
 <?php
-require_once("../scripts/Sessions.php");
+require_once("../scripts/sessions.php");
 SessionClass::checkSessions();
 
 ?>
@@ -20,7 +20,7 @@ SessionClass::checkSessions();
 </head>
 <body>
 <?php
-require_once("../components/Nav.php");
+require_once("../components/nav.php");
 ?>
 
 <div class="container">
@@ -32,7 +32,7 @@ require_once("../components/Nav.php");
                     <?php echo $error_message; ?>
                 </div>
             <?php endif; ?>
-            <form method="post" action="../scripts/Account.php">
+            <form method="post" action="../scripts/account.php">
                 <div class="mb-3">
                     <label for="username" class="form-label">Uživatelské jméno nebo Email</label>
                     <input type="text" class="form-control" id="username" name="username" required>
@@ -49,7 +49,7 @@ require_once("../components/Nav.php");
     </div>
 </div>
 
-<?php require_once("../components/Footer.php"); ?>
+<?php require_once("../components/footer.php"); ?>
 
 </body>
 </html>

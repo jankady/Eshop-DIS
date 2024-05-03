@@ -1,13 +1,13 @@
 <?php
 
-class Nav_category
+class nav_category
 {
     //was used in NAV, now it is useless
     public function nav()
     {
 
-        require_once("Utility.php");
-        $conn = Utility::connectionDatabase();
+        require_once("utility.php");
+        $conn = utility::connectionDatabase();
         $sql = "SELECT name FROM category";
         $result = mysqli_query($conn, $sql);
 

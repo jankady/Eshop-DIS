@@ -1,6 +1,6 @@
 <?php
-require_once("../scripts/Utility.php");
-require_once("../scripts/Sessions.php");
+require_once("../scripts/utility.php");
+require_once("../scripts/sessions.php");
 SessionClass::checkSessions();
 
 ?>
@@ -21,7 +21,7 @@ SessionClass::checkSessions();
 </head>
 <body>
 <?php
-require_once("../components/Nav.php");
+require_once("../components/nav.php");
 ?>
 
 <!-- Formulář pro registraci -->
@@ -31,7 +31,7 @@ require_once("../components/Nav.php");
             <div class="text-center">
                 <h2>Registace</h2>
             </div>
-            <form method="post" action="../scripts/Account.php">
+            <form method="post" action="../scripts/account.php">
                 <div class="text-center">
                     <h4>Kontaktní údaje</h4>
                 </div>
@@ -74,7 +74,7 @@ require_once("../components/Nav.php");
                     <label for="country" class="form-label">Stát</label>
                     <select id="country" name="country" class="form-control">
                         <?php
-                        $conn = Utility::connectionDatabase();
+                        $conn = utility::connectionDatabase();
                         $sql = "SELECT * FROM country;";
 
                         $result = mysqli_query($conn, $sql);
@@ -119,7 +119,7 @@ require_once("../components/Nav.php");
 </div>
 
 <?php
-require_once("../components/Footer.php");
+require_once("../components/footer.php");
 mysqli_close($conn);
 ?>
 

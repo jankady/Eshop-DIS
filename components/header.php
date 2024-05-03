@@ -1,6 +1,6 @@
 <?php
-require_once("../scripts/Utility.php");
-$conn = Utility::connectionDatabase();
+require_once("../scripts/utility.php");
+$conn = utility::connectionDatabase();
 $sql = "SELECT product.*, sale.discount_percent as discount FROM `product` INNER JOIN sale ON product.ID_sale=sale.ID ORDER BY id DESC LIMIT 3";
 $result = mysqli_query($conn, $sql);
 
@@ -22,13 +22,13 @@ $activeElement = 1;
             while ($row = mysqli_fetch_assoc($result)) {
                 $price = $row["price"];
                 if ($row["ID_sale"] != 1) {
-                    $price = Utility::calculatePrice($price, $row["discount"]);
+                    $price = utility::calculatePrice($price, $row["discount"]);
                 }
                 $price = number_format($price, 0, ',', ' ');
                 if ($activeElement == 1) {
                     ?>
                     <div class="carousel-item active" data-bs-interval="2000">
-                        <a href="../pages/Product_detail.php?id=<?= $row["ID"] ?>">
+                        <a href="../pages/product_detail.php?id=<?= $row['ID']?>">
                             <img src="../<?= $row["picture"] ?>" class="" height="250px" alt="...">
                             <h5><?= $row["title"] ?></h5>
                         </a>
@@ -41,7 +41,7 @@ $activeElement = 1;
                 } else {
                     ?>
                     <div class="carousel-item" data-bs-interval="2000">
-                        <a href="../pages/Product_detail.php?id=<?= $row["ID"] ?>">
+                        <a href="../pages/product_detail.php?id=<?= $row['ID']?>">
                             <img src="../<?= $row["picture"] ?>" class=" " height="250px" alt="...">
                             <h5><?= $row["title"] ?></h5>
                         </a>

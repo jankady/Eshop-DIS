@@ -1,5 +1,5 @@
 <?php
-require_once("../scripts/Sessions.php");
+require_once("../scripts/sessions.php");
 SessionClass::checkSessions();
 ?>
 <!doctype html>
@@ -19,9 +19,9 @@ SessionClass::checkSessions();
 </head>
 <body>
 <?php
-require_once("../components/Nav.php");
-require_once("../scripts/Utility.php");
-$conn = Utility::connectionDatabase();
+require_once("../components/nav.php");
+require_once("../scripts/utility.php");
+$conn = utility::connectionDatabase();
 
 ?>
 
@@ -77,7 +77,7 @@ $conn = Utility::connectionDatabase();
                 }
 
                 echo "<td>
-        <form action='../scripts/Logged_cart.php' method='post' id='quantityForm_" . $row_item['ID'] . "'>
+        <form action='../scripts/logged_cart.php' method='post' id='quantityForm_" . $row_item['ID'] . "'>
             <input type='hidden' name='product_id' value='" . $row_item['PI'] . "'>
             <input type='number' name='quantity' value='" . $row_item['quantity'] . "' min='0' class='w-50' onchange='updateQuantityAutomatically(this);'>
         </form>
@@ -105,7 +105,7 @@ $conn = Utility::connectionDatabase();
             echo "<td id='item_total_price_" . $row_item['ID'] . "'><strong>" . number_format($item_total_price, 0, ',', ' ') . " Kč</strong></td>";
 
             echo "<td>
-        <form action='../scripts/Logged_cart.php' method='post'>
+        <form action='../scripts/logged_cart.php' method='post'>
             <input type='hidden' name='product_id' value='" . $row_item['ID_product'] . "'>
             <button type='submit' name='removeFromCart' class='btn btn-danger btn-sm'>Odstranit</button>
         </form>
@@ -120,7 +120,7 @@ $conn = Utility::connectionDatabase();
             echo "<p id='total_price'><strong>Celková cena: " . number_format($total_price, 0, ',', ' ') . " Kč</strong></p>";
 
             // Tlačítko pro provedení platby
-            echo "<form action='../scripts/Logged_cart.php' method='post'>";
+            echo "<form action='../scripts/logged_cart.php' method='post'>";
             echo "<input type='hidden' name='total_cost' value='$total_price '>";
             echo "<button type='submit' name='checkout' class='btn btn-primary'>Zaplatit</button>";
             echo "</form>";
@@ -129,7 +129,7 @@ $conn = Utility::connectionDatabase();
                 // Pokud košík neobsahuje žádné produkty, zobrazí se zpráva
                 echo "<div class='row'>";
                 echo "<p>Košík je prázdný</p>";
-                echo "<a href='Product.php?page=1&sort_by=1'>Zpět na produkty</a>";
+                echo "<a href='product.php?page=1&sort_by=1'>Zpět na produkty</a>";
                 echo "</div>";
             }
 
@@ -170,7 +170,7 @@ $conn = Utility::connectionDatabase();
                 <?php
             while ($row = mysqli_fetch_assoc($result)) {
                 $quantity = $product_quantities[$row['ID']];
-                $pricePerItem = ($row["ID_sale"] != 1) ? Utility::calculatePrice($row["price"], $row["discount"]) : $row["price"];
+                $pricePerItem = ($row["ID_sale"] != 1) ? utility::calculatePrice($row["price"], $row["discount"]) : $row["price"];
                 $totalPrice = $pricePerItem * $quantity;
                 $totalCost += $totalPrice;
                 ?>
@@ -186,7 +186,7 @@ $conn = Utility::connectionDatabase();
                                     class="card-title"><?= $row['title'] ?></h5></a>
                     </div>
                     <div class="col-2">
-                        <form action="../scripts/Unlogged_cart.php" method='post'>
+                        <form action="../scripts/unlogged_cart.php" method='post'>
                             <input type='hidden' name='product_id' value='<?= $row["ID"] ?>'>
                             <input type='number' name='quantity' value='<?= $quantity ?>' min="0"
                                    onchange='updateQuantityAutomatically(this)' class="w-50">
@@ -203,7 +203,7 @@ $conn = Utility::connectionDatabase();
                         <p><strong><?= number_format($totalPrice, 0, ',', ' ') ?> Kč</strong></p>
                     </div>
                     <div class="col-2">
-                        <form action="../scripts/Unlogged_cart.php" method="post">
+                        <form action="../scripts/unlogged_cart.php" method="post">
                             <input type="hidden" name="product_id" value="<?= $row['ID'] ?>">
                             <button type="submit" class="btn btn-danger" name="removeFromCart"></button>
                         </form>
@@ -217,7 +217,7 @@ $conn = Utility::connectionDatabase();
             echo "<p><stroke>Celkem " . $totalCost . " Kč</stroke></p>";
 
             // Tlačítko pro provedení platby
-            echo "<form action='../scripts/Unlogged_cart.php' method='post'>";
+            echo "<form action='../scripts/unlogged_cart.php' method='post'>";
             echo "<input type='hidden' name='total_cost' value='$totalCost'>";
             echo "<button type='submit' name='checkout' class='btn btn-primary'>Zaplatit</button>";
             echo "</form>";
@@ -237,7 +237,7 @@ $conn = Utility::connectionDatabase();
 
 
 <?php
-require_once("../components/Footer.php");
+require_once("../components/footer.php");
 mysqli_close($conn)
 ?>
 

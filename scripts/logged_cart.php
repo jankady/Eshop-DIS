@@ -1,5 +1,5 @@
 <?php
-require_once("Utility.php");
+require_once("utility.php");
 
 if (isset($_POST['addToCart'])) {
 
@@ -14,7 +14,7 @@ if (isset($_POST['addToCart'])) {
     // když je košík prádzny tak tam něco mrdnout
 
     session_start();
-    $conn = Utility::connectionDatabase();
+    $conn = utility::connectionDatabase();
 
     $product_id = $_POST["product_id"];
     $user_id = $_SESSION["user_id"];
@@ -56,13 +56,13 @@ if (isset($_POST['addToCart'])) {
     if (isset($_SERVER['HTTP_REFERER'])) {
         header("Location: " . $_SERVER['HTTP_REFERER']);
     } else {
-        header("Location: ../Index.php"); // If no referring page, redirect to Index.php
+        header("Location: ../index.php"); // If no referring page, redirect to index.php
     }
     exit();
 }
 
 if (isset($_POST['removeFromCart'])) {
-    $conn=Utility::connectionDatabase();
+    $conn=utility::connectionDatabase();
     session_start();
     // Získání ID produktu z formuláře
     $product_id = $_POST['product_id'];
@@ -87,7 +87,7 @@ if (isset($_POST['removeFromCart'])) {
     if (isset($_SERVER['HTTP_REFERER'])) {
         header("Location: " . $_SERVER['HTTP_REFERER']);
     } else {
-        header("Location: ../Index.php"); // If no referring page, redirect to Index.php
+        header("Location: ../index.php"); // If no referring page, redirect to index.php
     }
     exit();
 
@@ -99,7 +99,7 @@ if(isset($_POST['product_id'], $_POST['quantity'])) {
     if(isset($_SESSION["user_id"])) {
         $user_id = $_SESSION["user_id"];
 
-        $conn = Utility::connectionDatabase();
+        $conn = utility::connectionDatabase();
 
         // Přijměte data z formuláře
         $product_id = $_POST['product_id'];
@@ -148,11 +148,11 @@ if(isset($_POST['product_id'], $_POST['quantity'])) {
 
         mysqli_close($conn);
         // Přesměrování zpět na stránku s nákupním košíkem
-        header("Location: ../pages/Shopping_cart.php");
+        header("Location: ../pages/shopping_cart.php");
         exit();
     } else {
         // Pokud uživatel není přihlášen, mělo by se nějakým způsobem ošetřit, co se stane, například přesměrováním na přihlašovací stránku
-        header("Location: ../pages/Login.php");
+        header("Location: ../pages/login.php");
         exit();
     }
 }
@@ -162,7 +162,7 @@ if (isset($_POST['checkout'])) {
     $customer_id= $_SESSION["user_id"];
 //    echo $customer_id;
 //    echo "kk";
-    $conn = Utility::connectionDatabase();
+    $conn = utility::connectionDatabase();
 
 
     $stmt_insert_cart = mysqli_prepare($conn, "INSERT INTO shopping_cart (ID_customer) VALUES (?)");
@@ -171,7 +171,7 @@ if (isset($_POST['checkout'])) {
     mysqli_stmt_close($stmt_insert_cart);
 
     mysqli_close($conn);
-    header("Location: ../pages/Index.php");
+    header("Location: ../pages/index.php");
     exit();
 
 }

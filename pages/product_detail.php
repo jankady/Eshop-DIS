@@ -1,8 +1,8 @@
 <?php
-require_once("../scripts/Utility.php");
-require_once("../scripts/Sessions.php");
+require_once("../scripts/utility.php");
+require_once("../scripts/sessions.php");
 
-$conn = Utility::connectionDatabase();
+$conn = utility::connectionDatabase();
 $productId = $_GET['id'];
 SessionClass::checkSessions();
 
@@ -35,7 +35,7 @@ $product = $result->fetch_assoc();
 </head>
 <body>
 <?php
-require_once("../components/Nav.php");
+require_once("../components/nav.php");
 ?>
 
 <div class="container-fluid">
@@ -78,7 +78,7 @@ require_once("../components/Nav.php");
                         <div class="col-md-6">
                             <div class="price">
                                 <?php
-                                $salePrice = Utility::calculatePrice($product["price"], $product["discount"]);
+                                $salePrice = utility::calculatePrice($product["price"], $product["discount"]);
                                 $originalPrice = number_format($product["price"], 0, ',', ' ');
                                 $salePricerFloat = number_format($salePrice, 0, ',', ' ');
 
@@ -105,7 +105,7 @@ require_once("../components/Nav.php");
 
                             if ($_SESSION["logged_in"] == true) {
                                 ?>
-                                <form action="../scripts/Logged_cart.php" method="post">
+                                <form action="../scripts/logged_cart.php" method="post">
                                     <button type="submit" name="addToCart" class="btn btn-primary">Přidat do košíku
                                     </button>
                                     <input type="hidden" name="product_id" value='<?= $product["ID"] ?>'>
@@ -113,7 +113,7 @@ require_once("../components/Nav.php");
                                 <?php
                             } else if ($product["number_of_products"] != 0) {
                                 ?>
-                                <form action="../scripts/Unlogged_cart.php" method="post">
+                                <form action="../scripts/unlogged_cart.php" method="post">
                                     <button type="submit" name="addToCart" class="btn btn-primary">Přidat do košíku
                                     </button>
                                     <input type="hidden" name="product_id" value='<?= $product["ID"] ?>'>
@@ -134,7 +134,7 @@ require_once("../components/Nav.php");
     </section>
 </div>
 <?php
-require_once("../components/Footer.php");
+require_once("../components/footer.php");
 ?>
 
 <!--style scripts for Bootstrap-->

@@ -1,13 +1,13 @@
 <?php
 
-class Product_card
+class product_card
 {
     //creates individual items
     public function product($sql): void
     {
-        require_once("Utility.php");
+        require_once("utility.php");
 
-        $conn = Utility::connectionDatabase();
+        $conn = utility::connectionDatabase();
         $maxProducts = 6;
 
         $sorted_by = $_GET['sort_by'];
@@ -58,7 +58,7 @@ class Product_card
                             <div class="card-text row">
                                 <div class="priceNumber col align-content-center">
                                     <?php
-                                    $salePrice = Utility::calculatePrice($row["price"], $row["discount"]);
+                                    $salePrice = utility::calculatePrice($row["price"], $row["discount"]);
                                     $originalPrice = number_format($row["price"], 0, ',', ' ');
                                     $salePricerFloat = number_format($salePrice, 0, ',', ' ');
 
@@ -93,7 +93,7 @@ class Product_card
                                         if ($row["number_of_products"] != 0 && $_SESSION["logged_in"] == false) {
                                             ?>
 
-                                            <form action="../scripts/Unlogged_cart.php" method="post">
+                                            <form action="../scripts/unlogged_cart.php" method="post">
                                                 <button type="submit" name="addToCart" class="btn btn-primary">Přidat do košíku
                                                 </button>
                                                 <input type="hidden" name="product_id" value='<?= $row["ID"] ?>'>
@@ -103,7 +103,7 @@ class Product_card
                                             <?php
                                         } elseif ($row["number_of_products"] != 0 && $_SESSION["logged_in"] == true){
                                             ?>
-                                            <form action="../scripts/Logged_cart.php" method="post">
+                                            <form action="../scripts/logged_cart.php" method="post">
                                                 <button type="submit" name="addToCart" class="btn btn-primary">Přidat do košíku
                                                 </button>
                                                 <input type="hidden" name="product_id" value='<?= $row["ID"] ?>'>
